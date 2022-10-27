@@ -7,16 +7,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: secondaryColor,
-      //   systemOverlayStyle: const SystemUiOverlayStyle(
-      //     statusBarColor: Colors.transparent,
-      //     systemNavigationBarColor: Colors.transparent,
-      //   ),
-      // ),
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: secondaryColor,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent,
+        ),
+      ),
+      body: const Center(
         child: Text('This is Doctor Home Screen'),
       ),
     );
