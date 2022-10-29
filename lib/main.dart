@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medware/screens/auth/change_mail.dart';
+import 'package:medware/screens/auth/change_password.dart';
+import 'package:medware/screens/auth/login.dart';
 import 'package:medware/screens/auth/screens.dart' as auth;
 import 'package:medware/screens/main/main_screen.dart';
 
