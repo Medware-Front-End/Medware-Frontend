@@ -2,35 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/utils/colors.dart';
 
-class ChangePassword extends StatelessWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+class ChangeMail extends StatelessWidget {
+  const ChangeMail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: ChangePasswordForm(),
+      home: ChangeMailForm(),
     );
   }
 }
 
-class ChangePasswordForm extends StatefulWidget {
-  const ChangePasswordForm({super.key});
+class ChangeMailForm extends StatefulWidget {
+  const ChangeMailForm({super.key});
 
   @override
-  State<ChangePasswordForm> createState() => _ChangePasswordState();
+  State<ChangeMailForm> createState() => _ChangeMailState();
 }
 
-class _ChangePasswordState extends State<ChangePasswordForm> {
-  final changeOriPw = TextEditingController();
-  final changeNewPw = TextEditingController();
-  final changeCNewPw = TextEditingController();
+class _ChangeMailState extends State<ChangeMailForm> {
+  final changeNewMail = TextEditingController();
+  final changeNewMailPw = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    changeOriPw.dispose();
-    changeNewPw.dispose();
-    changeCNewPw.dispose();
+    changeNewMail.dispose();
+    changeNewMailPw.dispose();
     super.dispose();
   }
 
@@ -66,7 +64,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                         ),
                         Container(
                           child: Text(
-                            'เปลี่ยนรหัสผ่าน',
+                            'เปลี่ยนอีเมลล์',
                             style: TextStyle(
                                 fontSize: 25,
                                 fontFamily: 'NotoSansThai',
@@ -84,7 +82,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                         Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text('รหัสผ่านเดิม',
+                              child: Text('อีเมลล์ใหม่',
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: primaryColor,
@@ -106,7 +104,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                         Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text('รหัสผ่านใหม่',
+                              child: Text('รหัสผ่าน',
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: primaryColor,
@@ -119,24 +117,6 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                                 //Add parameter
                                 ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 30.0),
-                            margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
-                        Container(
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text('ใส่รหัสผ่านใหม่อีกครั้ง',
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: primaryColor,
-                                      fontFamily: 'NotoSansThai')),
-                            ),
-                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                            margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0)),
-                        Container(
-                            child: CustomTextField(
-                                //Add parameter
-                                ),
-                            padding:
-                                EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 170.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                       ]),
                       padding: EdgeInsets.all(5.0),
@@ -160,7 +140,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                           ),
                         )
                       ]),
-                      padding: EdgeInsets.fromLTRB(250.0, 30.0, 0.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(250.0, 270.0, 0.0, 0.0),
                       margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                 ],
               ))
