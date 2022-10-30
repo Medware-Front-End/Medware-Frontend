@@ -10,8 +10,18 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('This is Doctor Profile Screen'),
-    );
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Container(
+                  color: Colors.white,
+                )
+              ],
+            )
+          ],
+        ));
   }
 }
