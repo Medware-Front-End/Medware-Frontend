@@ -1,16 +1,23 @@
-# medware
+# Medware
 
-A new Flutter project.
+A college Flutter project implementing software architecture.
 
-## Getting Started
+This repository includes the frontend of the whole project.
 
-This project is a starting point for a Flutter application.
+## Getting To Know Us
 
-A few resources to get you started if this is your first Flutter project:
+This project is within the course, 01076024 Software Architecture and Design.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Members:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- 63010082 กิตติภณ สิงห์ชม (63010082@kmitl.ac.th)
+- 63010183 ชนน กุลกัตติมาส (63010183@kmitl.ac.th)
+- 63010480 นฎคล จันทราช (63010480@kmitl.ac.th)
+- 63010629 พชร หลาวเพ็ชร์ (63010629@kmitl.ac.th)
+- 63010885 วิทวัส ดรบัณฑิตย์ (63010885@kmitl.ac.th)
+- 63010918 ศิวกร​ น้อยสันโดด (63010918@kmitl.ac.th)
+- 63010960 สวิตต์ ลิ้มเกียรติสถาพร (63010960@kmitl.ac.th)
+- 63011063 อริน สลับสี (63011063@kmitl.ac.th)
+- 63011052 อภิสิทธิ์ ภูกิ่งหิน (63011052@kmitl.ac.th)
+
+For more information, contact us via the given emails above.
