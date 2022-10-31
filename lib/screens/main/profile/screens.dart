@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medware/screens/main/profile/doctor/profile.dart' as doctor;
+import 'package:medware/screens/main/profile/employee/profile.dart' as doctor;
+import 'package:medware/screens/main/profile/patient/profile.dart' as patient;
 import 'package:medware/screens/main/profile/patient/profile.dart'
     as patient;
 

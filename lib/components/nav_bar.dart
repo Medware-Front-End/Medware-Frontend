@@ -15,28 +15,28 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
-    final double displayWidth = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
     return Stack(
       children: [
         SizedBox(
-          width: displayWidth,
+          width: size.width,
           height: 80,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
               CustomPaint(
-                size: Size(displayWidth, 80),
+                size: Size(size.width, 80),
                 painter: NavBarCustomPainter(),
               ),
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(
-                  left: displayWidth * (120 / 390),
-                  right: displayWidth * (36 / 390),
+                  left: size.width * (120 / 390),
+                  right: size.width * (36 / 390),
                 ),
                 child: GNav(
-                  gap: displayWidth * 0.02,
-                  padding: EdgeInsets.all(displayWidth * 0.03),
+                  gap: size.width * 0.02,
+                  padding: EdgeInsets.all(size.width * 0.03),
                   onTabChange: (index) => widget.curScreen(index),
                   textStyle: TextStyle(
                     fontWeight: FontWeight.w900,
@@ -62,14 +62,14 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
               Positioned(
-                left: displayWidth * (40 / 390),
+                left: size.width * (40 / 390),
                 bottom: 80 * (210 / 390),
                 child: SizedBox(
-                  width: displayWidth * (70 / 390),
-                  height: displayWidth * (70 / 390),
+                  width: size.width * (70 / 390),
+                  height: size.width * (70 / 390),
                   child: FittedBox(
                     child: FloatingActionButton(
-                      elevation: 0,
+                      elevation: 2.5,
                       backgroundColor: tertiaryColor,
                       onPressed: () {
                         HapticFeedback.lightImpact();
@@ -133,8 +133,9 @@ class NavBarCustomPainter extends CustomPainter {
     path.lineTo(0, size.height * 0.1176471);
     path.close();
 
-    Paint paintFill = Paint()..style = PaintingStyle.fill;
-    paintFill.color = secondaryColor.withOpacity(1.0);
+    Paint paintFill = Paint()
+      ..style = PaintingStyle.fill
+      ..color = secondaryColor;
     canvas.drawPath(path, paintFill);
   }
 

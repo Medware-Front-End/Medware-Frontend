@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 import 'package:medware/components/notification_bell.dart';
-import 'package:medware/screens/main/event/patient/view_appointment.dart';
-import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
-import 'package:medware/utils/models/appointment/patient_appointment.dart';
+import 'package:medware/screens/main/event/employee/view_appointment.dart';
+import 'package:medware/utils/api/appointment/get_employee_appointments.dart';
+import 'package:medware/utils/models/appointment/employee_appointment.dart';
 import 'package:medware/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final String name = 'ชนน';
-  List<PatientAppointment> appointments = getPatientAppointments();
+  List<EmployeeAppointment> appointments = getEmployeeAppointments();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     validAppointments.sort((a, b) => a.startTime.compareTo(b.startTime));
     final sortedValidAppointments = groupBy(
       validAppointments,
-      (PatientAppointment pa) => pa.date,
+      (EmployeeAppointment ea) => ea.date,
     );
 
     return Scaffold(
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: size.height * 0.4,
               decoration: BoxDecoration(
                 gradient: RadialGradient(
-                  colors: [primaryColor, secondaryColor],
+                  colors: [tertiaryColor, quaternaryColor],
                   center: Alignment.topRight,
                   radius: size.width * 0.0025,
                   focal: Alignment.topRight,
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: Text(
                         'สวัสดี!\nคุณ $name',
                         style: TextStyle(
-                          color: quaternaryColor,
+                          color: primaryColor,
                           fontSize: 40,
                           height: 1,
                           fontWeight: FontWeight.w900,
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundColor: Colors.transparent,
                       actions: [
                         NotificationBell(
-                          backgroundColor: primaryColor,
+                          backgroundColor: quaternaryColor,
                         ),
                       ],
                     ),
@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                         gradient: RadialGradient(
-                          colors: [tertiaryColor, quaternaryColor],
+                          colors: [primaryColor, secondaryColor],
                           center: Alignment.topLeft,
                           radius: size.width * 0.0025,
                           focal: Alignment.topLeft,
@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         'อย่าลืมดื่มน้ำให้ครบ\nอย่างน้อย 2 ลิตร\nต่อวันนะ :)',
                         style: TextStyle(
-                            color: primaryColor,
+                            color: quaternaryColor,
                             fontSize: size.width * 0.05,
                             fontWeight: FontWeight.w600),
                       ),
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              PatientAppointment
+                                              EmployeeAppointment
                                                   .typeList[appointment.type],
                                               style: TextStyle(
                                                 color: primaryColor,
