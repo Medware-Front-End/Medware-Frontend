@@ -5,6 +5,5 @@ import 'package:medware/screens/main/calendar/patient/calendar.dart'
     as patient;
 
 const List<Widget> screens = [
-  doctor.CalendarScreen(),
-  patient.CalendarScreen(),
+ 
 ];
