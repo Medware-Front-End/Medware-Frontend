@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:medware/utils/colors.dart';
+import 'package:medware/screens/main/event/employee/create_appointment.dart' as create_appointment;
 
 class AppointmentTypeScreen extends StatefulWidget {
   const AppointmentTypeScreen({Key? key}) : super(key: key);
@@ -11,11 +13,13 @@ class AppointmentTypeScreen extends StatefulWidget {
 class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -26,147 +30,161 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, "My ROute name");
-                        },
-                        child: Text(
-                          '<   กลับ',
-                          style: TextStyle(
-                            fontFamily: 'NotoSansThai',
+                    padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
+                    child:GestureDetector(
+                      onTap: (() {
+                           Navigator.pop(context);
+                          }),
+                    child: Text(
+                      '<   กลับ',
+                      style: TextStyle(
+                           fontFamily: 'NotoSansThai',
                             color: primaryColor,
+                            fontWeight: FontWeight.w600
                           ),
-                        ),
-                      )),
+                    ),
+                    ),
+                  ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(35, 30, 0, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
                     child: Text(
                       'เลือกประเภทการนัดหมาย',
                       style: TextStyle(
                         fontFamily: 'NotoSansThai',
                         color: primaryColor,
                         fontSize: 24,
-                      ),
+                        fontWeight: FontWeight.w600
+                          ),
                     ),
                   ),
                 ],
               ),
-              Row(
+              Row(             
                 mainAxisSize: MainAxisSize.max,
-                children: [
-                  Align(
-                    alignment: AlignmentDirectional(0, 0),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(25, 50, 0, 0),
-                      child: Container(
-                        width: 320,
-                        height: 270,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          boxShadow: [
+               
+                children: [                  
+                  Stack(
+                   
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 40, 0, 0),
+                    
+                        child: GestureDetector(
+                          onTap: (() {
+                            print("tap tap");
+                          }),
+                        child:Container(
+                          width: size.width *0.9,
+                          height: size.height *0.35,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            boxShadow: [
                             BoxShadow(
-                              blurRadius: 30,
-                              color: Color(0x33000000),
-                              offset: Offset(5, 10),
+                              color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 1.5,
+                            blurRadius: 2,
+                            offset: const Offset(3, 5),
                             )
+                            
                           ],
-                          borderRadius: BorderRadius.circular(20),
+                           borderRadius: BorderRadius.circular(20),
                           shape: BoxShape.rectangle,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(image: AssetImage('images/appointment.png'),
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      90, 0, 0, 0),
-                                  child: Text(
-                                    'สร้างนัดกับคนไข้',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: 'NotoSansThai',
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(0, 210, 0, 0),
+                            child: Text(
+                                        'สร้างนัดกับคนไข้',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'NotoSansThai',
+                                          color: Colors.white,
+                                          fontSize: size.width*0.055,
+                                          fontWeight: FontWeight.w600
+                                        ),
+                                      ),
+                          ),
                         ),
                       ),
-                    ),
+                      ),
+                      
+                      Positioned(
+                        right: 40,
+                        top: 20,
+                        height: 210,
+                        child:GestureDetector(
+                          onTap: (() {
+                            print("tap tap pic");
+                          }),
+                        child: Image.asset('assets/images/appointment.png' , height:size.height *0.30,fit: BoxFit.cover,), 
+                          ),),
+                      
+                    ],
+                    
                   ),
+                  
                 ],
+              
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(25, 50, 0, 0),
-                    child: Container(
-                      width: 325,
-                      height: 270,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF3D8361),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 30,
-                            color: Color(0x33000000),
-                            offset: Offset(5, 10),
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                             Image(image: AssetImage('images/appointment.png'),
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover)
-                            ],
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const  EdgeInsetsDirectional.fromSTEB(20, 20, 0, 0),
+                          child: GestureDetector(
+                          onTap: (() {
+                            print("tap tap");
+                          }),
+                          child: Container(
+                            width: size.width *0.9,
+                            height: size.height *0.35,
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 1.5,
+                            blurRadius: 2,
+                            offset: const Offset(3, 5),
+                            )
+                            
+                          ],
+                           borderRadius: BorderRadius.circular(20),
+                          shape: BoxShape.rectangle,
+                            ),
+                            child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(0, 210, 0, 0),
+                            child: Text(
+                                        'เพิ่มเวลาทำการ',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'NotoSansThai',
+                                          color: Colors.white,
+                                          fontSize: size.width*0.055,
+                                          fontWeight: FontWeight.w600
+                                        ),
+                                      ),
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    100, 0, 0, 0),
-                                child: Text(
-                                  'เพิ่มเวลาทำการ',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: 'NotoSansThai',
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
-                        ],
-                      ),
+                          ),
+                        ),
+                         Positioned(
+                        right: 40,
+                        top: 10,height: 210,
+                        child: GestureDetector(
+                          onTap: (() {
+                            print("tap tap pic");
+                          }),
+                      child: Image.asset('assets/images/schedule.png' , height:size.height *0.30,fit: BoxFit.cover,), 
+                        ),
+                        )
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

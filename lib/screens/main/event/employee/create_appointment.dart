@@ -37,7 +37,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                     child: Text(
                       '<   กลับ',
                       style: TextStyle(
-                        fontFamily: 'Kanit',
+                        fontFamily: 'NotoSansThai',
                         color: primaryColor,
                       ),
                     ),
@@ -47,7 +47,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                     child: Text(
                       'การทำนัดหมาย',
                       style: TextStyle(
-                        fontFamily: 'Kanit',
+                        fontFamily: 'NotoSansThai',
                         color: secondaryColor,
                         fontSize: 24,
                       ),
