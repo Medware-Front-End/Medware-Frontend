@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/utils/colors.dart';
 
-class EventTypePicker extends StatelessWidget {
-  const EventTypePicker({super.key});
+class CalendarAppointment extends StatelessWidget {
+  const CalendarAppointment({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class EventTypePicker extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text('เลือกประเภทนัดหมาย',
+            Text('การทำนัดหมาย',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'NotoSansThai',
