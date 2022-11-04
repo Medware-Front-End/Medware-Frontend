@@ -6,7 +6,7 @@ class SharedPreference {
   static Future init() async => _pref = await SharedPreferences.getInstance();
 
   static Future setUserRole(int role) async => await _pref.setInt('role', role);
-  static int? getUserRole()  =>  _pref.getInt('role');
+  static int? getUserRole()  =>  _pref.getInt('role');  // employee=0 patient=1 admin=2
 
   static Future setNotified(bool noti) async =>
       await _pref.setBool('noti', noti);

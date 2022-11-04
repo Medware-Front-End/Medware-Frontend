@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late int role; // employee=0 patient=1 admin=2
+  late int role;
   int _curIndex = 0;
   final List<Widget> _homeScreens = home.screens;
   final List<Widget> _calendarScreens = calendar.screens;
@@ -49,12 +49,13 @@ class _MainScreenState extends State<MainScreen> {
       extendBodyBehindAppBar: true,
       body: screens[_curIndex][role],
       bottomNavigationBar: role == 2
-          ? null:
-      _curIndex == 3?null
-          : NavBar(
-              curScreen: setIndex,
-              fabPressed: addEventPressed,
-            ),
+          ? null
+          : _curIndex == 3
+              ? null
+              : NavBar(
+                  curScreen: setIndex,
+                  fabPressed: addEventPressed,
+                ),
     );
   }
 }
