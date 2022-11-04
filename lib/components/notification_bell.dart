@@ -4,7 +4,8 @@ import 'package:medware/utils/colors.dart';
 
 class NotificationBell extends StatefulWidget {
   final Color backgroundColor;
-  const NotificationBell({Key? key, required this.backgroundColor}) : super(key: key);
+  const NotificationBell({Key? key, required this.backgroundColor})
+      : super(key: key);
 
   @override
   _NotificationBellState createState() => _NotificationBellState();
@@ -25,7 +26,7 @@ class _NotificationBellState extends State<NotificationBell> {
         color: widget.backgroundColor.computeLuminance() > 0.5
             ? primaryColor
             : quaternaryColor,
-        size: size.width * 0.1,
+        size: size.width * 0.08,
       ),
     );
   }
