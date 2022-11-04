@@ -29,12 +29,11 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'NotoSansThai',
       ),
-      initialRoute: '/event_type_picker',
+      initialRoute: '/',
       routes: {
         '/': (context) => const MainScreen(),
         '/login': (context) => auth.screens[0],
         '/register': (context) => auth.screens[1],
-        '/event_type_picker': (context) => EventTypePicker()
       },
     );
   }
