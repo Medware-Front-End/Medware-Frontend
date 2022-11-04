@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:medware/utils/colors.dart';
 import 'package:medware/components/nav_bar.dart';
-import 'package:medware/components/notification_bell.dart';
 import 'package:medware/screens/main/home/screens.dart' as home;
 import 'package:medware/screens/main/calendar/screens.dart' as calendar;
 import 'package:medware/screens/main/profile/screens.dart' as profile;
 import 'package:medware/screens/main/event/screens.dart' as event;
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -16,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int role = 0; // employee=0 patient=1 admin=2
+  late int role; // employee=0 patient=1 admin=2
   int _curIndex = 0;
   final List<Widget> _homeScreens = home.screens;
   final List<Widget> _calendarScreens = calendar.screens;
@@ -24,6 +22,13 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _eventScreens = event.screens;
   void setIndex(newIndex) => setState(() => _curIndex = newIndex);
   void addEventPressed() => setState(() => _curIndex = 3);
+
+  @override
+  void initState() {
+    super.initState();
+
+    role = SharedPreference.getUserRole()!;
+  }
 
   @override
   Widget build(BuildContext context) {

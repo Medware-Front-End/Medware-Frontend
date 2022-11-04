@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final shortenedDateFormatter = DateFormat.MMMEd();
     final fullDateFormatter = DateFormat.yMMMMEEEEd();
     final timeFormatter = DateFormat.jm();
-
     final validAppointments =
         appointments.where((i) => i.startTime.isAfter(DateTime.now())).toList();
     validAppointments.sort((a, b) => a.startTime.compareTo(b.startTime));
@@ -71,14 +70,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: AppBar(
                       elevation: 0,
-                      title: Text(
-                        'สวัสดี!\nคุณ $name',
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontSize: 40,
-                          height: 1,
-                          fontWeight: FontWeight.w900,
-                        ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'สวัสดี!',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontSize: size.width * 0.12,
+                              height: 1,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          Text(
+                            'คุณ $name',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontSize: size.width * 0.075,
+                              height: 1,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ],
                       ),
                       toolbarHeight: size.height * 0.2,
                       backgroundColor: Colors.transparent,
