@@ -6,6 +6,7 @@ import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/screens/main/profile/patient/profile.dart';
 import 'package:medware/screens/main/event/patient/event_type_picker.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:medware/screens/main/event/patient/confirm_appointment.dart';
 
 Future main() async {
   Intl.defaultLocale = 'th';
@@ -29,11 +30,12 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'NotoSansThai',
       ),
-      initialRoute: '/',
+      initialRoute: '/calendar_appointment',
       routes: {
         '/': (context) => const MainScreen(),
         '/login': (context) => auth.screens[0],
         '/register': (context) => auth.screens[1],
+        '/calendar_appointment': (context) => ConfirmAppointment(),
       },
     );
   }

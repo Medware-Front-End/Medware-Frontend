@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/utils/colors.dart';
 
-//w 390 h 844
-// 0.32
 class EventTypePicker extends StatelessWidget {
   const EventTypePicker({super.key});
 
@@ -114,7 +112,7 @@ class EventTypePicker extends StatelessWidget {
                                 fontFamily: 'NotoSansThai',
                                 fontWeight: FontWeight.w700,
                                 fontSize: size.width * 0.061,
-                                color: Color.fromARGB(255, 238, 242, 230),
+                                color: Color(0xFFEEF2E6),
                               )),
                         ],
                       ),
@@ -167,7 +165,7 @@ class EventTypePicker extends StatelessWidget {
                           fontFamily: 'NotoSansThai',
                           fontWeight: FontWeight.w700,
                           fontSize: size.width * 0.061,
-                          color: Color.fromARGB(255, 238, 242, 230),
+                          color: Color(0xFFEEF2E6),
                         )),
                   ],
                 ),
