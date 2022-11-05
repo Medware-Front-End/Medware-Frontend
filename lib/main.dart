@@ -7,7 +7,6 @@ import 'package:medware/screens/auth/login.dart';
 import 'package:medware/screens/auth/screens.dart' as auth;
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/screens/main/profile/patient/profile.dart';
-import 'package:medware/screens/main/event/patient/event_type_picker.dart';
 
 void main() {
   Intl.defaultLocale = 'th';
