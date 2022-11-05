@@ -5,8 +5,7 @@ class AppointmentDoctorCreate extends StatefulWidget {
   const AppointmentDoctorCreate({Key? key}) : super(key: key);
 
   @override
-  AppointmentDoctorCreateState createState() =>
-      AppointmentDoctorCreateState();
+  AppointmentDoctorCreateState createState() => AppointmentDoctorCreateState();
 }
 
 class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
@@ -34,11 +33,14 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
-                    child: Text(
-                      '<   กลับ',
-                      style: TextStyle(
-                        fontFamily: 'Kanit',
-                        color: primaryColor,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Text(
+                        '<   กลับ',
+                        style: TextStyle(
+                            fontFamily: 'NotoSansThai',
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -47,10 +49,10 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                     child: Text(
                       'การทำนัดหมาย',
                       style: TextStyle(
-                        fontFamily: 'Kanit',
-                        color: secondaryColor,
-                        fontSize: 24,
-                      ),
+                          fontFamily: 'NotoSansThai',
+                          color: secondaryColor,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -61,13 +63,13 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(25, 15, 0, 0),
                     child: Container(
-                        width: 327,
-                        height: 400,
-                        decoration: BoxDecoration(
-                          color: Color(0x00FFFFFF),
-                        ),
-                       //เติมchild
-                        ),
+                      width: 327,
+                      height: 400,
+                      decoration: BoxDecoration(
+                        color: Color(0x00FFFFFF),
+                      ),
+                      child: Text("test"),
+                    ),
                   ),
                 ],
               ),
