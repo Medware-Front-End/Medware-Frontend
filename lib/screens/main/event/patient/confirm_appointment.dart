@@ -35,37 +35,40 @@ class ConfirmAppointment extends StatelessWidget {
                     onTap: () {},
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: size.width * 0.04,
-                          color: Color(0xFFEEF2E6),
+                        Padding(
+                          padding:
+                              EdgeInsets.fromLTRB(size.width * 0.02, 0, 0, 0),
+                          child: Icon(Icons.arrow_back_ios,
+                              size: size.width * 0.04,
+                              color: Color(0xFFEEF2E6)),
                         ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text('กลับ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'NotoSansThai',
-                              fontWeight: FontWeight.w400,
-                              fontSize: size.width * 0.046,
-                              color: Color(0xFFEEF2E6),
-                            )),
+                        Padding(
+                          padding:
+                              EdgeInsets.fromLTRB(size.width * 0.01, 0, 0, 0),
+                          child: Text('กลับ',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'NotoSansThai',
+                                fontWeight: FontWeight.w400,
+                                fontSize: size.width * 0.046,
+                                color: Color(0xFFEEF2E6),
+                              )),
+                        )
                       ],
                     )),
               ]),
-              SizedBox(
-                height: size.height * 0.027,
-              ),
-              Center(
-                child: Text('ยืนยันการนัดหมาย',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'NotoSansThai',
-                      fontWeight: FontWeight.w700,
-                      fontSize: size.width * 0.1,
-                      color: Color(0xFFEEF2E6),
-                    )),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, size.height * 0.027, 0, 0),
+                child: Center(
+                  child: Text('ยืนยันการนัดหมาย',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'NotoSansThai',
+                        fontWeight: FontWeight.w700,
+                        fontSize: size.width * 0.1,
+                        color: Color(0xFFEEF2E6),
+                      )),
+                ),
               )
             ],
           ),

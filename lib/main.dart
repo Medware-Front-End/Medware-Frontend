@@ -30,12 +30,13 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'NotoSansThai',
       ),
-      initialRoute: '/calendar_appointment',
+      initialRoute: '/confirm_appointment',
       routes: {
         '/': (context) => const MainScreen(),
         '/login': (context) => auth.screens[0],
         '/register': (context) => auth.screens[1],
-        '/calendar_appointment': (context) => ConfirmAppointment(),
+        '/event_type_picker': (context) => EventTypePicker(),
+        '/confirm_appointment': (context) => ConfirmAppointment(),
       },
     );
   }
