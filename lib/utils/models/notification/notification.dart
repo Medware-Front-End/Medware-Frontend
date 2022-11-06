@@ -1,19 +1,19 @@
 class Notification {
-  final String id;
+  final int id;
   final int type;
   final String title;
   final String body;
-  final String appointment_id;
-  final DateTime date;
-  static List<String> typeList = ['system', 'เลื่อนนัด','ยกเลิก','โอนถ่าย'];
+  final int appointmentId;
+  final DateTime dateCreated;
+  static List<String> typeList = ['system', 'เลื่อนนัด', 'ยกเลิก', 'โอนถ่าย'];
 
   const Notification({
     required this.id,
     required this.type,
     required this.title,
     required this.body,
-    required this.appointment_id,
-    required this.date,
+    required this.appointmentId,
+    required this.dateCreated,
   });
 
   static Notification fromJson(json) => Notification(
@@ -21,7 +21,7 @@ class Notification {
         type: json['type'],
         title: json['title'],
         body: json['body'],
-        appointment_id: json['appointment_id'],
-        date: DateTime.parse(json['date']),
+        appointmentId: json['appointment_id'],
+        dateCreated: DateTime.parse(json['date']),
       );
 }

@@ -60,47 +60,42 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Column(
               children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05,
-                    ),
-                    child: AppBar(
-                      elevation: 0,
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'สวัสดี!',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: size.width * 0.12,
-                              height: 1,
-                              fontWeight: FontWeight.w900,
-                            ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                  ),
+                  child: AppBar(
+                    elevation: 0,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'สวัสดี!',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: size.width * 0.12,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
                           ),
-                          Text(
-                            'คุณ $name',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: size.width * 0.075,
-                              height: 1,
-                              fontWeight: FontWeight.w900,
-                            ),
+                        ),
+                        Text(
+                          'คุณ $name',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: size.width * 0.075,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
                           ),
-                        ],
-                      ),
-                      toolbarHeight: size.height * 0.2,
-                      backgroundColor: Colors.transparent,
-                      actions: [
-                        NotificationBell(
-                          backgroundColor: quaternaryColor,
                         ),
                       ],
                     ),
+                    toolbarHeight: size.height * 0.2,
+                    backgroundColor: Colors.transparent,
+                    actions: [
+                      NotificationBell(
+                        backgroundColor: quaternaryColor,
+                      ),
+                    ],
                   ),
                 ),
                 Stack(
