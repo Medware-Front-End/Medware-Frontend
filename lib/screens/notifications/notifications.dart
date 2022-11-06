@@ -80,7 +80,7 @@ class _NotificationsState extends State<Notifications> {
                 ),
               ),
               child: InkWell(
-                onTap: () => notification.type == 0
+                onTap: () => notification.type == 0 || notification.type == 2
                     ? {}
                     : Navigator.push(
                         context,
@@ -145,7 +145,7 @@ class _NotificationsState extends State<Notifications> {
                             ),
                           ),
                           Text(
-                            '${dateFormatter.formatInBuddhistCalendarThai(notification.date)}',
+                            '${dateFormatter.formatInBuddhistCalendarThai(notification.dateCreated)}',
                             style: TextStyle(
                               color: tertiaryColor,
                               fontSize: size.width * 0.035,
