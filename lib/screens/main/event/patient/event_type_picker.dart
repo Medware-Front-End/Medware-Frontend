@@ -96,7 +96,7 @@ class EventTypePicker extends StatelessWidget {
                             Image(
                               image:
                                   AssetImage('assets/images/appointment.png'),
-                              height: size.width * 0.579,
+                              height: size.height * 0.27,
                             ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(
@@ -119,61 +119,61 @@ class EventTypePicker extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, size.height * 0.0346, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, size.height * 0.036, 0, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GestureDetector(
-                onTap: () {},
-                child: Stack(children: [
-                  Container(
-                    height: size.height * 0.33,
-                    width: size.width * 0.81,
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius:
-                          BorderRadius.circular(size.height * 9 / 422),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(1),
-                          blurRadius: 20,
-                          offset: Offset(5, 8),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+              Container(
+                  color: Colors.transparent,
+                  height: size.height * 0.33,
+                  width: size.width * 0.81,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Stack(children: [
                       Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0, size.height * 0.0105, 0, 0),
-                          child: Center(
-                            child: Image(
-                              image: AssetImage('assets/images/blood.png'),
-                              height: size.width * 0.495,
+                        height: size.height * 0.33,
+                        width: size.width * 0.81,
+                        decoration: BoxDecoration(
+                          color: secondaryColor,
+                          borderRadius:
+                              BorderRadius.circular(size.height * 9 / 422),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(1),
+                              blurRadius: 20,
+                              offset: Offset(5, 8),
                             ),
-                          )),
-                      Padding(
-                        padding:
-                            EdgeInsets.fromLTRB(0, size.height * 0.0133, 0, 0),
-                        child: Text('บริจาคโลหิต',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'NotoSansThai',
-                              fontWeight: FontWeight.w700,
-                              fontSize: size.width * 0.061,
-                              color: Color(0xFFEEF2E6),
-                            )),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image(
+                              image: AssetImage('assets/images/blood.png'),
+                              height: size.height * 0.27,
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.fromLTRB(0, size.height * 0, 0, 0),
+                              child: Text('บริจาคโลหิต',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'NotoSansThai',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: size.width * 0.061,
+                                    color: Color(0xFFEEF2E6),
+                                  )),
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
-                ]),
-              )
+                    ]),
+                  ))
             ],
           ),
-        )
+        ),
       ]),
     );
   }
