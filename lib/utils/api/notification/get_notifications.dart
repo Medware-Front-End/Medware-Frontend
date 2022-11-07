@@ -1,6 +1,6 @@
 import 'package:medware/utils/models/notification/notification.dart';
 
-List<Notification> getNotifications() {
+Future<List<Notification>> getNotifications() async {
   const data = [
     {
       '_id': 0,

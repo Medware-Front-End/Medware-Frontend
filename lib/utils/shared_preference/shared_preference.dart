@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreference {
   static late SharedPreferences _pref;
 
   static Future init() async => _pref = await SharedPreferences.getInstance();
+
+  static Future setUserInfo(Map<String, dynamic> info) async => await _pref.setString('userInfo', jsonEncode(info));
+  static Map<String, dynamic>? getUserInfo()  =>  jsonDecode(_pref.getString('role')!);
 
   static Future setUserRole(int role) async => await _pref.setInt('role', role);
   static int? getUserRole()  =>  _pref.getInt('role');

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
 
@@ -96,8 +95,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               ),
                             ),
                             Text(
-                              dateFormatter.formatInBuddhistCalendarThai(
-                                  widget.appointment.date),
+                              dateFormatter.format(widget.appointment.date),
                               style: TextStyle(
                                 color: primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -134,7 +132,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               ),
                             ),
                             Text(
-                              '${timeFormatter.formatInBuddhistCalendarThai(widget.appointment.startTime)} - ${timeFormatter.formatInBuddhistCalendarThai(widget.appointment.finishTime)}',
+                              '${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)}',
                               style: TextStyle(
                                 color: primaryColor,
                                 fontWeight: FontWeight.w500,

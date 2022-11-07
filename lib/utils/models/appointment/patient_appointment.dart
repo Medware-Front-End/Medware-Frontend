@@ -1,4 +1,5 @@
 class PatientAppointment {
+  final int id;
   final int type;
   final DateTime date;
   final DateTime startTime;
@@ -8,6 +9,7 @@ class PatientAppointment {
   static List<String> typeList = ['ตรวจร่างกาย', 'บริจาคเลือด'];
 
   const PatientAppointment({
+    required this.id,
     required this.type,
     required this.date,
     required this.startTime,
@@ -17,7 +19,8 @@ class PatientAppointment {
   });
 
   static PatientAppointment fromJson(json) => PatientAppointment(
-        type: json['type'],
+        id: int.parse(json['id']),
+        type: int.parse(json['type']),
         date: DateTime.parse(json['date']),
         startTime: DateTime.parse(json['startTime']),
         finishTime: DateTime.parse(json['finishTime']),
