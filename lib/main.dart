@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/event_type_picker',
       routes: {
-        '/': (context) => const ChangePassword(),
-        // '/login': (context) => auth.screens[0],
-        // '/register': (context) => auth.screens[1],
-        // '/event_type_picker': (context) => EventTypePicker()
+        '/': (context) => const MainScreen(),
+        '/login': (context) => auth.screens[0],
+        '/register': (context) => auth.screens[1],
+        '/event_type_picker': (context) => EventTypePicker()
       },
     );
   }
