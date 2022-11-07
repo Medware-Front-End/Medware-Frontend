@@ -8,6 +8,7 @@ import 'package:medware/screens/main/event/patient/event_type_picker.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/screens/main/event/patient/confirm_appointment.dart';
+import 'package:medware/screens/main/event/employee/view_appointment.dart';
 
 Future main() async {
   Intl.defaultLocale = 'th';
