@@ -5,6 +5,7 @@ import 'package:medware/screens/auth/screens.dart' as auth;
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/screens/main/profile/patient/profile.dart';
 import 'package:medware/screens/main/event/patient/event_type_picker.dart';
+import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/screens/main/event/patient/confirm_appointment.dart';
 
@@ -13,8 +14,9 @@ Future main() async {
   initializeDateFormatting();
 
   WidgetsFlutterBinding.ensureInitialized();
+  PushNotification.init();
   await SharedPreference.init();
-  await SharedPreference.setUserRole(1);
+  await SharedPreference.setUserRole(0);
 
   runApp(const MyApp());
 }

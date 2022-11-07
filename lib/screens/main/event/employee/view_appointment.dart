@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
+import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
 
@@ -273,8 +274,17 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                       child: const Text('ไม่'),
                                     ),
                                     TextButton(
-                                        onPressed: () {},
-                                        child: const Text('ใช่')),
+                                      onPressed: () {
+                                        PushNotification.showNotification(
+                                          title: 'มีการยกเลิกนัดหมายของคุณ',
+                                          body:
+                                              'การนัดหมายการ${EmployeeAppointment.typeList[widget.appointment.type]}ในวันที่ ${dateFormatter.formatInBuddhistCalendarThai(widget.appointment.date)} เวลา ${timeFormatter.formatInBuddhistCalendarThai(widget.appointment.startTime)} - ${timeFormatter.formatInBuddhistCalendarThai(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
+                                          payload: 'id number',
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('ใช่'),
+                                    ),
                                   ],
                                 ));
                       },
