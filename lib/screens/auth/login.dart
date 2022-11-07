@@ -25,7 +25,8 @@ class LoginForm extends StatefulWidget {
 class _LoginState extends State<LoginForm> {
   TextEditingController _unameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _mailTextController = TextEditingController();
+
+  bool _validate = false;
 
   @override
   void dispose() {
@@ -33,6 +34,32 @@ class _LoginState extends State<LoginForm> {
     _unameTextController.dispose();
     _passwordTextController.dispose();
     super.dispose();
+  }
+
+  String? get _errorUname {
+    final text = _unameTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+    // return null if the text is valid
+    return null;
+  }
+
+  String? get _errorPassword {
+    final text = _passwordTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+    // return null if the text is valid
+    return null;
   }
 
   @override
@@ -92,8 +119,9 @@ class _LoginState extends State<LoginForm> {
                               margin: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0)),
                           Container(
                               child: CustomTextField(
-                                  //Add parameter
-                                  ),
+                                controller: _unameTextController,
+                                validator: _errorUname,
+                              ),
                               padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                               margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 10.0)),
                         ]),
@@ -114,8 +142,9 @@ class _LoginState extends State<LoginForm> {
                               margin: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0)),
                           Container(
                               child: CustomTextField(
-                                  //Add parameter
-                                  ),
+                                controller: _passwordTextController,
+                                validator: _errorPassword,
+                              ),
                               padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                               margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 30.0)),
                         ]),
@@ -131,6 +160,12 @@ class _LoginState extends State<LoginForm> {
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
                                 // Navigator.pop(context);
+                                setState(() {
+                                  _unameTextController.text.isEmpty ||
+                                          _passwordTextController.text.isEmpty
+                                      ? _validate = true
+                                      : _validate = false;
+                                });
                               },
                               child: Text(
                                 'เข้าสู่ระบบ',

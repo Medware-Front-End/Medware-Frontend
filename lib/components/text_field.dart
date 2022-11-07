@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:medware/utils/colors.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({super.key});
+  final TextEditingController controller;
+  final String? validator;
+  const CustomTextField(
+      {Key? key, required this.controller, required this.validator});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -14,18 +17,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
-            borderSide: BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
+        errorStyle: TextStyle(height: 0.6, fontFamily: 'NotoSansThai'),
+        errorText: widget.validator,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.0),
+          borderSide: BorderSide(
+            width: 0,
+            style: BorderStyle.none,
           ),
-          isDense: true,
-          contentPadding: EdgeInsets.all(6),
-          filled: true,
-          fillColor: quaternaryColor),
-      // controller: ,
+        ),
+        isDense: true,
+        contentPadding: EdgeInsets.all(6),
+        filled: true,
+        fillColor: quaternaryColor,
+      ),
+      controller: widget.controller,
+      style: TextStyle(fontFamily: 'NotoSansThai'),
     );
   }
 }

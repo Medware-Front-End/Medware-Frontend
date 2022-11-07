@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:medware/screens/auth/change_mail.dart';
 import 'package:medware/screens/auth/change_password.dart';
 import 'package:medware/screens/auth/login.dart';
+import 'package:medware/screens/auth/register.dart';
 import 'package:medware/screens/auth/screens.dart' as auth;
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/screens/main/profile/patient/profile.dart';
@@ -29,10 +30,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/event_type_picker',
       routes: {
-        '/': (context) => const MainScreen(),
-        '/login': (context) => auth.screens[0],
-        '/register': (context) => auth.screens[1],
-        '/event_type_picker': (context) => EventTypePicker()
+        '/': (context) => const ChangePassword(),
+        // '/login': (context) => auth.screens[0],
+        // '/register': (context) => auth.screens[1],
+        // '/event_type_picker': (context) => EventTypePicker()
       },
     );
   }
