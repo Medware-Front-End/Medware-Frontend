@@ -21,15 +21,41 @@ class ChangeMailForm extends StatefulWidget {
 }
 
 class _ChangeMailState extends State<ChangeMailForm> {
-  final changeNewMail = TextEditingController();
-  final changeNewMailPw = TextEditingController();
+  TextEditingController _changeNewMail = TextEditingController();
+  TextEditingController _changeNewMailPw = TextEditingController();
+
+  bool _validate = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    changeNewMail.dispose();
-    changeNewMailPw.dispose();
+    _changeNewMail.dispose();
+    _changeNewMailPw.dispose();
     super.dispose();
+  }
+
+  String? get _errorNewMail {
+    final text = _changeNewMail.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorNewMailPw {
+    final text = _changeNewMailPw.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+    return null;
   }
 
   @override
@@ -92,8 +118,9 @@ class _ChangeMailState extends State<ChangeMailForm> {
                             margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0)),
                         Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _changeNewMail,
+                              validator: _errorNewMail,
+                            ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                       ]),
@@ -114,8 +141,9 @@ class _ChangeMailState extends State<ChangeMailForm> {
                             margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0)),
                         Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _changeNewMailPw,
+                              validator: _errorNewMailPw,
+                            ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 30.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                       ]),
@@ -129,7 +157,14 @@ class _ChangeMailState extends State<ChangeMailForm> {
                                 padding: const EdgeInsets.all(7.0),
                                 textStyle: const TextStyle(fontSize: 20),
                                 backgroundColor: quaternaryColor),
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                _changeNewMail.text.isEmpty ||
+                                        _changeNewMailPw.text.isEmpty
+                                    ? _validate = true
+                                    : _validate = false;
+                              });
+                            },
                             child: Text(
                               'ยืนยัน',
                               style: TextStyle(
@@ -140,7 +175,7 @@ class _ChangeMailState extends State<ChangeMailForm> {
                           ),
                         )
                       ]),
-                      padding: EdgeInsets.fromLTRB(250.0, 270.0, 0.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(250.0, 250.0, 0.0, 0.0),
                       margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                 ],
               ))

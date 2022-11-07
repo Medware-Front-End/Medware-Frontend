@@ -21,17 +21,63 @@ class ChangePasswordForm extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePasswordForm> {
-  final changeOriPw = TextEditingController();
-  final changeNewPw = TextEditingController();
-  final changeCNewPw = TextEditingController();
+  TextEditingController _changeOriPw = TextEditingController();
+  TextEditingController _changeNewPw = TextEditingController();
+  TextEditingController _changeCNewPw = TextEditingController();
+
+  bool _validate = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    changeOriPw.dispose();
-    changeNewPw.dispose();
-    changeCNewPw.dispose();
+    _changeOriPw.dispose();
+    _changeNewPw.dispose();
+    _changeCNewPw.dispose();
     super.dispose();
+  }
+
+  String? get _errorOriPw {
+    final text = _changeOriPw.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+    // return null if the text is valid
+    return null;
+  }
+
+  String? get _errorNewPw {
+    final text = _changeNewPw.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+
+    // return null if the text is valid
+    return null;
+  }
+
+  String? get _errorCNewPw {
+    final text = _changeCNewPw.value.text;
+    final text2 = _changeCNewPw.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดใส่ข้อมูล';
+    }
+    if (text != text2) {
+      return 'รหัสผ่านไม่ตรงกัน';
+    }
+    // return null if the text is valid
+    return null;
   }
 
   @override
@@ -94,8 +140,9 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                             margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0)),
                         Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _changeOriPw,
+                              validator: _errorOriPw,
+                            ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                       ]),
@@ -116,8 +163,9 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                             margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0)),
                         Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _changeNewPw,
+                              validator: _errorNewPw,
+                            ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 30.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                         Container(
@@ -133,10 +181,11 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                             margin: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0)),
                         Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _changeCNewPw,
+                              validator: _errorCNewPw,
+                            ),
                             padding:
-                                EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 170.0),
+                                EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 160.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
                       ]),
                       padding: EdgeInsets.all(5.0),
@@ -149,7 +198,15 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                                 padding: const EdgeInsets.all(7.0),
                                 textStyle: const TextStyle(fontSize: 20),
                                 backgroundColor: quaternaryColor),
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                _changeOriPw.text.isEmpty ||
+                                        _changeNewPw.text.isEmpty ||
+                                        _changeCNewPw.text.isEmpty
+                                    ? _validate = true
+                                    : _validate = false;
+                              });
+                            },
                             child: Text(
                               'ยืนยัน',
                               style: TextStyle(

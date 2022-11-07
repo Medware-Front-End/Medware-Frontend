@@ -30,9 +30,6 @@ class _RegisterState extends State<RegisterForm> {
   bool _validate = false;
 
   @override
-  void errorText() {}
-
-  @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     _unameTextController.dispose();
@@ -50,12 +47,59 @@ class _RegisterState extends State<RegisterForm> {
       return null;
     }
     if (text.isEmpty) {
-      return 'Can\'t be empty';
+      return 'โปรดกรอกข้อมูล';
     }
-    if (text.length < 4) {
-      return 'Too short';
+    if (text.length < 13) {
+      return 'สั้นเกินไป';
     }
-    // return null if the text is valid
+    return null;
+  }
+
+  String? get _errorName {
+    final text = _nameTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorPassword {
+    final text = _passwordTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorCPassword {
+    final text = _cpasswordTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorMail {
+    final text = _mailTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
     return null;
   }
 
@@ -72,8 +116,8 @@ class _RegisterState extends State<RegisterForm> {
                   borderRadius: new BorderRadius.all(
                     const Radius.circular(15.0),
                   )),
-              padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 40.0),
-              margin: EdgeInsets.fromLTRB(40.0, 90.0, 40.0, 0.0),
+              padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 20.0),
+              margin: EdgeInsets.fromLTRB(40.0, 100.0, 40.0, 0.0),
               child: Column(children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -106,8 +150,9 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                           Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _unameTextController,
+                              validator: _errorUname,
+                            ),
                           ),
                         ]),
                         margin: EdgeInsets.all(5.0)),
@@ -125,8 +170,9 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                           Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _nameTextController,
+                              validator: _errorName,
+                            ),
                           ),
                         ]),
                         margin: EdgeInsets.all(5.0)),
@@ -144,8 +190,9 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                           Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _passwordTextController,
+                              validator: _errorPassword,
+                            ),
                           ),
                         ]),
                         margin: EdgeInsets.all(5.0)),
@@ -163,8 +210,9 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                           Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _cpasswordTextController,
+                              validator: _errorCPassword,
+                            ),
                           ),
                         ]),
                         margin: EdgeInsets.all(5.0)),
@@ -182,8 +230,9 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                           Container(
                             child: CustomTextField(
-                                //Add parameter
-                                ),
+                              controller: _mailTextController,
+                              validator: _errorMail,
+                            ),
                           ),
                         ]),
                         margin: EdgeInsets.all(5.0)),
@@ -197,7 +246,13 @@ class _RegisterState extends State<RegisterForm> {
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
                                 setState(() {
-                                  _unameTextController.text.isEmpty
+                                  _unameTextController.text.isEmpty ||
+                                          _passwordTextController
+                                              .text.isEmpty ||
+                                          _cpasswordTextController
+                                              .text.isEmpty ||
+                                          _nameTextController.text.isEmpty ||
+                                          _mailTextController.text.isEmpty
                                       ? _validate = true
                                       : _validate = false;
                                 });
@@ -218,7 +273,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           )
                         ]),
-                        margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0)),
+                        margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0)),
                   ],
                 )
               ]),
