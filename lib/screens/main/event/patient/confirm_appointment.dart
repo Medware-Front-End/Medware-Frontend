@@ -270,9 +270,8 @@ class ConfirmAppointment extends StatelessWidget {
                 color: quaternaryColor,
                 borderRadius: BorderRadius.circular(size.width * 0.03),
               ),
-              child: InkWell(
+              child: GestureDetector(
                 onTap: () {},
-                borderRadius: BorderRadius.circular(size.width * 0.03),
                 child: Center(
                   child: Text(
                     'ยืนยัน',
