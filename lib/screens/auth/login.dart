@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
 import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/models/auth/login_model.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -30,7 +31,6 @@ class _LoginState extends State<LoginForm> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     _unameTextController.dispose();
     _passwordTextController.dispose();
     super.dispose();
@@ -159,6 +159,8 @@ class _LoginState extends State<LoginForm> {
                                   textStyle: const TextStyle(fontSize: 15),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
+                                print(_unameTextController.text);
+                                print(_passwordTextController.text);
                                 // Navigator.pop(context);
                                 setState(() {
                                   _unameTextController.text.isEmpty ||

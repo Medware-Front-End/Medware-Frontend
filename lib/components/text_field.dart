@@ -15,7 +15,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
         errorStyle: TextStyle(height: 0.6, fontFamily: 'NotoSansThai'),
         errorText: widget.validator,

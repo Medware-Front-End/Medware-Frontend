@@ -6,7 +6,7 @@ class Patient {
   final int patientBloodType;
   final int patientGender;
   final String patientPassword;
-  final int patientPersonalID;
+  final int patientNationalId;
 
   const Patient(
       {required this.patientHNId,
@@ -16,7 +16,7 @@ class Patient {
       required this.patientBloodType,
       required this.patientGender,
       required this.patientPassword,
-      required this.patientPersonalID});
+      required this.patientNationalId});
 
   static Patient fromJson(json) => Patient(
       patientHNId: json['patientHNId'],
@@ -26,5 +26,5 @@ class Patient {
       patientBloodType: json['patientBloodType'],
       patientGender: json['patientGender'],
       patientPassword: json['patientPassword'],
-      patientPersonalID: json['patientPersonalID']);
+      patientNationalId: json['patientNationalId']);
 }
