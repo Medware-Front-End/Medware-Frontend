@@ -1,5 +1,5 @@
 class EmployeeAppointment {
-  final String id;
+  final int id;
   final int type;
   final DateTime date;
   final DateTime startTime;
@@ -17,11 +17,11 @@ class EmployeeAppointment {
   });
 
   static EmployeeAppointment fromJson(json) => EmployeeAppointment(
-        id: json['_id'],
-        type: json['type'],
+        id: int.parse(json['id']),
+        type: int.parse(json['type']),
         date: DateTime.parse(json['date']),
         startTime: DateTime.parse(json['startTime']),
         finishTime: DateTime.parse(json['finishTime']),
-        patientCount: json['patientCount'],
+        patientCount: int.parse(json['patientCount']),
       );
 }

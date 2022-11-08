@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 
 class PushNotification {
   static final _noti = FlutterLocalNotificationsPlugin();
-  static final onNoti = BehaviorSubject<String?>();
+  static final _onNoti = BehaviorSubject<String?>();
 
   static Future init() async {
     final androidInitSetting =
@@ -29,27 +29,36 @@ class PushNotification {
     );
   }
 
-  static _notiDetails() => NotificationDetails(
-        android: AndroidNotificationDetails(
-          'main',
-          'channel name',
-          channelDescription: 'channel description',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      );
-
   static Future showNotification({
     int id = 0,
-    String? title,
-    String? body,
+    required String title,
+    required String body,
     String? payload,
   }) async =>
       _noti.show(
         id,
         title,
         body,
-        _notiDetails(),
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'main',
+            'channel name',
+            channelDescription: 'channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails(),
+        ),
         payload: payload,
       );
+
+  static Future log({
+    required int id,
+    required int type,
+    required String title,
+    required String body,
+    required int appointmentId,
+    required DateTime dateCreated,
+  }) async =>
+      {};
 }

@@ -42,7 +42,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
         title: const Text('ตั้งค่าการแจ้งเตือน'),
         centerTitle: true,
         toolbarHeight: size.height * 0.1,
-        backgroundColor: Colors.white.withOpacity(0.5),
+        backgroundColor: Colors.white,
         iconTheme: IconThemeData(
           color: primaryColor,
         ),
@@ -53,10 +53,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
           color: primaryColor,
         ),
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.white.withOpacity(0.1),
-          statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
-          systemStatusBarContrastEnforced: true,
         ),
       ),
       body: Padding(

@@ -21,7 +21,12 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _profileScreens = profile.screens;
   final List<Widget> _eventScreens = event.screens;
   void setIndex(newIndex) => setState(() => _curIndex = newIndex);
-  void addEventPressed() => setState(() => _curIndex = 3);
+  void addEventPressed() => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => _eventScreens[role],
+        ),
+      );
 
   @override
   void initState() {
@@ -36,7 +41,6 @@ class _MainScreenState extends State<MainScreen> {
       _homeScreens,
       _calendarScreens,
       _profileScreens,
-      _eventScreens,
     ];
 
     return Scaffold(
@@ -49,8 +53,7 @@ class _MainScreenState extends State<MainScreen> {
       extendBodyBehindAppBar: true,
       body: screens[_curIndex][role],
       bottomNavigationBar: role == 2
-          ? null:
-      _curIndex == 3?null
+          ? null
           : NavBar(
               curScreen: setIndex,
               fabPressed: addEventPressed,
