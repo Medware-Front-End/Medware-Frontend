@@ -7,9 +7,7 @@ class ChangePassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ChangePasswordForm(),
-    );
+    return const ChangePasswordForm();
   }
 }
 
@@ -142,6 +140,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                             child: CustomTextField(
                               controller: _changeOriPw,
                               validator: _errorOriPw,
+                              obscureText: false,
                             ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
@@ -165,6 +164,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                             child: CustomTextField(
                               controller: _changeNewPw,
                               validator: _errorNewPw,
+                              obscureText: false,
                             ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 30.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
@@ -183,6 +183,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                             child: CustomTextField(
                               controller: _changeCNewPw,
                               validator: _errorCNewPw,
+                              obscureText: false,
                             ),
                             padding:
                                 EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 160.0),

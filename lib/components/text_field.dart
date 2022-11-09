@@ -5,8 +5,13 @@ import 'package:medware/utils/colors.dart';
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String? validator;
+  final bool obscureText;
+
   const CustomTextField(
-      {Key? key, required this.controller, required this.validator});
+      {Key? key,
+      required this.controller,
+      required this.validator,
+      required this.obscureText});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -33,6 +38,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       controller: widget.controller,
       style: TextStyle(fontFamily: 'NotoSansThai'),
+      obscureText: widget.obscureText,
     );
   }
 }

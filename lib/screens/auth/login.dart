@@ -1,18 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/auth/login_model.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginForm(),
-    );
+    return const LoginForm();
   }
 }
 
@@ -121,6 +122,7 @@ class _LoginState extends State<LoginForm> {
                               child: CustomTextField(
                                 controller: _unameTextController,
                                 validator: _errorUname,
+                                obscureText: false,
                               ),
                               padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                               margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 10.0)),
@@ -144,6 +146,7 @@ class _LoginState extends State<LoginForm> {
                               child: CustomTextField(
                                 controller: _passwordTextController,
                                 validator: _errorPassword,
+                                obscureText: true,
                               ),
                               padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                               margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 30.0)),
@@ -161,7 +164,10 @@ class _LoginState extends State<LoginForm> {
                               onPressed: () {
                                 print(_unameTextController.text);
                                 print(_passwordTextController.text);
-                                // Navigator.pop(context);
+                                // SharedPreference.setToken(jsonDecode(response)["payload"]);
+                                // if (_unameTextController.text[0] != 'D') {
+                                //   SharedPreference.setUserRole(0);
+                                // }
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController.text.isEmpty
@@ -192,7 +198,6 @@ class _LoginState extends State<LoginForm> {
                                       text: "สร้างบัญชี",
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
-                                          Navigator.pop(context);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

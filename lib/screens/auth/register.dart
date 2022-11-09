@@ -7,9 +7,7 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: RegisterForm(),
-    );
+    return const RegisterForm();
   }
 }
 
@@ -28,6 +26,7 @@ class _RegisterState extends State<RegisterForm> {
   TextEditingController _mailTextController = TextEditingController();
 
   bool _validate = false;
+  final _key = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -50,7 +49,7 @@ class _RegisterState extends State<RegisterForm> {
       return 'โปรดกรอกข้อมูล';
     }
     if (text.length < 13) {
-      return 'สั้นเกินไป';
+      return 'หมายเลขบัตรประชาชนไม่ถูกต้อง';
     }
     return null;
   }
@@ -106,6 +105,7 @@ class _RegisterState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _key,
         resizeToAvoidBottomInset: false,
         backgroundColor: secondaryColor,
         body: Column(
@@ -152,6 +152,7 @@ class _RegisterState extends State<RegisterForm> {
                             child: CustomTextField(
                               controller: _unameTextController,
                               validator: _errorUname,
+                              obscureText: false,
                             ),
                           ),
                         ]),
@@ -172,6 +173,7 @@ class _RegisterState extends State<RegisterForm> {
                             child: CustomTextField(
                               controller: _nameTextController,
                               validator: _errorName,
+                              obscureText: false,
                             ),
                           ),
                         ]),
@@ -192,6 +194,7 @@ class _RegisterState extends State<RegisterForm> {
                             child: CustomTextField(
                               controller: _passwordTextController,
                               validator: _errorPassword,
+                              obscureText: true,
                             ),
                           ),
                         ]),
@@ -212,6 +215,7 @@ class _RegisterState extends State<RegisterForm> {
                             child: CustomTextField(
                               controller: _cpasswordTextController,
                               validator: _errorCPassword,
+                              obscureText: false,
                             ),
                           ),
                         ]),
@@ -232,6 +236,7 @@ class _RegisterState extends State<RegisterForm> {
                             child: CustomTextField(
                               controller: _mailTextController,
                               validator: _errorMail,
+                              obscureText: false,
                             ),
                           ),
                         ]),
@@ -256,7 +261,11 @@ class _RegisterState extends State<RegisterForm> {
                                       ? _validate = true
                                       : _validate = false;
                                 });
-                                // Navigator.pop(context);
+                                print(_unameTextController.text);
+                                print(_passwordTextController.text);
+                                print(_cpasswordTextController.text);
+                                print(_nameTextController.text);
+                                print(_mailTextController.text);
                                 // Navigator.push(
                                 //   context,
                                 //   MaterialPageRoute(

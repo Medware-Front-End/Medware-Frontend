@@ -7,9 +7,7 @@ class ChangeMail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ChangeMailForm(),
-    );
+    return const ChangeMailForm();
   }
 }
 
@@ -120,6 +118,7 @@ class _ChangeMailState extends State<ChangeMailForm> {
                             child: CustomTextField(
                               controller: _changeNewMail,
                               validator: _errorNewMail,
+                              obscureText: false,
                             ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
@@ -143,6 +142,7 @@ class _ChangeMailState extends State<ChangeMailForm> {
                             child: CustomTextField(
                               controller: _changeNewMailPw,
                               validator: _errorNewMailPw,
+                              obscureText: false,
                             ),
                             padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 30.0),
                             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)),
