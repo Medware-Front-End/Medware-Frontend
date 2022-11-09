@@ -6,6 +6,7 @@ import 'package:medware/screens/auth/screens.dart' as auth;
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:medware/screens/main/event/patient/calendar_appointment.dart';
 
 Future main() async {
   Intl.defaultLocale = 'th';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // home: auth.screens[0],
-      home: const MainScreen(),
+      home: const CalendarAppointment(),
     );
   }
 }
