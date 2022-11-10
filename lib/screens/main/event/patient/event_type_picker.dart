@@ -43,14 +43,17 @@ class EventTypePicker extends StatelessWidget {
                 ],
               )),
         ]),
-        title: Text('เลือกประเภทนัดหมาย',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'NotoSansThai',
-              fontWeight: FontWeight.w700,
-              fontSize: size.width * 0.072,
-              color: primaryColor,
-            )),
+        title: SizedBox(
+          width: size.width * 0.67,
+          child: Text('เลือกประเภทนัดหมาย',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontFamily: 'NotoSansThai',
+                fontWeight: FontWeight.w700,
+                fontSize: size.width * 0.072,
+                color: primaryColor,
+              )),
+        ),
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarBrightness: Brightness.dark,
