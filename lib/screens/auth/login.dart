@@ -2,11 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:http/http.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
+import 'package:medware/utils/api/auth/api_service.dart';
 import 'package:medware/utils/colors.dart';
-import 'package:medware/utils/models/auth/login_model.dart';
+import 'package:medware/utils/models/auth/patient_login_request_model.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -27,8 +32,9 @@ class LoginForm extends StatefulWidget {
 class _LoginState extends State<LoginForm> {
   TextEditingController _unameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
-
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool _validate = false;
+  bool isAPICallProcess = false;
 
   @override
   void dispose() {
@@ -66,6 +72,7 @@ class _LoginState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: globalFormKey,
         resizeToAvoidBottomInset: false,
         backgroundColor: secondaryColor,
         body: Column(
@@ -162,12 +169,30 @@ class _LoginState extends State<LoginForm> {
                                   textStyle: const TextStyle(fontSize: 15),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
+                                // LoginRequestModel model = LoginRequestModel(
+                                //   nationalCardId: _unameTextController.text,
+                                //   password: _passwordTextController.text,
+                                // );
+
+                                // APIService.login(model).then((response) {
+                                //   setState(() {
+                                //     isAPICallProcess = false;
+                                //   });
+
+                                //   if (response) {
+                                //     print("Login Success");
+                                //   } else {
+                                //     print("ERROR");
+                                //   }
+                                // });
+
                                 print(_unameTextController.text);
                                 print(_passwordTextController.text);
                                 // SharedPreference.setToken(jsonDecode(response)["payload"]);
                                 // if (_unameTextController.text[0] != 'D') {
                                 //   SharedPreference.setUserRole(0);
                                 // }
+
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController.text.isEmpty
