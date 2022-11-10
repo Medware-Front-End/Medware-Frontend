@@ -78,28 +78,82 @@ class _Calendar_addState extends State<CalendarAppointment> {
                 height: size.height * 0.44,
                 width: size.width,
                 child: TableCalendar(
+                  calendarBuilders: CalendarBuilders(
+                      selectedBuilder: ((context, _datetime, focusedDay) {
+                    return Container(
+                      margin: EdgeInsets.fromLTRB(
+                          size.width * 0.005,
+                          size.height * 0.005,
+                          size.width * 0.005,
+                          size.height * 0.005),
+                      decoration: BoxDecoration(
+                          color: tertiaryColor,
+                          borderRadius:
+                              BorderRadius.circular(size.height * 0.02)),
+                      child: Center(
+                          child: Text(
+                        _datetime.day.toString(),
+                        style: TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.w500),
+                      )),
+                    );
+                  }), todayBuilder: (context, _datetime, focusedDay) {
+                    return Container(
+                      margin: EdgeInsets.fromLTRB(
+                          size.width * 0.005,
+                          size.height * 0.005,
+                          size.width * 0.005,
+                          size.height * 0.005),
+                      decoration: BoxDecoration(
+                          color: secondaryColor,
+                          borderRadius:
+                              BorderRadius.circular(size.height * 0.02)),
+                      child: Center(
+                          child: Text(
+                        _datetime.day.toString(),
+                        style: TextStyle(
+                            color: Color(0xFFEEF2E6),
+                            fontWeight: FontWeight.w500),
+                      )),
+                    );
+                  }),
                   shouldFillViewport: true,
                   firstDay: DateTime(1990),
                   lastDay: DateTime(2050),
                   focusedDay: _focusedDay,
                   calendarFormat: _calendarFormat,
+                  daysOfWeekStyle: DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(color: primaryColor),
+                      weekendStyle: TextStyle(color: tertiaryColor)),
+                  calendarStyle: CalendarStyle(
+                      selectedTextStyle: TextStyle(
+                          color: primaryColor, fontWeight: FontWeight.w500),
+                      weekendTextStyle: TextStyle(color: tertiaryColor),
+                      defaultTextStyle: TextStyle(
+                          color: primaryColor, fontWeight: FontWeight.w500)),
                   headerStyle: HeaderStyle(
+                    leftChevronIcon: Icon(
+                      Icons.arrow_back_ios,
+                      color: primaryColor,
+                      size: size.width * 0.05,
+                    ),
+                    rightChevronIcon: Icon(
+                      Icons.arrow_forward_ios,
+                      color: primaryColor,
+                      size: size.width * 0.05,
+                    ),
+                    titleTextStyle: TextStyle(
+                        color: primaryColor, fontSize: size.width * 0.05),
                     formatButtonVisible: false,
                     titleCentered: true,
                     titleTextFormatter: (date, locale) =>
                         DateFormat.MMMM(locale).format(date),
                   ),
                   selectedDayPredicate: (day) {
-                    // Use `selectedDayPredicate` to determine which day is currently selected.
-                    // If this returns true, then `day` will be marked as selected.
-
-                    // Using `isSameDay` is recommended to disregard
-                    // the time-part of compared DateTime objects.
                     return isSameDay(_selectedDay, day);
                   },
                   onDaySelected: (selectedDay, focusedDay) {
                     if (!isSameDay(_selectedDay, selectedDay)) {
-                      // Call `setState()` when updating the selected day
                       setState(() {
                         _selectedDay = selectedDay;
                         _focusedDay = focusedDay;
@@ -107,7 +161,6 @@ class _Calendar_addState extends State<CalendarAppointment> {
                     }
                   },
                   onPageChanged: (focusedDay) {
-                    // No need to call `setState()` here
                     _focusedDay = focusedDay;
                   },
                 ),
