@@ -64,7 +64,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Header(
                 role: 1,
-                path: SharedPreference.profilePictures[patient.profilePic],
+                path: profilePictures[patient.profilePic],
                 refresh: _loadPatient,
               ),
               Container(
@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Detail(
                       title: 'หมู่เลือด',
-                      detail: SharedPreference.bloodTypes[patient.bloodType],
+                      detail: bloodTypes[patient.bloodType],
                       icon: Icons.bloodtype_outlined,
                     ),
                     Detail(

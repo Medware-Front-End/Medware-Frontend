@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medware/screens/main/event/employee/view_appointment.dart'
+import 'package:medware/screens/main/event/view_appointment/employee.dart'
     as employee;
-import 'package:medware/screens/main/event/patient/view_appointment.dart'
+import 'package:medware/screens/main/event/view_appointment/patient.dart'
     as patient;
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
@@ -73,7 +73,7 @@ class AppointmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      SharedPreference.appointmentTypes[appointment.type],
+                      appointmentTypes[appointment.type],
                       style: TextStyle(
                         color: primaryColor,
                         fontWeight: FontWeight.w600,

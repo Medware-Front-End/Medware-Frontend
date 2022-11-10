@@ -14,7 +14,12 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PushNotification.init();
   await SharedPreference.init();
+  await SharedPreference.setToken({
+    'token': '12345678suidfjk',
+    'id': '2345678907685874',
+  });
   await SharedPreference.setUserRole(0);
+  await SharedPreference.setUserFName('ชนน');
 
   runApp(const MyApp());
 }

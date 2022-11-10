@@ -4,9 +4,13 @@ import 'package:medware/utils/colors.dart';
 class BubbledHeader extends StatelessWidget {
   final int role;
   final double percentHeight;
-  const BubbledHeader(
-      {Key? key, required this.role, required this.percentHeight})
-      : super(key: key);
+  final Widget? header;
+  const BubbledHeader({
+    Key? key,
+    required this.role,
+    required this.percentHeight,
+    this.header,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,7 @@ class BubbledHeader extends StatelessWidget {
           ),
         ),
       ),
+      child: header,
     );
   }
 }

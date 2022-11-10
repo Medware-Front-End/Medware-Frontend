@@ -4,59 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreference {
   static late SharedPreferences _pref;
 
-  static List<String> employeeRoles = [
-    'แพทย์',
-    'พยาบาล',
-  ];
-  static List<String> appointmentTypes = [
-    'ตรวจร่างกาย',
-    'บริจาคเลือด',
-  ];
-  static List<String> notificationTypes = [
-    'ระบบ',
-    'เลื่อนนัด',
-    'ยกเลิก',
-    'โอนถ่าย',
-  ];
-  static List<String> bloodTypes = [
-    'A (positive)',
-    'A (negative)',
-    'B (positive)',
-    'B (negative)',
-    'O (positive)',
-    'O (negative)',
-    'AB (positive)',
-    'AB (negative)',
-  ];
-  static List<String> departments = [
-    'ดูแลก่อนคลอด', // ANC
-    'ห้องคลอด', // LR
-    'ผู้ป่วยโรคหัวใจและหลอดเลือด', // CCU
-    'อุบัติเหตุและฉุกเฉิน', // ER
-    'ผู้ป่วยวิกฤต', // ICU
-    'ผู้ป่วยนอก', // IPD
-    'ผู้ป่วยใน', // OPD
-    'ห้องปฏิบัติการ', // LAB
-    'อายุรกรรม', // MED
-    'สูตินรีเวช', // OB-GYN
-    'ห้องผ่าตัด', // OR
-    'ผู้ป่วยที่มีปัญหาเรื่องกระดูก', // ORTHO
-    'กุมารเวชกรรม', // PED
-    'หู คอ จมูก', // ENT
-    'ศัลยกรรม', // SUR
-    'เวชศาสตร์ฟื้นฟู', // PT
-    'เภสัชกรรม', // RX
-    'วิสัญญี', // AN
-  ];
-  static List<String> profilePictures = [
-    'assets/images/profile/m1.png',
-    'assets/images/profile/m2.png',
-    'assets/images/profile/m3.png',
-    'assets/images/profile/f1.png',
-    'assets/images/profile/f2.png',
-    'assets/images/profile/f3.png',
-  ];
-
   static Future init() async => _pref = await SharedPreferences.getInstance();
 
   static Future setToken(Map<String, dynamic> token) async =>
@@ -64,9 +11,13 @@ class SharedPreference {
   static Map<String, dynamic> getToken() =>
       jsonDecode(_pref.getString('token')!)!;
 
+  static Future setUserFName(String name) async =>
+      await _pref.setString('name', name);
+  static String getUserFName() => _pref.getString('name')!;
+
   static Future setUserRole(int role) async => await _pref.setInt('role', role);
   static int getUserRole() =>
-      _pref.getInt('role') ?? 0; // employee: 0, patient: 1
+      _pref.getInt('role') ?? 1; // employee: 0, patient: 1
 
   static Future setIsAdmin(bool isAdmin) async =>
       await _pref.setBool('isAdmin', isAdmin);

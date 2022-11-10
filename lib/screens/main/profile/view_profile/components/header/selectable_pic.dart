@@ -48,14 +48,14 @@ class SelectablePic extends StatelessWidget {
                       crossAxisSpacing: size.width * 0.075,
                       mainAxisSpacing: size.width * 0.075,
                     ),
-                    itemCount: SharedPreference.profilePictures.length,
+                    itemCount: profilePictures.length,
                     itemBuilder: (context, i) => GestureDetector(
                       onTap: () async {
                         await refresh;
                         Navigator.pop(context);
                       },
                       child: Image.asset(
-                        SharedPreference.profilePictures[i],
+                        profilePictures[i],
                         height: size.height * 0.15,
                       ),
                     ),

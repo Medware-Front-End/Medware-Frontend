@@ -61,7 +61,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Header(
                 role: 0,
-                path: SharedPreference.profilePictures[employee.profilePic],
+                path: profilePictures[employee.profilePic],
                 refresh: _loadEmployee,
               ),
               Container(
@@ -76,7 +76,7 @@ class _ProfileState extends State<Profile> {
                         fName: employee.fName,
                         mName: employee.mName,
                         lName: employee.lName,
-                        role: SharedPreference.employeeRoles[employee.role],
+                        role: employeeRoles[employee.role],
                       ),
                     ),
                     Detail(
@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Detail(
                       title: 'แผนกประจำ',
-                      detail: SharedPreference.departments[employee.department],
+                      detail: departments[employee.department],
                       icon: Icons.person_pin_circle_outlined,
                     ),
                     Detail(

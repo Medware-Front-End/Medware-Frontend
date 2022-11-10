@@ -67,7 +67,7 @@ class _NotificationsState extends State<Notifications> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => await _loadNotifications,
+        onRefresh:_loadNotifications,
         color: quaternaryColor,
         backgroundColor: secondaryColor,
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
