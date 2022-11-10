@@ -1,28 +1,35 @@
 class Employee {
-  final int employeeID;
-  final String employeeFirstName;
-  final bool employeeIsAdmin;
-  final String employeePhoneNumber;
-  final int employeeRole;
-  final int employeeDepartment;
-  final String employeePassword;
+  final String id;
+  final String nationalId;
+  final String fName;
+  final String mName;
+  final String lName;
+  final String phoneNumber;
+  final int profilePic;
+  final int role;
+  final int department;
 
   const Employee({
-    required this.employeeID,
-    required this.employeeFirstName,
-    required this.employeeIsAdmin,
-    required this.employeePhoneNumber,
-    required this.employeeRole,
-    required this.employeeDepartment,
-    required this.employeePassword,
+    required this.id,
+    required this.nationalId,
+    required this.fName,
+    required this.mName,
+    required this.lName,
+    required this.phoneNumber,
+    required this.profilePic,
+    required this.role,
+    required this.department,
   });
 
-  static Employee fromJson(json) => Employee(
-      employeeID: json['employeeID'],
-      employeeFirstName: json['employeeFirstName'],
-      employeeIsAdmin: json['employeeIsAdmin'],
-      employeePhoneNumber: json['employeePhoneNumber'],
-      employeeRole: json['employeeRole'],
-      employeeDepartment: json['employeeDepartment'],
-      employeePassword: json['employeePassword']);
+  static Employee fromJson(Map<String, dynamic> json) => Employee(
+        id: json['id'],
+        nationalId: json['nationalId'],
+        fName: json['fName'],
+        mName: json['mName'],
+        lName: json['lName'],
+        phoneNumber: json['phoneNumber'],
+        profilePic: int.parse(json['pic']),
+        role: int.parse(json['role']),
+        department: int.parse(json['department']),
+      );
 }
