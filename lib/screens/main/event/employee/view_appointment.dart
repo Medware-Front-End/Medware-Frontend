@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class ViewAppointment extends StatefulWidget {
   final EmployeeAppointment appointment;
@@ -52,7 +53,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   child: SafeArea(
                     child: Center(
                       child: Text(
-                        EmployeeAppointment.typeList[widget.appointment.type],
+                        SharedPreference
+                            .appointmentTypes[widget.appointment.type],
                         style: TextStyle(
                             color: primaryColor,
                             fontSize: size.width * 0.08,
@@ -96,8 +98,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               ),
                             ),
                             Text(
-                              dateFormatter.format(
-                                  widget.appointment.date),
+                              dateFormatter.format(widget.appointment.date),
                               style: TextStyle(
                                 color: primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -266,7 +267,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           builder: (context) => AlertDialog(
                             title: const Text('คุณแน่ใจหรือไม่?'),
                             content: const Text(
-                                'คุณแน่ใจที่จะยกเลิกนัดหมายนี้หรือไม่'),
+                                'คุณแน่ใจที่จะยกเลิกนัดหมายนี้หรือไม่?'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
@@ -277,7 +278,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                   PushNotification.showNotification(
                                     title: 'มีการยกเลิกนัดหมายของคุณ',
                                     body:
-                                        'การนัดหมายการ${EmployeeAppointment.typeList[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
+                                        'การนัดหมายการ${SharedPreference.appointmentTypes[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
                                     payload: 'id number',
                                   );
                                   Navigator.pop(context);

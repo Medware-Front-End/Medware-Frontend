@@ -14,7 +14,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late int role; // employee=0 patient=1 admin=2
   int _curIndex = 0;
   final List<Widget> _homeScreens = home.screens;
   final List<Widget> _calendarScreens = calendar.screens;
@@ -24,23 +23,16 @@ class _MainScreenState extends State<MainScreen> {
   void addEventPressed() => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => _eventScreens[role],
+          builder: (context) => _eventScreens[SharedPreference.getUserRole()],
         ),
       );
 
   @override
-  void initState() {
-    super.initState();
-
-    role = SharedPreference.getUserRole()!;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final List<List<Widget>> screens = [
-      _homeScreens,
-      _calendarScreens,
-      _profileScreens,
+    final List<Widget> screens = [
+      _homeScreens[SharedPreference.getUserRole()],
+      _calendarScreens[SharedPreference.getUserRole()],
+      _profileScreens[SharedPreference.getUserRole()],
     ];
 
     return Scaffold(
@@ -51,8 +43,11 @@ class _MainScreenState extends State<MainScreen> {
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,
-      body: screens[_curIndex][role],
-      bottomNavigationBar: role == 2
+      body: IndexedStack(
+        children: screens,
+        index: _curIndex,
+      ),
+      bottomNavigationBar: SharedPreference.getIsAdmin()
           ? null
           : NavBar(
               curScreen: setIndex,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class ViewAppointment extends StatefulWidget {
   final PatientAppointment appointment;
@@ -51,7 +52,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   child: SafeArea(
                     child: Center(
                       child: Text(
-                        PatientAppointment.typeList[widget.appointment.type],
+                        SharedPreference
+                            .appointmentTypes[widget.appointment.type],
                         style: TextStyle(
                             color: quaternaryColor,
                             fontSize: size.width * 0.08,

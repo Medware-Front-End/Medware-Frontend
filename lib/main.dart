@@ -14,9 +14,6 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PushNotification.init();
   await SharedPreference.init();
-  await SharedPreference.setUserInfo({
-    'gender': '1',
-  });
   await SharedPreference.setUserRole(0);
 
   runApp(const MyApp());

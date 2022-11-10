@@ -1,6 +1,6 @@
 # Medware
 
-A college Flutter + Java Spring Boot project implementing software architecture.
+A college Flutter + Java Spring Boot project implementing software architectures and designs.
 
 This repository covers the frontend of the whole project.
 

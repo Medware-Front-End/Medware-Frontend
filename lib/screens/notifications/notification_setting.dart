@@ -20,16 +20,16 @@ class _NotificationSettingState extends State<NotificationSetting> {
   void initState() {
     super.initState();
 
-    isNotified = SharedPreference.getNotified() ?? true;
-    isNotifiedEdited[0] = SharedPreference.getNotifiedDelayed() ?? true;
-    isNotifiedEdited[1] = SharedPreference.getNotifiedCancelled() ?? true;
-    isNotifiedEdited[2] = SharedPreference.getNotifiedTransferred() ?? true;
-    isNotifiedEdited[3] = SharedPreference.getNotifiedDDay() ?? true;
-    isScheduleNotified[0] = SharedPreference.getNotified1DayBefore() ?? true;
-    isScheduleNotified[1] = SharedPreference.getNotified2DayBefore() ?? true;
-    isScheduleNotified[2] = SharedPreference.getNotified3DayBefore() ?? true;
-    isScheduleNotified[3] = SharedPreference.getNotified5DayBefore() ?? true;
-    isScheduleNotified[4] = SharedPreference.getNotified7DayBefore() ?? true;
+    isNotified = SharedPreference.getNotified();
+    isNotifiedEdited[0] = SharedPreference.getNotifiedDelayed();
+    isNotifiedEdited[1] = SharedPreference.getNotifiedCancelled();
+    isNotifiedEdited[2] = SharedPreference.getNotifiedTransferred();
+    isNotifiedEdited[3] = SharedPreference.getNotifiedDDay();
+    isScheduleNotified[0] = SharedPreference.getNotified1DayBefore();
+    isScheduleNotified[1] = SharedPreference.getNotified2DayBefore();
+    isScheduleNotified[2] = SharedPreference.getNotified3DayBefore();
+    isScheduleNotified[3] = SharedPreference.getNotified5DayBefore();
+    isScheduleNotified[4] = SharedPreference.getNotified7DayBefore();
   }
 
   @override

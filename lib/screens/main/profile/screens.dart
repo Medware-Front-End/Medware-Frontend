@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medware/screens/main/profile/employee/profile.dart' as doctor;
-import 'package:medware/screens/main/profile/patient/profile.dart' as patient;
-import 'package:medware/screens/main/profile/patient/profile.dart'
-    as patient;
+import 'package:medware/screens/main/profile/view_profile/employee.dart' as employee;
+import 'package:medware/screens/main/profile/view_profile/patient.dart' as patient;
 
 const List<Widget> screens = [
-  doctor.ProfileScreen(),
-  patient.ProfileScreen(),
+  employee.Profile(),
+  patient.Profile(),
 ];
