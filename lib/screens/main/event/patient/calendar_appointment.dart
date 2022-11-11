@@ -79,44 +79,46 @@ class _Calendar_addState extends State<CalendarAppointment> {
                 width: size.width,
                 child: TableCalendar(
                   calendarBuilders: CalendarBuilders(
-                      selectedBuilder: ((context, _datetime, focusedDay) {
-                    return Container(
-                      margin: EdgeInsets.fromLTRB(
-                          size.width * 0.005,
-                          size.height * 0.005,
-                          size.width * 0.005,
-                          size.height * 0.005),
-                      decoration: BoxDecoration(
-                          color: tertiaryColor,
-                          borderRadius:
-                              BorderRadius.circular(size.height * 0.02)),
-                      child: Center(
-                          child: Text(
-                        _datetime.day.toString(),
-                        style: TextStyle(
-                            color: primaryColor, fontWeight: FontWeight.w500),
-                      )),
-                    );
-                  }), todayBuilder: (context, _datetime, focusedDay) {
-                    return Container(
-                      margin: EdgeInsets.fromLTRB(
-                          size.width * 0.005,
-                          size.height * 0.005,
-                          size.width * 0.005,
-                          size.height * 0.005),
-                      decoration: BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius:
-                              BorderRadius.circular(size.height * 0.02)),
-                      child: Center(
-                          child: Text(
-                        _datetime.day.toString(),
-                        style: TextStyle(
-                            color: Color(0xFFEEF2E6),
-                            fontWeight: FontWeight.w500),
-                      )),
-                    );
-                  }),
+                    selectedBuilder: ((context, _datetime, focusedDay) {
+                      return Container(
+                        margin: EdgeInsets.fromLTRB(
+                            size.width * 0.005,
+                            size.height * 0.005,
+                            size.width * 0.005,
+                            size.height * 0.005),
+                        decoration: BoxDecoration(
+                            color: tertiaryColor,
+                            borderRadius:
+                                BorderRadius.circular(size.height * 0.02)),
+                        child: Center(
+                            child: Text(
+                          _datetime.day.toString(),
+                          style: TextStyle(
+                              color: primaryColor, fontWeight: FontWeight.w500),
+                        )),
+                      );
+                    }),
+                    todayBuilder: (context, _datetime, focusedDay) {
+                      return Container(
+                        margin: EdgeInsets.fromLTRB(
+                            size.width * 0.005,
+                            size.height * 0.005,
+                            size.width * 0.005,
+                            size.height * 0.005),
+                        decoration: BoxDecoration(
+                            color: secondaryColor,
+                            borderRadius:
+                                BorderRadius.circular(size.height * 0.02)),
+                        child: Center(
+                            child: Text(
+                          _datetime.day.toString(),
+                          style: TextStyle(
+                              color: Color(0xFFEEF2E6),
+                              fontWeight: FontWeight.w500),
+                        )),
+                      );
+                    },
+                  ),
                   shouldFillViewport: true,
                   firstDay: DateTime(1990),
                   lastDay: DateTime(2050),
