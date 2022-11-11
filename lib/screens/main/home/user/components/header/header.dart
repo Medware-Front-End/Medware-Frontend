@@ -16,6 +16,9 @@ class Header extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
+        SizedBox(
+          height: size.height * 0.44,
+        ),
         BubbledHeader(
           role: role,
           percentHeight: 40,
@@ -25,9 +28,6 @@ class Header extends StatelessWidget {
             horizontal: size.width * 0.05,
           ),
           child: ScreenTitle(role: role, name: name),
-        ),
-        SizedBox(
-          height: size.height * 0.44,
         ),
         Positioned(
           bottom: 0,

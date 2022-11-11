@@ -8,14 +8,14 @@ import 'package:medware/utils/models/appointment/patient_appointment.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeState extends State<Home> {
   final int role = SharedPreference.getUserRole();
   final String name = SharedPreference.getUserFName();
 
@@ -38,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _loadAppointments,

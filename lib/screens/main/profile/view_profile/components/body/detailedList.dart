@@ -79,12 +79,10 @@ class DetailedList extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-            child: UnderlinedButton(
-              text: 'แก้ไข',
-              color: primaryColor,
-              action: () {},
-            ),
+          UnderlinedButton(
+            text: 'แก้ไข',
+            color: primaryColor,
+            action: () {},
           ),
         ],
       ),

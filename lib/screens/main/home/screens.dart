@@ -4,7 +4,7 @@ import 'package:medware/screens/main/home/user/employee.dart' as employee;
 import 'package:medware/screens/main/home/user/patient.dart' as patient;
 
 const List<Widget> screens = [
-  employee.HomeScreen(),
-  patient.HomeScreen(),
-  admin.HomeScreen(),
+  employee.Home(),
+  patient.Home(),
+  admin.Home(),
 ];
