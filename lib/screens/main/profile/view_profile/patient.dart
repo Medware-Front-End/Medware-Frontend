@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/components/cancel_button.dart';
 import 'package:medware/screens/main/profile/edit_profile/change_password.dart';
-import 'package:medware/screens/main/profile/view_profile/components/body/detail.dart';
-import 'package:medware/screens/main/profile/view_profile/components/body/detailedList.dart';
-import 'package:medware/screens/main/profile/view_profile/components/header/header.dart';
-import 'package:medware/screens/main/profile/view_profile/components/body/label.dart';
+import 'package:medware/screens/main/profile/view_profile/components/detail.dart';
+import 'package:medware/screens/main/profile/view_profile/components/detailedList.dart';
+import 'package:medware/screens/main/profile/view_profile/components/header.dart';
+import 'package:medware/screens/main/profile/view_profile/components/label.dart';
 import 'package:medware/utils/api/user/get_patient_by_id.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/user/patient.dart';
@@ -27,6 +27,8 @@ class _ProfileState extends State<Profile> {
     mName: 'M',
     lName: 'L',
     phoneNumber: 'XXXXXXXXXX',
+    password: 'XXXXXXXX',
+    birthDate: DateTime.parse('0001-01-01T00:00:00'),
     bloodType: 0,
     profilePic: 0,
     medicalConditions: [],
@@ -129,7 +131,9 @@ class _ProfileState extends State<Profile> {
                             action: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ChangePassword(),
+                                builder: (context) => ChangePassword(
+                                  oldPassword: patient.password,
+                                ),
                               ),
                             ),
                             percentWidth: 35,

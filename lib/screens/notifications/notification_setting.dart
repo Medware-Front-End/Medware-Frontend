@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/screens/notifications/settting/setting_row.dart';
-import 'package:medware/screens/notifications/settting/setting_topic.dart';
+import 'package:medware/screens/notifications/components/setting_row.dart';
+import 'package:medware/screens/notifications/components/setting_topic.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 

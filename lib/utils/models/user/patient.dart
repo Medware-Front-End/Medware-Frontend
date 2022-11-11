@@ -5,6 +5,8 @@ class Patient {
   final String mName;
   final String lName;
   final String phoneNumber;
+  final String password;
+  final DateTime birthDate;
   final int bloodType;
   final int profilePic;
   final List<String> medicalConditions;
@@ -18,6 +20,8 @@ class Patient {
     required this.mName,
     required this.lName,
     required this.phoneNumber,
+    required this.password,
+    required this.birthDate,
     required this.bloodType,
     required this.profilePic,
     required this.medicalConditions,
@@ -32,6 +36,8 @@ class Patient {
         mName: json['mName'],
         lName: json['lName'],
         phoneNumber: json['phoneNumber'],
+        password: json['password'],
+        birthDate: DateTime.parse(json['birthDate']),
         bloodType: int.parse(json['bloodType']),
         profilePic: int.parse(json['pic']),
         medicalConditions: json['medicalConditions'] != ''

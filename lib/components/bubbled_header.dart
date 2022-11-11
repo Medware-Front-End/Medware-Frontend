@@ -5,6 +5,7 @@ class BubbledHeader extends StatelessWidget {
   final int role;
   final double percentHeight;
   final Widget? header;
+  
   const BubbledHeader({
     Key? key,
     required this.role,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/underlined_button.dart';
+import 'package:medware/screens/main/profile/edit_profile/edit_medical_details.dart';
 import 'package:medware/utils/colors.dart';
 
 class DetailedList extends StatelessWidget {
@@ -82,7 +83,15 @@ class DetailedList extends StatelessWidget {
           UnderlinedButton(
             text: 'แก้ไข',
             color: primaryColor,
-            action: () {},
+            action: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditMedicalDetails(
+                  title: title,
+                  details: details,
+                ),
+              ),
+            ),
           ),
         ],
       ),

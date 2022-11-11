@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/bubbled_header.dart';
-import 'package:medware/screens/main/profile/view_profile/components/header/screen_title.dart';
-import 'package:medware/screens/main/profile/view_profile/components/header/selectable_pic.dart';
+import 'package:medware/screens/main/profile/view_profile/components/screen_title.dart';
+import 'package:medware/screens/main/profile/view_profile/components/selectable_pic.dart';
 
 class Header extends StatelessWidget {
   final int role;

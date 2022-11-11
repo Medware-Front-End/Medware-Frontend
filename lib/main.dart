@@ -18,7 +18,7 @@ Future main() async {
     'token': '12345678suidfjk',
     'id': '2345678907685874',
   });
-  await SharedPreference.setUserRole(1);
+  await SharedPreference.setUserRole(0);
   await SharedPreference.setUserFName('ชนน');
 
   runApp(const MyApp());
@@ -43,8 +43,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      // home: auth.screens[0],
-      home: const MainScreen(),
+      initialRoute: '/',
+      // routes: {'/': (context) => auth.screens[0]},
+      routes: {'/': (context) => const MainScreen(),},
     );
   }
 }
