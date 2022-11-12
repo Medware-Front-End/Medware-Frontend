@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medware/utils/api/auth/config.dart';
 import 'package:medware/utils/api/auth/shared_service.dart';
-import '../../models/auth/patient_login_request_model.dart';
-import '../../models/auth/patient_login_response_model.dart';
+import '../../models/auth/employee_register_request_model.dart';
+import '../../models/auth/login_request_model.dart';
+import '../../models/auth/login_response_model.dart';
 import '../../models/auth/patient_register_request_model.dart';
-import '../../models/auth/patient_register_response_model.dart';
+import '../../models/auth/register_response_model.dart';
 
 class APIService {
   static var client = http.Client();
 
-  static Future<bool> login(
+  //Patient
+  static Future<bool> patientLogin(
     LoginRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
@@ -34,15 +36,14 @@ class APIService {
           response.body,
         ),
       );
-
       return true;
     } else {
       return false;
     }
   }
 
-  static Future<RegisterResponseModel> register(
-    RegisterRequestModel model,
+  static Future<RegisterResponseModel> patientRegister(
+    PatientRegisterRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -51,6 +52,60 @@ class APIService {
     var url = Uri.http(
       Config.apiURL,
       Config.patientRegisterAPI,
+    );
+
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(model.toJson()),
+    );
+
+    return registerResponseJson(
+      response.body,
+    );
+  }
+
+  //Employee
+  static Future<bool> employeeLogin(
+    LoginRequestModel model,
+  ) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    var url = Uri.http(
+      Config.apiURL,
+      Config.employeeLoginAPI,
+    );
+
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(model.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      await SharedService.setLoginDetails(
+        loginResponseJson(
+          response.body,
+        ),
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<RegisterResponseModel> employeeRegister(
+    EmployeeRegisterRequestModel model,
+  ) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    var url = Uri.http(
+      Config.apiURL,
+      Config.employeeRegisterAPI,
     );
 
     var response = await client.post(

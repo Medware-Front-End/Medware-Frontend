@@ -1,5 +1,5 @@
-class RegisterRequestModel {
-  RegisterRequestModel({
+class PatientRegisterRequestModel {
+  PatientRegisterRequestModel({
     required this.patientFirstName,
     required this.patientMiddleName,
     required this.patientLastName,
@@ -22,7 +22,7 @@ class RegisterRequestModel {
   late final String patientGender;
   late final String patientPassword;
 
-  RegisterRequestModel.fromJson(Map<String, dynamic> json) {
+  PatientRegisterRequestModel.fromJson(Map<String, dynamic> json) {
     patientFirstName = json['patientFirstName'];
     patientMiddleName = json['patientMiddleName'];
     patientLastName = json['patientLastName'];

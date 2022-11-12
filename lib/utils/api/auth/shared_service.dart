@@ -1,4 +1,4 @@
-import '../../models/auth/patient_login_response_model.dart';
+import '../../models/auth/login_response_model.dart';
 import 'package:api_cache_manager/api_cache_manager.dart';
 import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:flutter/cupertino.dart';

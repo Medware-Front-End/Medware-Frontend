@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/text_field.dart';
+import 'package:medware/screens/auth/login.dart';
 import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/models/auth/patient_register_request_model.dart';
+
+import '../../utils/api/auth/api_service.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -23,7 +27,6 @@ class _RegisterState extends State<RegisterForm> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _cpasswordTextController = TextEditingController();
   TextEditingController _nameTextController = TextEditingController();
-  TextEditingController _mailTextController = TextEditingController();
 
   bool _validate = false;
   final _key = GlobalKey<FormState>();
@@ -35,7 +38,6 @@ class _RegisterState extends State<RegisterForm> {
     _passwordTextController.dispose();
     _cpasswordTextController.dispose();
     _nameTextController.dispose();
-    _mailTextController.dispose();
     super.dispose();
   }
 
@@ -80,18 +82,6 @@ class _RegisterState extends State<RegisterForm> {
 
   String? get _errorCPassword {
     final text = _cpasswordTextController.value.text;
-
-    if (!_validate) {
-      return null;
-    }
-    if (text.isEmpty) {
-      return 'โปรดกรอกข้อมูล';
-    }
-    return null;
-  }
-
-  String? get _errorMail {
-    final text = _mailTextController.value.text;
 
     if (!_validate) {
       return null;
@@ -215,28 +205,7 @@ class _RegisterState extends State<RegisterForm> {
                             child: CustomTextField(
                               controller: _cpasswordTextController,
                               validator: _errorCPassword,
-                              obscureText: false,
-                            ),
-                          ),
-                        ]),
-                        margin: EdgeInsets.all(5.0)),
-                    Container(
-                        child: Column(children: <Widget>[
-                          Container(
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text('อีเมลล์ ',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: quaternaryColor,
-                                      fontFamily: 'NotoSansThai')),
-                            ),
-                          ),
-                          Container(
-                            child: CustomTextField(
-                              controller: _mailTextController,
-                              validator: _errorMail,
-                              obscureText: false,
+                              obscureText: true,
                             ),
                           ),
                         ]),
@@ -250,27 +219,46 @@ class _RegisterState extends State<RegisterForm> {
                                   textStyle: const TextStyle(fontSize: 20),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
+                                PatientRegisterRequestModel model =
+                                    PatientRegisterRequestModel(
+                                        patientFirstName:
+                                            _nameTextController.text,
+                                        patientMiddleName: '',
+                                        patientLastName: '',
+                                        patientNationalId:
+                                            _unameTextController.text,
+                                        patientPhoneNumber: '',
+                                        patientBirthDate: '',
+                                        patientLocation: '',
+                                        patientBloodType: '',
+                                        patientGender: '',
+                                        patientPassword:
+                                            _passwordTextController.text);
+                                APIService.patientRegister(model)
+                                    .then((response) {
+                                  if (response.statusCode == '0') {
+                                    print("Register Success");
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => const Login()),
+                                    // );
+                                  } else {
+                                    print("Register Faild " +
+                                        response.statusCode);
+                                  }
+                                });
+
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController
                                               .text.isEmpty ||
                                           _cpasswordTextController
                                               .text.isEmpty ||
-                                          _nameTextController.text.isEmpty ||
-                                          _mailTextController.text.isEmpty
+                                          _nameTextController.text.isEmpty
                                       ? _validate = true
                                       : _validate = false;
                                 });
-                                print(_unameTextController.text);
-                                print(_passwordTextController.text);
-                                print(_cpasswordTextController.text);
-                                print(_nameTextController.text);
-                                print(_mailTextController.text);
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => const Login()),
-                                // );
                               },
                               child: Text(
                                 'สร้างบัญชี',
@@ -282,7 +270,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           )
                         ]),
-                        margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0)),
+                        margin: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0)),
                   ],
                 )
               ]),

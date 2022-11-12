@@ -2,16 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:http/http.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
 import 'package:medware/utils/api/auth/api_service.dart';
 import 'package:medware/utils/colors.dart';
-import 'package:medware/utils/models/auth/patient_login_request_model.dart';
+import 'package:medware/utils/models/auth/login_request_model.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
-import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -52,7 +48,6 @@ class _LoginState extends State<LoginForm> {
     if (text.isEmpty) {
       return 'โปรดใส่ข้อมูล';
     }
-    // return null if the text is valid
     return null;
   }
 
@@ -65,7 +60,6 @@ class _LoginState extends State<LoginForm> {
     if (text.isEmpty) {
       return 'โปรดใส่ข้อมูล';
     }
-    // return null if the text is valid
     return null;
   }
 
@@ -169,29 +163,40 @@ class _LoginState extends State<LoginForm> {
                                   textStyle: const TextStyle(fontSize: 15),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
-                                // LoginRequestModel model = LoginRequestModel(
-                                //   nationalCardId: _unameTextController.text,
-                                //   password: _passwordTextController.text,
-                                // );
+                                LoginRequestModel model = LoginRequestModel(
+                                  nationalCardId: _unameTextController.text,
+                                  password: _passwordTextController.text,
+                                );
 
-                                // APIService.login(model).then((response) {
-                                //   setState(() {
-                                //     isAPICallProcess = false;
-                                //   });
-
-                                //   if (response) {
-                                //     print("Login Success");
-                                //   } else {
-                                //     print("ERROR");
-                                //   }
-                                // });
+//Note : If you ganna create new employee account, you have to add 'D' in the first char of nationalID
+                                if (_unameTextController.text[0] != 'D') {
+                                  APIService.patientLogin(model)
+                                      .then((response) {
+                                    if (response) {
+                                      print("Patient Login Success");
+                                      // SharedPreference.setToken(jsonDecode(
+                                      //     response.toString())["payload"]);
+                                      SharedPreference.setUserRole(1);
+                                    } else {
+                                      print("Patient ERROR");
+                                    }
+                                  });
+                                } else {
+                                  APIService.employeeLogin(model)
+                                      .then((response) {
+                                    if (response) {
+                                      print("Employee Login Success");
+                                      // SharedPreference.setToken(jsonDecode(
+                                      //     response.toString())["payload"]);
+                                      SharedPreference.setUserRole(0);
+                                    } else {
+                                      print("Employee ERROR");
+                                    }
+                                  });
+                                }
 
                                 print(_unameTextController.text);
                                 print(_passwordTextController.text);
-                                // SharedPreference.setToken(jsonDecode(response)["payload"]);
-                                // if (_unameTextController.text[0] != 'D') {
-                                //   SharedPreference.setUserRole(0);
-                                // }
 
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
