@@ -9,6 +9,7 @@ Future<Employee> getEmployeeById() async {
     'lName': 'จ้าาา',
     'pic': '1',
     'phoneNumber': '0123456789',
+    'password' : '12345678',
     'role': '1',
     'department': '0',
   };

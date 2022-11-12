@@ -16,6 +16,7 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    
     return Stack(
       children: [
         SizedBox(

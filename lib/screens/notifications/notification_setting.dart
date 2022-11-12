@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/screens/notifications/settting/setting_row.dart';
-import 'package:medware/screens/notifications/settting/setting_topic.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 
@@ -63,10 +61,10 @@ class _NotificationSettingState extends State<NotificationSetting> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SettingRow(
-              text: 'การแจ้งเตือน',
-              value: isNotified,
-              onSwitched: (val) async {
+            _SettingRow(
+              'การแจ้งเตือน',
+              isNotified,
+              (val) async {
                 await SharedPreference.setNotified(val);
                 setState(() => isNotified = val);
               },
@@ -77,35 +75,35 @@ class _NotificationSettingState extends State<NotificationSetting> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SettingTopic(text: 'การแก้ไขนัดหมาย'),
-                        SettingRow(
-                          text: 'เมื่อการนัดหมายถูกเลื่อน',
-                          value: isNotifiedEdited[0],
-                          onSwitched: (val) async {
+                        _SettingTopic('การแก้ไขนัดหมาย'),
+                        _SettingRow(
+                          'เมื่อการนัดหมายถูกเลื่อน',
+                          isNotifiedEdited[0],
+                          (val) async {
                             await SharedPreference.setNotifiedDelayed(val);
                             setState(() => isNotifiedEdited[0] = val);
                           },
                         ),
-                        SettingRow(
-                          text: 'เมื่อการนัดหมายถูกยกเลิก',
-                          value: isNotifiedEdited[1],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          'เมื่อการนัดหมายถูกยกเลิก',
+                          isNotifiedEdited[1],
+                          (val) async {
                             await SharedPreference.setNotifiedCancelled(val);
                             setState(() => isNotifiedEdited[1] = val);
                           },
                         ),
-                        SettingRow(
-                          text: 'เมื่อมีการโอนถ่ายแพทย์',
-                          value: isNotifiedEdited[2],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          'เมื่อมีการโอนถ่ายแพทย์',
+                          isNotifiedEdited[2],
+                          (val) async {
                             await SharedPreference.setNotifiedTransferred(val);
                             setState(() => isNotifiedEdited[2] = val);
                           },
                         ),
-                        SettingRow(
-                          text: 'เมื่อถึงวันนัดหมาย',
-                          value: isNotifiedEdited[3],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          'เมื่อถึงวันนัดหมาย',
+                          isNotifiedEdited[3],
+                          (val) async {
                             await SharedPreference.setNotifiedDDay(val);
                             setState(() => isNotifiedEdited[3] = val);
                           },
@@ -123,43 +121,43 @@ class _NotificationSettingState extends State<NotificationSetting> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SettingTopic(text: 'การแจ้งเตือนนัดหมายล่วงหน้า'),
-                        SettingRow(
-                          text: '1 วันก่อนวันนัดหมาย',
-                          value: isScheduleNotified[0],
-                          onSwitched: (val) async {
+                        _SettingTopic('การแจ้งเตือนนัดหมายล่วงหน้า'),
+                        _SettingRow(
+                          '1 วันก่อนวันนัดหมาย',
+                          isScheduleNotified[0],
+                          (val) async {
                             await SharedPreference.setNotified1DayBefore(val);
                             setState(() => isScheduleNotified[0] = val);
                           },
                         ),
-                        SettingRow(
-                          text: '2 วันก่อนวันนัดหมาย',
-                          value: isScheduleNotified[1],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          '2 วันก่อนวันนัดหมาย',
+                          isScheduleNotified[1],
+                          (val) async {
                             await SharedPreference.setNotified2DayBefore(val);
                             setState(() => isScheduleNotified[1] = val);
                           },
                         ),
-                        SettingRow(
-                          text: '3 วันก่อนวันนัดหมาย',
-                          value: isScheduleNotified[2],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          '3 วันก่อนวันนัดหมาย',
+                          isScheduleNotified[2],
+                          (val) async {
                             await SharedPreference.setNotified3DayBefore(val);
                             setState(() => isScheduleNotified[2] = val);
                           },
                         ),
-                        SettingRow(
-                          text: '5 วันก่อนวันนัดหมาย',
-                          value: isScheduleNotified[3],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          '5 วันก่อนวันนัดหมาย',
+                          isScheduleNotified[3],
+                          (val) async {
                             await SharedPreference.setNotified5DayBefore(val);
                             setState(() => isScheduleNotified[3] = val);
                           },
                         ),
-                        SettingRow(
-                          text: '7 วันก่อนวันนัดหมาย',
-                          value: isScheduleNotified[4],
-                          onSwitched: (val) async {
+                        _SettingRow(
+                          '7 วันก่อนวันนัดหมาย',
+                          isScheduleNotified[4],
+                          (val) async {
                             await SharedPreference.setNotified7DayBefore(val);
                             setState(() => isScheduleNotified[4] = val);
                           },
@@ -174,6 +172,47 @@ class _NotificationSettingState extends State<NotificationSetting> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _SettingTopic(String text) {
+    final size = MediaQuery.of(context).size;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          text,
+          style: TextStyle(color: Colors.grey),
+        ),
+        Divider(
+          thickness: 1,
+          height: size.width * 0.02,
+        ),
+      ],
+    );
+  }
+
+  Widget _SettingRow(
+    String text,
+    bool value,
+    Function(bool) onSwitched,
+  ) {
+    final size = MediaQuery.of(context).size;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: TextStyle(fontSize: size.width * 0.042),
+        ),
+        Switch(
+          activeColor: primaryColor,
+          value: value,
+          onChanged: onSwitched,
+        )
+      ],
     );
   }
 }

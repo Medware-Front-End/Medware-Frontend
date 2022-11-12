@@ -15,6 +15,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _curIndex = 0;
+  int _role = SharedPreference.getUserRole();
   final List<Widget> _homeScreens = home.screens;
   final List<Widget> _calendarScreens = calendar.screens;
   final List<Widget> _profileScreens = profile.screens;
@@ -23,16 +24,16 @@ class _MainScreenState extends State<MainScreen> {
   void addEventPressed() => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => _eventScreens[SharedPreference.getUserRole()],
+          builder: (context) => _eventScreens[_role],
         ),
       );
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      _homeScreens[SharedPreference.getUserRole()],
-      _calendarScreens[SharedPreference.getUserRole()],
-      _profileScreens[SharedPreference.getUserRole()],
+      _homeScreens[_role],
+      _calendarScreens[_role],
+      _profileScreens[_role],
     ];
 
     return Scaffold(

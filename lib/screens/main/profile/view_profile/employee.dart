@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/components/cancel_button.dart';
 import 'package:medware/screens/main/profile/edit_profile/change_password.dart';
-import 'package:medware/screens/main/profile/view_profile/components/body/detail.dart';
-import 'package:medware/screens/main/profile/view_profile/components/header/header.dart';
-import 'package:medware/screens/main/profile/view_profile/components/body/label.dart';
+import 'package:medware/screens/main/profile/view_profile/components/detail.dart';
+import 'package:medware/screens/main/profile/view_profile/components/header.dart';
+import 'package:medware/screens/main/profile/view_profile/components/label.dart';
 import 'package:medware/utils/api/user/get_employee_by_id.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/user/employee.dart';
@@ -27,6 +27,7 @@ class _ProfileState extends State<Profile> {
     lName: 'L',
     profilePic: 0,
     phoneNumber: 'XXXXXXXXXX',
+    password: 'XXXXXXXX',
     role: 0,
     department: 0,
   );
@@ -111,7 +112,7 @@ class _ProfileState extends State<Profile> {
                             action: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ChangePassword(),
+                                builder: (context) => ChangePassword(oldPassword: employee.password),
                               ),
                             ),
                             percentWidth: 35,

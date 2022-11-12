@@ -5,6 +5,7 @@ class Employee {
   final String mName;
   final String lName;
   final String phoneNumber;
+  final String password;
   final int profilePic;
   final int role;
   final int department;
@@ -16,6 +17,7 @@ class Employee {
     required this.mName,
     required this.lName,
     required this.phoneNumber,
+    required this.password,
     required this.profilePic,
     required this.role,
     required this.department,
@@ -28,6 +30,7 @@ class Employee {
         mName: json['mName'],
         lName: json['lName'],
         phoneNumber: json['phoneNumber'],
+        password: json['password'],
         profilePic: int.parse(json['pic']),
         role: int.parse(json['role']),
         department: int.parse(json['department']),
