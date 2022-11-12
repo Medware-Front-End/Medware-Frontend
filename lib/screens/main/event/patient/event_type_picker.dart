@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/utils/colors.dart';
+import 'package:medware/screens/main/event/patient/calendar_appointment.dart';
 
 class EventTypePicker extends StatelessWidget {
   const EventTypePicker({super.key});
@@ -18,7 +19,9 @@ class EventTypePicker extends StatelessWidget {
         leadingWidth: size.width * 0.22,
         leading: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Row(
                 children: [
                   Padding(
@@ -72,7 +75,14 @@ class EventTypePicker extends StatelessWidget {
                   height: size.height * 0.3537,
                   width: size.width * 0.81,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CalendarAppointment(),
+                        ),
+                      );
+                    },
                     child: Stack(children: [
                       Container(
                         margin:
@@ -131,7 +141,14 @@ class EventTypePicker extends StatelessWidget {
                   height: size.height * 0.33,
                   width: size.width * 0.81,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CalendarAppointment(),
+                        ),
+                      );
+                    },
                     child: Stack(children: [
                       Container(
                         height: size.height * 0.33,

@@ -18,16 +18,13 @@ class _Calendar_addState extends State<CalendarAppointment> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  Map<DateTime, Iterable<PatientEvent>> sortedValidAppointments = {};
+  Map<DateTime, List<PatientEvent>> sortedValidAppointments = {};
   Future _loadAppointments() async {
     var appointments = await getPatientSchedule();
-    // sortedValidAppointments =
-    //     appointments.groupListsBy((element) => element.date);
-    print(appointments.runtimeType);
     setState(
       () => sortedValidAppointments = groupBy(
         appointments,
-        (ea) => ea.date,
+        (PatientEvent ea) => ea.date,
       ),
     );
   }
@@ -41,13 +38,6 @@ class _Calendar_addState extends State<CalendarAppointment> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    // setState(
-    //   () => sortedValidAppointments = groupBy(
-    //     widget.appointments,
-    //     (PatientEvent ea) => ea.date,
-    //   ),
-    // );
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
