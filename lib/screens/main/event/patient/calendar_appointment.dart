@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:medware/utils/api/event/patient/get_schedule.dart';
+import 'package:medware/utils/models/event/patient/patient_event.dart';
+import 'package:collection/collection.dart';
 
 class CalendarAppointment extends StatefulWidget {
   const CalendarAppointment({super.key});
@@ -14,9 +17,37 @@ class _Calendar_addState extends State<CalendarAppointment> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+
+  Map<DateTime, Iterable<PatientEvent>> sortedValidAppointments = {};
+  Future _loadAppointments() async {
+    var appointments = await getPatientSchedule();
+    // sortedValidAppointments =
+    //     appointments.groupListsBy((element) => element.date);
+    print(appointments.runtimeType);
+    setState(
+      () => sortedValidAppointments = groupBy(
+        appointments,
+        (ea) => ea.date,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppointments();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    // setState(
+    //   () => sortedValidAppointments = groupBy(
+    //     widget.appointments,
+    //     (PatientEvent ea) => ea.date,
+    //   ),
+    // );
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
