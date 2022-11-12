@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:medware/components/bubbled_header.dart';
-import 'package:medware/screens/main/profile/view_profile/components/screen_title.dart';
-import 'package:medware/screens/main/profile/view_profile/components/selectable_pic.dart';
+import 'package:medware/components/notification_bell.dart';
+import 'package:medware/utils/colors.dart';
 
 class Header extends StatelessWidget {
   final int role;
@@ -31,19 +32,103 @@ class Header extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: size.width * 0.05,
           ),
-          child: ScreenTitle(role: role),
+          child: _ScreenTitle(context, role),
         ),
         SizedBox(
           height: size.height * 0.38,
         ),
         Positioned(
           bottom: 0,
-          child: SelectablePic(
-            path: path,
-            refresh: refresh,
+          child: _SelectablePic(
+            context,
+            path,
+            refresh,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _ScreenTitle(BuildContext context, int role) {
+    final size = MediaQuery.of(context).size;
+
+    return AppBar(
+      elevation: 0,
+      title: Text(
+        'บัญชีผู้ใช้',
+        style: TextStyle(
+          color: role == 0 ? primaryColor : quaternaryColor,
+          fontSize: size.width * 0.08,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
+      toolbarHeight: size.height * 0.12,
+      backgroundColor: Colors.transparent,
+      actions: [
+        NotificationBell(
+          backgroundColor: role == 0 ? quaternaryColor : primaryColor,
+        ),
+      ],
+    );
+  }
+
+  Widget _SelectablePic(
+      BuildContext context, String path, Future<void> Function() refresh) {
+    final size = MediaQuery.of(context).size;
+
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        showDialog(
+          context: context,
+          builder: (context) => Dialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    'เลือกรูปโปรไฟล์ใหม่',
+                    style: TextStyle(
+                      color: quaternaryColor,
+                      fontSize: size.width * 0.07,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.width * 0.075,
+                  ),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: size.width * 0.075,
+                      mainAxisSpacing: size.width * 0.075,
+                    ),
+                    itemCount: profilePictures.length,
+                    itemBuilder: (context, i) => GestureDetector(
+                      onTap: () async {
+                        await refresh;
+                        Navigator.pop(context);
+                      },
+                      child: Image.asset(
+                        profilePictures[i],
+                        height: size.height * 0.15,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      child: Image.asset(
+        path,
+        height: size.height * 0.2,
+      ),
     );
   }
 }

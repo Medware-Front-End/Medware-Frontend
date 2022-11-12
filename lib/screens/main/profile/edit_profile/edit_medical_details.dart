@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/components/action_button.dart';
 import 'package:medware/screens/main/profile/edit_profile/components/input_field.dart';
-import 'package:medware/screens/main/profile/edit_profile/components/list_display.dart';
 import 'package:medware/utils/colors.dart';
 
 class EditMedicalDetails extends StatefulWidget {
@@ -66,10 +64,58 @@ class _EditMedicalDetailsState extends State<EditMedicalDetails> {
                 ),
               ),
             ),
-            ListDisplay(list: widget.details),
+            _ListDisplay(widget.details),
           ],
         ),
       ),
     );
+  }
+
+  Widget _ListDisplay(List<String> list) {
+    final size = MediaQuery.of(context).size;
+
+    return list.length > 0
+        ? Container(
+            width: size.width,
+            height: size.height * 0.675,
+            padding: EdgeInsets.symmetric(
+              horizontal: size.width * 0.035,
+              vertical: size.width * 0.01,
+            ),
+            decoration: BoxDecoration(
+                color: quaternaryColor,
+                borderRadius: BorderRadius.circular(size.width * 0.035)),
+            child: ListView.builder(
+              physics: AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
+              itemCount: list.length,
+              itemBuilder: (context, i) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    list[i],
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontSize: size.width * 0.04,
+                    ),
+                  ),
+                  IconButton(
+                      splashRadius: 1,
+                      onPressed: () {
+                        setState(() => list.removeAt(i));
+                      },
+                      icon: Icon(
+                        Icons.delete_forever_rounded,
+                        color: Colors.red,
+                      ))
+                ],
+              ),
+            ),
+          )
+        : Text(
+            'ไม่มีข้อมูล ณ ขณะนี้',
+            style: TextStyle(color: Colors.grey),
+          );
   }
 }
