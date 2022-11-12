@@ -5,6 +5,7 @@ import 'package:medware/screens/main/calendar/screens.dart' as calendar;
 import 'package:medware/screens/main/profile/screens.dart' as profile;
 import 'package:medware/screens/main/event/screens.dart' as event;
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:medware/screens/main/event/patient/calendar_appointment.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -35,24 +36,6 @@ class _MainScreenState extends State<MainScreen> {
       _profileScreens[SharedPreference.getUserRole()],
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      body: IndexedStack(
-        children: screens,
-        index: _curIndex,
-      ),
-      bottomNavigationBar: SharedPreference.getIsAdmin()
-          ? null
-          : NavBar(
-              curScreen: setIndex,
-              fabPressed: addEventPressed,
-            ),
-    );
+    return CalendarAppointment();
   }
 }
