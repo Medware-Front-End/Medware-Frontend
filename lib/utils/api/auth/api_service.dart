@@ -12,7 +12,7 @@ class APIService {
   static var client = http.Client();
 
   //Patient
-  static Future<bool> patientLogin(
+  static Future<LoginResponseModel> patientLogin(
     LoginRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
@@ -30,16 +30,20 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
-    if (response.statusCode == 200) {
-      await SharedService.setLoginDetails(
-        loginResponseJson(
-          response.body,
-        ),
-      );
-      return true;
-    } else {
-      return false;
-    }
+    return loginResponseJson(
+      response.body,
+    );
+
+    // if (response.statusCode == 200) {
+    //   await SharedService.setLoginDetails(
+    //     loginResponseJson(
+    //       response.body,
+    //     ),
+    //   );
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   static Future<RegisterResponseModel> patientRegister(

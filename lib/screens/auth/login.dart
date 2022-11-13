@@ -167,33 +167,32 @@ class _LoginState extends State<LoginForm> {
                                   nationalCardId: _unameTextController.text,
                                   password: _passwordTextController.text,
                                 );
-
-//Note : If you ganna create new employee account, you have to add 'D' in the first char of nationalID
-                                if (_unameTextController.text[0] != 'D') {
-                                  APIService.patientLogin(model)
-                                      .then((response) {
-                                    if (response) {
-                                      print("Patient Login Success");
-                                      // SharedPreference.setToken(jsonDecode(
-                                      //     response.toString())["payload"]);
-                                      SharedPreference.setUserRole(1);
-                                    } else {
-                                      print("Patient ERROR");
-                                    }
-                                  });
-                                } else {
-                                  APIService.employeeLogin(model)
-                                      .then((response) {
-                                    if (response) {
-                                      print("Employee Login Success");
-                                      // SharedPreference.setToken(jsonDecode(
-                                      //     response.toString())["payload"]);
-                                      SharedPreference.setUserRole(0);
-                                    } else {
-                                      print("Employee ERROR");
-                                    }
-                                  });
-                                }
+                                // if (_unameTextController.text[0] != 'D') {
+                                APIService.patientLogin(model).then((response) {
+                                  if (response.statusCode == '0') {
+                                    print("Patient Login Success");
+                                    // SharedPreference.setToken(jsonDecode(
+                                    //     response.toString())["payload"]);
+                                    SharedPreference.setUserRole(1);
+                                  } else if (response.statusCode == '1') {
+                                    print("User not found");
+                                  } else {
+                                    print("Patient Login Failed");
+                                  }
+                                });
+                                // } else {
+                                //   APIService.employeeLogin(model)
+                                //       .then((response) {
+                                //     if (response) {
+                                //       print("Employee Login Success");
+                                //       // SharedPreference.setToken(jsonDecode(
+                                //       //     response.toString())["payload"]);
+                                //       SharedPreference.setUserRole(0);
+                                //     } else {
+                                //       print("Employee ERROR");
+                                //     }
+                                //   });
+                                // }
 
                                 print(_unameTextController.text);
                                 print(_passwordTextController.text);

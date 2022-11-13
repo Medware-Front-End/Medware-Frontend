@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/login.dart';
@@ -26,7 +27,8 @@ class _RegisterState extends State<RegisterForm> {
   TextEditingController _unameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _cpasswordTextController = TextEditingController();
-  TextEditingController _nameTextController = TextEditingController();
+  TextEditingController _fnameTextController = TextEditingController();
+  TextEditingController _lnameTextController = TextEditingController();
 
   bool _validate = false;
   final _key = GlobalKey<FormState>();
@@ -37,7 +39,8 @@ class _RegisterState extends State<RegisterForm> {
     _unameTextController.dispose();
     _passwordTextController.dispose();
     _cpasswordTextController.dispose();
-    _nameTextController.dispose();
+    _fnameTextController.dispose();
+    _lnameTextController.dispose();
     super.dispose();
   }
 
@@ -56,8 +59,20 @@ class _RegisterState extends State<RegisterForm> {
     return null;
   }
 
-  String? get _errorName {
-    final text = _nameTextController.value.text;
+  String? get _errorfName {
+    final text = _fnameTextController.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorlName {
+    final text = _fnameTextController.value.text;
 
     if (!_validate) {
       return null;
@@ -82,14 +97,67 @@ class _RegisterState extends State<RegisterForm> {
 
   String? get _errorCPassword {
     final text = _cpasswordTextController.value.text;
+    final text2 = _passwordTextController.value.text;
 
     if (!_validate) {
       return null;
+    }
+    if (text != text2) {
+      return 'รหัสผ่านไม่ตรงกัน';
     }
     if (text.isEmpty) {
       return 'โปรดกรอกข้อมูล';
     }
     return null;
+  }
+
+  craeteRegisterSuccessDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "สมัครสมาชิกสำเร็จ",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                  child: Text("เข้าสู่ระบบ"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
+                  })
+            ],
+          );
+        });
+  }
+
+  craeteRegisterFailedDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "ระบบขัดข้อง",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+          );
+        });
+  }
+
+  craeteRegisterAlreadyExistDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "ข้อมูลไม่ถูกต้อง",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+          );
+        });
   }
 
   @override
@@ -107,7 +175,7 @@ class _RegisterState extends State<RegisterForm> {
                     const Radius.circular(15.0),
                   )),
               padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 20.0),
-              margin: EdgeInsets.fromLTRB(40.0, 100.0, 40.0, 0.0),
+              margin: EdgeInsets.fromLTRB(40.0, 80.0, 40.0, 0.0),
               child: Column(children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -152,7 +220,7 @@ class _RegisterState extends State<RegisterForm> {
                           Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text('ชื่อ - นามสกุล',
+                              child: Text('ชื่อ',
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: quaternaryColor,
@@ -161,8 +229,29 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                           Container(
                             child: CustomTextField(
-                              controller: _nameTextController,
-                              validator: _errorName,
+                              controller: _fnameTextController,
+                              validator: _errorfName,
+                              obscureText: false,
+                            ),
+                          ),
+                        ]),
+                        margin: EdgeInsets.all(5.0)),
+                    Container(
+                        child: Column(children: <Widget>[
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text('นามสกุล',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
+                            ),
+                          ),
+                          Container(
+                            child: CustomTextField(
+                              controller: _lnameTextController,
+                              validator: _errorlName,
                               obscureText: false,
                             ),
                           ),
@@ -222,9 +311,10 @@ class _RegisterState extends State<RegisterForm> {
                                 PatientRegisterRequestModel model =
                                     PatientRegisterRequestModel(
                                         patientFirstName:
-                                            _nameTextController.text,
+                                            _fnameTextController.text,
                                         patientMiddleName: '',
-                                        patientLastName: '',
+                                        patientLastName:
+                                            _lnameTextController.text,
                                         patientNationalId:
                                             _unameTextController.text,
                                         patientPhoneNumber: '',
@@ -238,24 +328,24 @@ class _RegisterState extends State<RegisterForm> {
                                     .then((response) {
                                   if (response.statusCode == '0') {
                                     print("Register Success");
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => const Login()),
-                                    // );
+                                    craeteRegisterSuccessDialog(context);
+                                  } else if (response.statusCode == '1') {
+                                    print("NationalID already exist");
+                                    craeteRegisterAlreadyExistDialog(context);
                                   } else {
                                     print("Register Faild " +
                                         response.statusCode);
+                                    craeteRegisterFailedDialog(context);
                                   }
                                 });
-
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController
                                               .text.isEmpty ||
                                           _cpasswordTextController
                                               .text.isEmpty ||
-                                          _nameTextController.text.isEmpty
+                                          _fnameTextController.text.isEmpty ||
+                                          _lnameTextController.text.isEmpty
                                       ? _validate = true
                                       : _validate = false;
                                 });
@@ -268,9 +358,35 @@ class _RegisterState extends State<RegisterForm> {
                                     fontFamily: 'NotoSansThai'),
                               ),
                             ),
-                          )
+                          ),
+                          Container(
+                            child: Text.rich(TextSpan(
+                                style: TextStyle(
+                                  fontSize: 27,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      style: TextStyle(
+                                        color: quaternaryColor,
+                                        fontSize: 13,
+                                        fontFamily: 'NotoSansThai',
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      text: "ย้อนกลับ",
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Login()),
+                                          );
+                                        }),
+                                ])),
+                            padding: EdgeInsets.fromLTRB(0, 10.0, 0.0, 0),
+                          ),
                         ]),
-                        margin: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0)),
+                        margin: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0)),
                   ],
                 )
               ]),
