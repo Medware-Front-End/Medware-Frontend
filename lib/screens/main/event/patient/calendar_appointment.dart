@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:medware/utils/models/event/patient/patient_event.dart';
+import 'package:medware/screens/main/event/patient/confirm_appointment.dart';
 
 LinkedHashMap<DateTime, List<PatientEvent>>? _groupedEvents;
 
@@ -75,7 +76,9 @@ class _Calendar_addState extends State<CalendarAppointment> {
         leadingWidth: size.width * 0.22,
         leading: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Row(
                 children: [
                   Padding(
@@ -260,105 +263,166 @@ class _Calendar_addState extends State<CalendarAppointment> {
                         BorderRadius.all(Radius.circular(size.height * 0.03))),
                 child: ScrollConfiguration(
                   behavior: CustomScroll(),
-                  child: ListView(
-                    shrinkWrap: false,
-                    itemExtent: size.height * 0.102,
-                    children: [
-                      ..._getEventsForDay(_selectedDay as DateTime)
-                          .map((event) => Card(
-                              shadowColor: Colors.transparent,
-                              margin: EdgeInsets.all(size.height * 0.003),
-                              color: quaternaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(size.height * 0.03),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    size.width * 0.02,
-                                    size.width * 0.015,
-                                    size.width * 0.02,
-                                    size.width * 0.015),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: event.type == 'ตรวจสุขภาพ'
-                                            ? Color(0xFF4CC9FF)
-                                            : Color(0xFFFF0000),
-                                        borderRadius: BorderRadius.circular(
-                                          size.width * 0.03,
-                                        ),
-                                      ),
-                                      padding:
-                                          EdgeInsets.all(size.width * 0.025),
-                                      child: Icon(
-                                        event.type == 'ตรวจสุขภาพ'
-                                            ? Icons.medical_services_outlined
-                                            : Icons.water_drop_outlined,
-                                        size: size.width * 0.09,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.04,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          event.type,
-                                          style: TextStyle(
-                                            color: primaryColor,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: size.width * 0.04,
+                  child: !_getEventsForDay(_selectedDay as DateTime).isEmpty
+                      ? ListView(
+                          shrinkWrap: false,
+                          itemExtent: size.height * 0.102,
+                          children: [
+                            ..._getEventsForDay(_selectedDay as DateTime)
+                                .map((event) => ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(size.height * 0.04)),
+                                      child: Card(
+                                          shadowColor: Colors.transparent,
+                                          margin: EdgeInsets.all(
+                                              size.height * 0.003),
+                                          color: quaternaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                size.height * 0.03),
                                           ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '${fullDateFormatter.format(event.date)}',
-                                              style: TextStyle(
-                                                fontSize: size.width * 0.031,
-                                                color: primaryColor,
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (event.capacity <=
+                                                  event.patientCount) {
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ConfirmAppointment(
+                                                            id: event.id,
+                                                            capacity: event
+                                                                .capacity,
+                                                            patientCount: event
+                                                                .patientCount,
+                                                            date: event.date,
+                                                            startTime:
+                                                                event.startTime,
+                                                            finishTime: event
+                                                                .finishTime,
+                                                            type: event.type,
+                                                            doctor:
+                                                                event.doctor,
+                                                            department: event
+                                                                .department),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  size.width * 0.02,
+                                                  size.width * 0.015,
+                                                  size.width * 0.02,
+                                                  size.width * 0.015),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: event.type ==
+                                                              'ตรวจสุขภาพ'
+                                                          ? Color(0xFF4CC9FF)
+                                                          : Color(0xFFFF0000),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        size.width * 0.03,
+                                                      ),
+                                                    ),
+                                                    padding: EdgeInsets.all(
+                                                        size.width * 0.025),
+                                                    child: Icon(
+                                                      event.type == 'ตรวจสุขภาพ'
+                                                          ? Icons
+                                                              .medical_services_outlined
+                                                          : Icons
+                                                              .water_drop_outlined,
+                                                      size: size.width * 0.09,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: size.width * 0.04,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        event.type,
+                                                        style: TextStyle(
+                                                          color: primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize:
+                                                              size.height *
+                                                                  0.02,
+                                                        ),
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            '${fullDateFormatter.format(event.date)}',
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  size.height *
+                                                                      0.0145,
+                                                              color:
+                                                                  primaryColor,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                              'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    size.height *
+                                                                        0.0145,
+                                                                color:
+                                                                    primaryColor,
+                                                              ))
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Spacer(),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0,
+                                                            size.height * 0.045,
+                                                            size.width * 0.03,
+                                                            0),
+                                                    child: Text(
+                                                        '${event.patientCount} / ${event.capacity}',
+                                                        style: TextStyle(
+                                                          fontSize: size.width *
+                                                              0.032,
+                                                          color: event.patientCount >=
+                                                                  event.capacity
+                                                              ? Color(
+                                                                  0xFFFF0000)
+                                                              : primaryColor,
+                                                        )),
+                                                  )
+                                                ],
                                               ),
                                             ),
-                                            Text(
-                                                'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
-                                                style: TextStyle(
-                                                  fontSize: size.width * 0.031,
-                                                  color: primaryColor,
-                                                ))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                          0,
-                                          size.height * 0.045,
-                                          size.width * 0.03,
-                                          0),
-                                      child: Text(
-                                          '${event.patientCount} / ${event.capacity}',
-                                          style: TextStyle(
-                                            fontSize: size.width * 0.032,
-                                            color: event.patientCount >=
-                                                    event.capacity
-                                                ? Color(0xFFFF0000)
-                                                : primaryColor,
                                           )),
-                                    )
-                                  ],
-                                ),
-                              )))
-                    ],
-                  ),
+                                    ))
+                          ],
+                        )
+                      : Center(
+                          child: Text(
+                          'ไม่มีนัดหมายที่ท่านสามารถทำการจองได้',
+                          style: TextStyle(
+                              fontSize: size.width * 0.05, color: primaryColor),
+                        )),
                 )),
           )
         ],
