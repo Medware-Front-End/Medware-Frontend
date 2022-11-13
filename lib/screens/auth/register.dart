@@ -236,13 +236,8 @@ class _RegisterState extends State<RegisterForm> {
                                             _passwordTextController.text);
                                 APIService.patientRegister(model)
                                     .then((response) {
-                                  if (response.statusCode == '0') {
+                                  if (response.statusCode == "0") {
                                     print("Register Success");
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => const Login()),
-                                    // );
                                   } else {
                                     print("Register Faild " +
                                         response.statusCode);
