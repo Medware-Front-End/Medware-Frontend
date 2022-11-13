@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/utils/colors.dart';
@@ -5,7 +6,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:medware/utils/models/event/patient/patient_event.dart';
-import 'package:collection/collection.dart';
+
+LinkedHashMap<DateTime, List<PatientEvent>>? _groupedEvents;
 
 class CalendarAppointment extends StatefulWidget {
   const CalendarAppointment({super.key});
@@ -15,18 +17,33 @@ class CalendarAppointment extends StatefulWidget {
 
 class _Calendar_addState extends State<CalendarAppointment> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  var events;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  Map<DateTime, List<PatientEvent>> sortedValidAppointments = {};
+  List<dynamic> _getEventsForDay(DateTime date) {
+    return _groupedEvents?[date] ?? [];
+  }
+
   Future _loadAppointments() async {
-    var appointments = await getPatientSchedule();
-    setState(
-      () => sortedValidAppointments = groupBy(
-        appointments,
-        (PatientEvent ea) => ea.date,
-      ),
-    );
+    events = await getPatientSchedule();
+    _groupEvent(events);
+  }
+
+  int getHashCode(DateTime key) {
+    return key.day * 1000000 + key.month + 10002 + key.year;
+  }
+
+  _groupEvent(List<PatientEvent> events) {
+    _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
+    for (var event in events) {
+      DateTime date =
+          DateTime.utc(event.date.year, event.date.month, event.date.day, 12);
+      if (_groupedEvents![date] == null) {
+        _groupedEvents![date] = [];
+      }
+      _groupedEvents![date]!.add(event);
+    }
   }
 
   @override
@@ -35,9 +52,20 @@ class _Calendar_addState extends State<CalendarAppointment> {
     _loadAppointments();
   }
 
+  bool _checkEventEnrollable(dynamic dayEvent) {
+    for (int i = 0; i < dayEvent.length; i++) {
+      if (dayEvent[i].capacity > dayEvent[i].patientCount) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final fullDateFormatter = DateFormat.yMMMMEEEEd();
+    final timeFormatter = DateFormat.jm();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -99,6 +127,9 @@ class _Calendar_addState extends State<CalendarAppointment> {
                 height: size.height * 0.44,
                 width: size.width,
                 child: TableCalendar(
+                  eventLoader: (day) {
+                    return _getEventsForDay(day);
+                  },
                   calendarBuilders: CalendarBuilders(
                     selectedBuilder: ((context, _datetime, focusedDay) {
                       return Container(
@@ -138,6 +169,30 @@ class _Calendar_addState extends State<CalendarAppointment> {
                               fontWeight: FontWeight.w500),
                         )),
                       );
+                    },
+                    markerBuilder: (context, day, events) {
+                      if (events.isNotEmpty) {
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Positioned(
+                              bottom: 2.0,
+                              child: Container(
+                                height: 10.0,
+                                width: 10.0,
+                                decoration: BoxDecoration(
+                                  color: _checkEventEnrollable(events)
+                                      ? primaryColor
+                                      : Color(0xFFFF0000),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {}
                     },
                   ),
                   shouldFillViewport: true,
@@ -187,9 +242,135 @@ class _Calendar_addState extends State<CalendarAppointment> {
                     _focusedDay = focusedDay;
                   },
                 ),
-              ))
+              )),
+          SizedBox(
+            height: size.height * 0.038,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(size.height * 0.03)),
+            child: Container(
+                width: size.width * 0.88,
+                height: size.height * 0.31,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(
+                      color: Color.fromARGB(106, 28, 103, 88),
+                    ),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(size.height * 0.03))),
+                child: ScrollConfiguration(
+                  behavior: CustomScroll(),
+                  child: ListView(
+                    shrinkWrap: false,
+                    itemExtent: size.height * 0.102,
+                    children: [
+                      ..._getEventsForDay(_selectedDay as DateTime)
+                          .map((event) => Card(
+                              shadowColor: Colors.transparent,
+                              margin: EdgeInsets.all(size.height * 0.003),
+                              color: quaternaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(size.height * 0.03),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                    size.width * 0.02,
+                                    size.width * 0.015,
+                                    size.width * 0.02,
+                                    size.width * 0.015),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: event.type == 'ตรวจสุขภาพ'
+                                            ? Color(0xFF4CC9FF)
+                                            : Color(0xFFFF0000),
+                                        borderRadius: BorderRadius.circular(
+                                          size.width * 0.03,
+                                        ),
+                                      ),
+                                      padding:
+                                          EdgeInsets.all(size.width * 0.025),
+                                      child: Icon(
+                                        event.type == 'ตรวจสุขภาพ'
+                                            ? Icons.medical_services_outlined
+                                            : Icons.water_drop_outlined,
+                                        size: size.width * 0.09,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.04,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          event.type,
+                                          style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: size.width * 0.04,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${fullDateFormatter.format(event.date)}',
+                                              style: TextStyle(
+                                                fontSize: size.width * 0.031,
+                                                color: primaryColor,
+                                              ),
+                                            ),
+                                            Text(
+                                                'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
+                                                style: TextStyle(
+                                                  fontSize: size.width * 0.031,
+                                                  color: primaryColor,
+                                                ))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          0,
+                                          size.height * 0.045,
+                                          size.width * 0.03,
+                                          0),
+                                      child: Text(
+                                          '${event.patientCount} / ${event.capacity}',
+                                          style: TextStyle(
+                                            fontSize: size.width * 0.032,
+                                            color: event.patientCount >=
+                                                    event.capacity
+                                                ? Color(0xFFFF0000)
+                                                : primaryColor,
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              )))
+                    ],
+                  ),
+                )),
+          )
         ],
       ),
     );
+  }
+}
+
+class CustomScroll extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }
