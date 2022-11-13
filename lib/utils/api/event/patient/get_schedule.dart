@@ -39,7 +39,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'id': '3',
       'capacity': '3',
       'patientCount': '3',
-      'date': '2022-11-18',
+      'date': '2022-11-19',
       'startTime': '2022-11-19T09:00:00',
       'finishTime': '2022-11-19T10:00:00',
       'type': 'ตรวจสุขภาพ',
@@ -49,10 +49,10 @@ Future<List<PatientEvent>> getPatientSchedule() async {
     {
       'id': '4',
       'capacity': '3',
-      'patientCount': '1',
-      'date': '2022-11-18',
+      'patientCount': '3',
+      'date': '2022-11-19',
       'startTime': '2022-11-19T10:00:00',
-      'finishTime': '2022-11-10T11:00:00',
+      'finishTime': '2022-11-19T11:00:00',
       'type': 'ตรวจสุขภาพ',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
@@ -60,10 +60,10 @@ Future<List<PatientEvent>> getPatientSchedule() async {
     {
       'id': '5',
       'capacity': '3',
-      'patientCount': '2',
-      'date': '2022-11-18',
-      'startTime': '2022-11-18T11:00:00',
-      'finishTime': '2022-11-18T12:00:00',
+      'patientCount': '3',
+      'date': '2022-11-19',
+      'startTime': '2022-11-19T11:00:00',
+      'finishTime': '2022-11-19T12:00:00',
       'type': 'ตรวจสุขภาพ',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
