@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:medware/utils/colors.dart';
 
 class ConfirmAppointment extends StatelessWidget {
-  const ConfirmAppointment({super.key});
+  final int id;
+  final int capacity;
+  final int patientCount;
+  final DateTime date;
+  final DateTime startTime;
+  final DateTime finishTime;
+  final String type;
+  final String doctor;
+  final String department;
+  const ConfirmAppointment(
+      {required this.id,
+      required this.capacity,
+      required this.patientCount,
+      required this.date,
+      required this.startTime,
+      required this.finishTime,
+      required this.type,
+      required this.doctor,
+      required this.department});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    final MonthDateFormatter = DateFormat.MMMM();
+    final YearDateFormatter = DateFormat.y();
+    final DateDateFormatter = DateFormat.d();
+    final timeFormatter = DateFormat.jm();
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(bottom: size.height * 0.05),
@@ -38,7 +60,9 @@ class ConfirmAppointment extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
                               child: Row(
                                 children: [
                                   Padding(
@@ -98,7 +122,7 @@ class ConfirmAppointment extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'ตรวจสุขภาพ',
+                          type,
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w400,
@@ -145,11 +169,15 @@ class ConfirmAppointment extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '16 ตุลาคม 2564',
+                          '${DateDateFormatter.format(date)}' +
+                              ' '
+                                  '${MonthDateFormatter.format(date)}' +
+                              ' ' +
+                              '${YearDateFormatter.format(date)}',
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w400,
-                            fontSize: size.width * 0.05,
+                            fontSize: size.width * 0.045,
                           ),
                         ),
                       ],
@@ -181,11 +209,11 @@ class ConfirmAppointment extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '9.00 น. - 11.00 น.',
+                          '${timeFormatter.format(startTime)} - ${timeFormatter.format(finishTime)}',
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w400,
-                            fontSize: size.width * 0.05,
+                            fontSize: size.width * 0.045,
                           ),
                         ),
                       ],
@@ -229,7 +257,7 @@ class ConfirmAppointment extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'นพ. วิทวัส นามสกุล',
+                            doctor,
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w500,
@@ -249,7 +277,7 @@ class ConfirmAppointment extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'ศัลยกรรม',
+                            department,
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w500,
@@ -271,7 +299,9 @@ class ConfirmAppointment extends StatelessWidget {
                 borderRadius: BorderRadius.circular(size.width * 0.03),
               ),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showAlertDialog(context);
+                },
                 child: Center(
                   child: Text(
                     'ยืนยัน',
@@ -288,4 +318,30 @@ class ConfirmAppointment extends StatelessWidget {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // Create button
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("การจองของท่านเสร็จสิ้น"),
+    content: Text("ท่านสามารถแก้นัดไขหมายได้ก่อนถึงวันนัดหมาย 3 วัน"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      });
 }
