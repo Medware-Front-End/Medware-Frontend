@@ -62,6 +62,7 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Stack(
+                    alignment: Alignment.center,
                     children: [
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 40, 0, 0),
@@ -106,9 +107,8 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                         ),
                       ),
                       Positioned(
-                        right: 40,
-                        top: 20,
-                        height: 210,
+                        top: size.width*0.05,
+                        height: size.height *0.31,
                         child: GestureDetector(
                           onTap: () => Navigator.push(
                             context,
@@ -134,6 +134,7 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Stack(
+                      alignment: Alignment.center,
                       children: [
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -179,9 +180,8 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                           ),
                         ),
                         Positioned(
-                          right: 40,
-                          top: 10,
-                          height: 210,
+                          top: size.width*0.01,
+                        height: size.height *0.31,
                           child: GestureDetector(
                             onTap: () => Navigator.push(
                               context,
