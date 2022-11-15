@@ -57,7 +57,8 @@ class _PatientChoosedState extends State<PatientChoosed> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: GestureDetector(
-            child: Column(mainAxisSize: MainAxisSize.max, children: [
+            child: Column(
+              mainAxisSize: MainAxisSize.max, children: [
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -90,7 +91,11 @@ class _PatientChoosedState extends State<PatientChoosed> {
               Column(
                 children: [
                   Padding(
-                     padding: EdgeInsetsDirectional.fromSTEB(size.width*0.05, size.width*0.05, size.width*0.05, size.width*0.05),
+                    padding: EdgeInsetsDirectional.fromSTEB(
+                        size.width * 0.05,
+                        size.width * 0.05,
+                        size.width * 0.05,
+                        size.width * 0.05),
                     child: TextField(
                       decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),
@@ -98,23 +103,21 @@ class _PatientChoosedState extends State<PatientChoosed> {
                           border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.circular(size.shortestSide * 0.05),
-                            borderSide:  BorderSide(color: primaryColor),
+                            borderSide: BorderSide(color: primaryColor),
                           )),
                     ),
                   ),
                 ],
-                
               ),
-              Column( 
+              Column(
                 children: [
-                  PatientCards(               
-                patients: sortedValidPatients,
-              ),
-                  ],
+                  PatientCards(
+                    patients: sortedValidPatients,
+                  ),
+                ],
               ),
             ]),
           ),
         ));
   }
 }
-
