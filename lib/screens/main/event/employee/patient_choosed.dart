@@ -57,66 +57,81 @@ class _PatientChoosedState extends State<PatientChoosed> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: GestureDetector(
-            child: Column(
-              mainAxisSize: MainAxisSize.max, children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Text(
-                        '<   กลับ',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansThai',
-                            color: primaryColor,
-                            fontWeight: FontWeight.w600),
+            child: RefreshIndicator(
+               onRefresh: _loadAppointments,
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        backgroundColor: quaternaryColor,
+        color: primaryColor,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+                child: Scrollbar(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max, children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
+                          child: GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: Text(
+                              '<   กลับ',
+                              style: TextStyle(
+                                  fontFamily: 'NotoSansThai',
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(130, 30, 0, 0),
+                          child: Text(
+                            'เลือกคนไข้',
+                            style: TextStyle(
+                                fontFamily: 'NotoSansThai',
+                                color: secondaryColor,
+                                fontSize: size.width * 0.07,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              size.width * 0.05,
+                              size.width * 0.05,
+                              size.width * 0.05,
+                              size.width * 0.05),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.search),
+                                hintText: "ค้นหาคนไข้",
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(size.shortestSide * 0.05),
+                                  borderSide: BorderSide(color: primaryColor),
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          PatientCards(
+                            patients: sortedValidPatients,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(130, 30, 0, 0),
-                    child: Text(
-                      'เลือกคนไข้',
-                      style: TextStyle(
-                          fontFamily: 'NotoSansThai',
-                          color: secondaryColor,
-                          fontSize: size.width * 0.07,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
+                  ]),
+                ),
               ),
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(
-                        size.width * 0.05,
-                        size.width * 0.05,
-                        size.width * 0.05,
-                        size.width * 0.05),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search),
-                          hintText: "ค้นหาคนไข้",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(size.shortestSide * 0.05),
-                            borderSide: BorderSide(color: primaryColor),
-                          )),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  PatientCards(
-                    patients: sortedValidPatients,
-                  ),
-                ],
-              ),
-            ]),
+            ),
           ),
         ));
   }
