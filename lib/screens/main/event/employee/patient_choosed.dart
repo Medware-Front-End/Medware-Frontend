@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:medware/screens/main/event/employee/getPatientAppointment.dart';
 import 'dart:core';
 import 'dart:convert';
 import 'package:medware/screens/main/event/employee/patient_card.dart';
@@ -7,6 +8,8 @@ import 'package:medware/screens/main/event/view_appointment/components/date_time
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/event/get_patient_by_schedule_id.dart';
 import 'package:medware/utils/api/appointment/get_employee_appointment_by_id.dart';
+import 'package:http/http.dart' as http;
+import 'package:medware/screens/main/event/employee/getPatientAppointment.dart';
 
 class PatientChoosed extends StatefulWidget {
   final int id;
@@ -32,6 +35,8 @@ class PatientChoosed extends StatefulWidget {
 class _PatientChoosedState extends State<PatientChoosed> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  late List<GetPatientAppointment> _getdata;
+
   Map<DateTime, List<PatientByScheduleId>> sortedValidPatients = {};
   Future _loadAppointments() async {
     var appointments = await getPatientByScheduleId();
@@ -43,10 +48,25 @@ class _PatientChoosedState extends State<PatientChoosed> {
     );
   }
 
+  Future<List<GetPatientAppointment>> getPatientOnSchedule() async {
+    var url =
+        "https://medcare-database-test.herokuapp.com/appointments/findPatientbyScheduleId/1";
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'authtoken':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg2MjQyMTAsImlhdCI6MTY2ODYyMTIxMCwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.XmhxXV3BxTVmOkCoYxCUeNMMEAWpAXb1qOMELCCVM7I'
+    };
+    var response = await http.get(Uri.parse(url), headers: requestHeaders);
+    _getdata = getPatientAppointmentFromJson(response.body);
+
+    return _getdata;
+  }
+
   @override
   void initState() {
     super.initState();
-    _loadAppointments();
+    getPatientOnSchedule();
   }
 
   @override
@@ -58,17 +78,16 @@ class _PatientChoosedState extends State<PatientChoosed> {
         body: SafeArea(
           child: GestureDetector(
             child: RefreshIndicator(
-               onRefresh: _loadAppointments,
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        backgroundColor: quaternaryColor,
-        color: primaryColor,
+              onRefresh: _loadAppointments,
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              backgroundColor: quaternaryColor,
+              color: primaryColor,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
-          ),
+                  parent: BouncingScrollPhysics(),
+                ),
                 child: Scrollbar(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max, children: [
+                  child: Column(mainAxisSize: MainAxisSize.max, children: [
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -86,7 +105,8 @@ class _PatientChoosedState extends State<PatientChoosed> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(130, 30, 0, 0),
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(130, 30, 0, 0),
                           child: Text(
                             'เลือกคนไข้',
                             style: TextStyle(
@@ -111,8 +131,8 @@ class _PatientChoosedState extends State<PatientChoosed> {
                                 prefixIcon: const Icon(Icons.search),
                                 hintText: "ค้นหาคนไข้",
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(size.shortestSide * 0.05),
+                                  borderRadius: BorderRadius.circular(
+                                      size.shortestSide * 0.05),
                                   borderSide: BorderSide(color: primaryColor),
                                 )),
                           ),
@@ -122,9 +142,19 @@ class _PatientChoosedState extends State<PatientChoosed> {
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          PatientCards(
-                            patients: sortedValidPatients,
-                          ),
+                          FutureBuilder(
+                            future: getPatientOnSchedule(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<dynamic> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                var result = snapshot.data;
+                                print(result);
+                                return Text("data has fetch");
+                              }
+                              return LinearProgressIndicator();
+                            },
+                          )
                         ],
                       ),
                     ),
