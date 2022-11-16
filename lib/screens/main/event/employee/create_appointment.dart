@@ -58,6 +58,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   @override
   void initState() {
     super.initState();
+    _selectedDay = DateTime.now();
     _loadAppointments();
   }
 

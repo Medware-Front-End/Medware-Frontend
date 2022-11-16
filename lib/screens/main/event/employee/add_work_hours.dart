@@ -20,25 +20,37 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   TextEditingController _scheduleLocation = TextEditingController();
   TextEditingController _scheduleType = TextEditingController();
 
-  int _dropdownValue = 1;
+  int _dropdownCapacityValue = 1;
 
-  List<int> dropDownOptions = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  int _dropdownTypeValue = 1;
+
+  List<int> dropDownCapacityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  void dropdownCapacityCallback(int? selectedValue) {
+    if (selectedValue is int) {
+      setState(() {
+        _dropdownCapacityValue = selectedValue;
+        _scheduleCapacity.text = selectedValue.toString();
+      });
+    }
+  }
+
+  void dropdownTypeCallback(int? selectedValue) {
+    if (selectedValue is int) {
+      setState(() {
+        _dropdownTypeValue = selectedValue;
+        _scheduleType.text = selectedValue.toString();
+      });
+    }
+  }
 
   @override
   void initState() {
     _scheduleDate.text = "";
+    _scheduleCapacity.text = '1';
+    _scheduleType.text = '1';
+    _scheduleLocation.text = "โรงพยาบาล";
     super.initState();
-  }
-
-  void dropdownCallback(int? selectedValue) {
-    if (selectedValue is int) {
-      setState(() {
-        _dropdownValue = selectedValue;
-        _scheduleCapacity.text = selectedValue.toString();
-        
-
-      });
-    }
   }
 
   @override
@@ -134,10 +146,10 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2101));
                         if (pickedDate != null) {
-                          print(pickedDate);
-                          String formattedDate = DateFormat('yyyy-MM-dd')
-                              .format(pickedDate)
-                              .toString();
+                          String formattedDate =
+                              DateFormat('yyyy-MM-ddTHH:mm:ss')
+                                  .format(pickedDate)
+                                  .toString();
                           print(formattedDate);
 
                           setState(() {
@@ -155,19 +167,19 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                     child: TimeIntervalPicker(
                       endLimit: null,
                       startLimit: null,
-                      
                       borderColor: primaryColor,
                       onChanged: (DateTime? startTime, DateTime? endTime,
                           bool isAllDay) {
                         setState(() {
-                          _scheduleStart.text = _scheduleDate.text +
-                              " " +
-                              startTime.toString().split(" ")[1];
+                          _scheduleStart.text = _scheduleDate.text
+                                  .split("T")[0] +
+                              "T" +
+                              startTime.toString().split(" ")[1].split(".")[0];
                           print(_scheduleStart.text);
 
-                          _scheduleEnd.text = _scheduleDate.text +
-                              " " +
-                              endTime.toString().split(" ")[1];
+                          _scheduleEnd.text = _scheduleDate.text.split("T")[0] +
+                              "T" +
+                              endTime.toString().split(" ")[1].split(".")[0];
                           print(_scheduleEnd.text);
                         });
                       },
@@ -188,13 +200,46 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                         padding: EdgeInsets.fromLTRB(
                             size.width * 0.06, size.width * 0.01, 0, 0),
                         child: DropdownButton(
-                          items: dropDownOptions
+                          items: dropDownCapacityOptions
                               .map<DropdownMenuItem<int>>((int mascot) {
                             return DropdownMenuItem<int>(
                                 child: Text(mascot.toString()), value: mascot);
                           }).toList(),
-                          value: _dropdownValue,
-                          onChanged: dropdownCallback,
+                          value: _dropdownCapacityValue,
+                          onChanged: dropdownCapacityCallback,
+                          iconEnabledColor: primaryColor,
+                          style: TextStyle(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
+                        child: Text(
+                          "ประเภทการตรวจ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, color: primaryColor),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
+                        child: DropdownButton(
+                          items: const [
+                            DropdownMenuItem(
+                                child: Text("ตรวจกับหมอ"), value: 1),
+                            DropdownMenuItem(
+                                child: Text("ตรวจสุขภาพ"), value: 2),
+                            DropdownMenuItem(
+                                child: Text("ตรวจเลือด"), value: 3),
+                          ],
+                          value: _dropdownTypeValue,
+                          onChanged: dropdownTypeCallback,
                           iconEnabledColor: primaryColor,
                           style: TextStyle(
                             color: primaryColor,
@@ -206,18 +251,17 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor
-          ),
-            onPressed: () {
-              print(_scheduleCapacity.text);
-              print(_scheduleDate.text);
-              print(_scheduleStart.text);
-              print(_scheduleEnd.text);
-
-            },
-            child: const Text('สร้าง'),
-          ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor),
+                      onPressed: () {
+                        print(_scheduleCapacity.text);
+                        print(_scheduleDate.text);
+                        print(_scheduleStart.text);
+                        print(_scheduleEnd.text);
+                        print(_scheduleType.text);
+                      },
+                      child: const Text('สร้าง'),
+                    ),
                   ),
                 ],
               ))),
