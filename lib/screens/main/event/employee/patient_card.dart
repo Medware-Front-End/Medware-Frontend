@@ -15,8 +15,7 @@ class PatientCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+    return Container(
       child: Column(
         children: [
           patients.length == 0
@@ -39,7 +38,7 @@ class PatientCards extends StatelessWidget {
                       children: [
                         ListView.builder(
                           padding: EdgeInsets.zero,
-                          physics: const NeverScrollableScrollPhysics(),
+                          
                           shrinkWrap: true,
                           itemCount: patientsList!.length,
                           itemBuilder: (context, j) {
@@ -98,7 +97,12 @@ Widget _PatientCard(BuildContext context, patient) {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(patient.patientLastName),
+                Text(patient.patientFirstName,
+                style: TextStyle(color: primaryColor,fontWeight: FontWeight.w600),),
+                Text(patient.patientMiddleName,
+                style: TextStyle(color: primaryColor,fontWeight: FontWeight.w600),),
+                Text(patient.patientLastName,
+                style: TextStyle(color: primaryColor,fontWeight: FontWeight.w600),),
               ],
             ),
           ),
