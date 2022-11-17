@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/colors.dart';
 
@@ -7,10 +6,10 @@ class ConfirmAppointment extends StatelessWidget {
   final int id;
   final int capacity;
   final int patientCount;
+  final int type;
   final DateTime date;
   final DateTime startTime;
   final DateTime finishTime;
-  final String type;
   final String doctor;
   final String department;
   const ConfirmAppointment(
@@ -31,6 +30,42 @@ class ConfirmAppointment extends StatelessWidget {
     final YearDateFormatter = DateFormat.y();
     final DateDateFormatter = DateFormat.d();
     final timeFormatter = DateFormat.jm();
+
+    String _mapAppointmentType(int type) {
+      if (type == 1) {
+        return 'ตรวจกับหมอ';
+      } else if (type == 2) {
+        return 'ตรวจสุขภาพ';
+      } else if (type == 3) {
+        return 'บริจาคเลือด';
+      } else {
+        return 'อื่นๆ';
+      }
+    }
+
+    _showAlertDialog(BuildContext context) {
+      Widget okButton = TextButton(
+        child: const Text("OK"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      );
+
+      AlertDialog alert = AlertDialog(
+        title: Text("การจองของท่านเสร็จสิ้น"),
+        content: Text("ท่านสามารถแก้นัดไขหมายได้ก่อนถึงวันนัดหมาย 3 วัน"),
+        actions: [
+          okButton,
+        ],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(bottom: size.height * 0.05),
@@ -122,7 +157,7 @@ class ConfirmAppointment extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          type,
+                          _mapAppointmentType(type),
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w400,
@@ -223,20 +258,15 @@ class ConfirmAppointment extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.06,
-              ),
-              child: Ink(
-                width: double.infinity,
-                height: size.height * 0.22,
-                decoration: BoxDecoration(
-                  color: quaternaryColor,
-                  borderRadius: BorderRadius.circular(size.width * 0.05),
+                padding: EdgeInsets.symmetric(
+                  horizontal: size.width * 0.06,
                 ),
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(
-                    size.width * 0.05,
+                child: Container(
+                  width: double.infinity,
+                  height: size.height * 0.22,
+                  decoration: BoxDecoration(
+                    color: quaternaryColor,
+                    borderRadius: BorderRadius.circular(size.width * 0.05),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -288,9 +318,7 @@ class ConfirmAppointment extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
+                )),
             Container(
               width: size.width * 0.25,
               height: size.height * 0.05,
@@ -300,7 +328,7 @@ class ConfirmAppointment extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () {
-                  showAlertDialog(context);
+                  _showAlertDialog(context);
                 },
                 child: Center(
                   child: Text(
@@ -318,30 +346,4 @@ class ConfirmAppointment extends StatelessWidget {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  // Create button
-  Widget okButton = TextButton(
-    child: const Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  // Create AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("การจองของท่านเสร็จสิ้น"),
-    content: Text("ท่านสามารถแก้นัดไขหมายได้ก่อนถึงวันนัดหมาย 3 วัน"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      });
 }
