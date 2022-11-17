@@ -9,6 +9,8 @@ import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:medware/screens/main/postpone/employee/calendar_postpone.dart'
+    as postponeEmployee;
 
 class ViewAppointment extends StatelessWidget {
   final EmployeeAppointment appointment;
@@ -98,7 +100,15 @@ class ViewAppointment extends StatelessWidget {
                 children: [
                   ActionButton(
                     text: 'เลื่อนนัด',
-                    action: () {},
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              postponeEmployee.PostPoneEmployee(),
+                        ),
+                      );
+                    },
                     percentWidth: 30,
                   ),
                   ActionButton(
