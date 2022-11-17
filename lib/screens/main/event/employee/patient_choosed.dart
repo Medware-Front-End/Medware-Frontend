@@ -131,73 +131,79 @@ class _PatientChoosedState extends State<PatientChoosed> {
                   ],
                 ),
                 SingleChildScrollView(
-                  child: Container(
-                    child: FutureBuilder(
-                      future: getPatientOnSchedule(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<dynamic> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          var result = snapshot.data;
-                        
-                          return Container(
-                            padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
-                                size.width * 0.03, size.width * 0.03),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: result.length,
-                              itemBuilder: (context, i) {
-                                return InkWell(
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.only(top: size.width * 0.02),
-                                    decoration: BoxDecoration(
-                                      color: quaternaryColor,
-                                      borderRadius: BorderRadius.circular(
-                                          size.width * 0.03),
+                  child: RefreshIndicator(
+                    onRefresh: getPatientOnSchedule,
+                              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                              backgroundColor: quaternaryColor,
+                              color: primaryColor,
+                    child: Container(
+                      child: FutureBuilder(
+                        future: getPatientOnSchedule(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            var result = snapshot.data;
+                          
+                            return Container(
+                              padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
+                                  size.width * 0.03, size.width * 0.03),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: result.length,
+                                itemBuilder: (context, i) {
+                                  return InkWell(
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: size.width * 0.02),
+                                      decoration: BoxDecoration(
+                                        color: quaternaryColor,
+                                        borderRadius: BorderRadius.circular(
+                                            size.width * 0.03),
+                                      ),
+                                      child: ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AppointmentDisplay(
+                                                      scheduleId: widget.getId(),
+                                                      appointmentDate: result[i]
+                                                          .appointmentDate,
+                                                      appointmentTimeStart: result[
+                                                              i]
+                                                          .appointmentTimeStart,
+                                                      appointmentTimeEnd: result[
+                                                              i]
+                                                          .appointmentTimeEnd,
+                                                      patientFirstName:
+                                                          result[i]
+                                                              .patientFirstName,
+                                                      patientMiddleName:
+                                                          result[
+                                                                  i]
+                                                              .patientMiddleName,
+                                                      patientLastName: result[i]
+                                                          .patientLastName),
+                                            ),
+                                          );
+                                        },
+                                        title: Text(
+                                            "${result[i].patientFirstName} ${result[i].patientMiddleName} ${result[i].patientLastName}"),
+                                        trailing: Icon(Icons.arrow_forward_ios),
+                                        leading: Icon(
+                                            Icons.account_circle_rounded,
+                                            size: size.width * 0.08),
+                                      ),
                                     ),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                AppointmentDisplay(
-                                                    scheduleId: widget.getId(),
-                                                    appointmentDate: result[i]
-                                                        .appointmentDate,
-                                                    appointmentTimeStart: result[
-                                                            i]
-                                                        .appointmentTimeStart,
-                                                    appointmentTimeEnd: result[
-                                                            i]
-                                                        .appointmentTimeEnd,
-                                                    patientFirstName:
-                                                        result[i]
-                                                            .patientFirstName,
-                                                    patientMiddleName:
-                                                        result[
-                                                                i]
-                                                            .patientMiddleName,
-                                                    patientLastName: result[i]
-                                                        .patientLastName),
-                                          ),
-                                        );
-                                      },
-                                      title: Text(
-                                          "${result[i].patientFirstName} ${result[i].patientMiddleName} ${result[i].patientLastName}"),
-                                      trailing: Icon(Icons.arrow_forward_ios),
-                                      leading: Icon(
-                                          Icons.account_circle_rounded,
-                                          size: size.width * 0.08),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                        return LinearProgressIndicator();
-                      },
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                          return LinearProgressIndicator();
+                        },
+                      ),
                     ),
                   ),
                 ),
