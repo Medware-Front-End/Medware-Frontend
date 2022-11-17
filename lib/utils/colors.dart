@@ -13,6 +13,7 @@ List<String> employeeRoles = [
 List<String> appointmentTypes = [
   'ตรวจร่างกาย',
   'บริจาคเลือด',
+  'การนัดหมายพิเศษ',
 ];
 
 List<String> notificationTypes = [
