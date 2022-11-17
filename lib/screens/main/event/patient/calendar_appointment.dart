@@ -1,9 +1,9 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/utils/colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:medware/utils/models/event/patient/patient_event.dart';
 import 'package:medware/screens/main/event/patient/confirm_appointment.dart';
@@ -13,14 +13,26 @@ LinkedHashMap<DateTime, List<PatientEvent>>? _groupedEvents;
 class CalendarAppointment extends StatefulWidget {
   const CalendarAppointment({super.key});
   @override
-  State<CalendarAppointment> createState() => _Calendar_addState();
+  State<CalendarAppointment> createState() => _CalendarAddState();
 }
 
-class _Calendar_addState extends State<CalendarAppointment> {
+class _CalendarAddState extends State<CalendarAppointment> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  var events;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  var events;
+
+  String _mapAppointmentType(int type) {
+    if (type == 1) {
+      return 'ตรวจกับหมอ';
+    } else if (type == 2) {
+      return 'ตรวจสุขภาพ';
+    } else if (type == 3) {
+      return 'บริจาคเลือด';
+    } else {
+      return 'อื่นๆ';
+    }
+  }
 
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
@@ -28,11 +40,22 @@ class _Calendar_addState extends State<CalendarAppointment> {
 
   Future _loadAppointments() async {
     events = await getPatientSchedule();
-    _groupEvent(events);
+    setState(() {
+      _groupEvent(events);
+    });
   }
 
   int getHashCode(DateTime key) {
     return key.day * 1000000 + key.month + 10002 + key.year;
+  }
+
+  bool _checkEventEnrollable(dynamic dayEvent) {
+    for (int i = 0; i < dayEvent.length; i++) {
+      if (dayEvent[i].capacity > dayEvent[i].patientCount) {
+        return true;
+      }
+    }
+    return false;
   }
 
   _groupEvent(List<PatientEvent> events) {
@@ -49,17 +72,8 @@ class _Calendar_addState extends State<CalendarAppointment> {
 
   @override
   void initState() {
-    super.initState();
     _loadAppointments();
-  }
-
-  bool _checkEventEnrollable(dynamic dayEvent) {
-    for (int i = 0; i < dayEvent.length; i++) {
-      if (dayEvent[i].capacity > dayEvent[i].patientCount) {
-        return true;
-      }
-    }
-    return false;
+    super.initState();
   }
 
   @override
@@ -134,6 +148,30 @@ class _Calendar_addState extends State<CalendarAppointment> {
                     return _getEventsForDay(day);
                   },
                   calendarBuilders: CalendarBuilders(
+                    markerBuilder: (context, day, events) {
+                      if (events.isNotEmpty) {
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Positioned(
+                              bottom: 2.0,
+                              child: Container(
+                                height: 10.0,
+                                width: 10.0,
+                                decoration: BoxDecoration(
+                                  color: _checkEventEnrollable(events)
+                                      ? primaryColor
+                                      : Color(0xFFFF0000),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {}
+                    },
                     selectedBuilder: ((context, _datetime, focusedDay) {
                       return Container(
                         margin: EdgeInsets.fromLTRB(
@@ -172,30 +210,6 @@ class _Calendar_addState extends State<CalendarAppointment> {
                               fontWeight: FontWeight.w500),
                         )),
                       );
-                    },
-                    markerBuilder: (context, day, events) {
-                      if (events.isNotEmpty) {
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Positioned(
-                              bottom: 2.0,
-                              child: Container(
-                                height: 10.0,
-                                width: 10.0,
-                                decoration: BoxDecoration(
-                                  color: _checkEventEnrollable(events)
-                                      ? primaryColor
-                                      : Color(0xFFFF0000),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {}
                     },
                   ),
                   shouldFillViewport: true,
@@ -284,7 +298,13 @@ class _Calendar_addState extends State<CalendarAppointment> {
                                           child: InkWell(
                                             onTap: () {
                                               if (event.capacity <=
-                                                  event.patientCount) {
+                                                      event.patientCount ||
+                                                  DateTime.now()
+                                                          .add(
+                                                              Duration(days: 3))
+                                                          .compareTo(
+                                                              event.date) >=
+                                                      0) {
                                               } else {
                                                 Navigator.push(
                                                   context,
@@ -322,10 +342,9 @@ class _Calendar_addState extends State<CalendarAppointment> {
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                      color: event.type ==
-                                                              'ตรวจสุขภาพ'
-                                                          ? Color(0xFF4CC9FF)
-                                                          : Color(0xFFFF0000),
+                                                      color: event.type == 3
+                                                          ? Color(0xFFFF0000)
+                                                          : Color(0xFF4CC9FF),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                         size.width * 0.03,
@@ -334,11 +353,11 @@ class _Calendar_addState extends State<CalendarAppointment> {
                                                     padding: EdgeInsets.all(
                                                         size.width * 0.025),
                                                     child: Icon(
-                                                      event.type == 'ตรวจสุขภาพ'
+                                                      event.type == 3
                                                           ? Icons
-                                                              .medical_services_outlined
+                                                              .water_drop_outlined
                                                           : Icons
-                                                              .water_drop_outlined,
+                                                              .medical_services_outlined,
                                                       size: size.width * 0.09,
                                                       color: Colors.white,
                                                     ),
@@ -352,7 +371,8 @@ class _Calendar_addState extends State<CalendarAppointment> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        event.type,
+                                                        _mapAppointmentType(
+                                                            event.type),
                                                         style: TextStyle(
                                                           color: primaryColor,
                                                           fontWeight:

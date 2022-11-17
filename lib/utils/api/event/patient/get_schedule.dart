@@ -9,7 +9,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-11-18T00:00:00',
       'startTime': '2022-11-18T09:00:00',
       'finishTime': '2022-11-18T10:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     },
@@ -20,7 +20,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-11-18',
       'startTime': '2022-11-18T10:00:00',
       'finishTime': '2022-11-18T11:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     },
@@ -31,7 +31,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-11-18',
       'startTime': '2022-11-18T11:00:00',
       'finishTime': '2022-11-18T12:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     },
@@ -42,7 +42,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-11-19',
       'startTime': '2022-11-19T09:00:00',
       'finishTime': '2022-11-19T10:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     },
@@ -53,7 +53,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-11-19',
       'startTime': '2022-11-19T10:00:00',
       'finishTime': '2022-11-19T11:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     },
@@ -64,7 +64,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-11-19',
       'startTime': '2022-11-19T11:00:00',
       'finishTime': '2022-11-19T12:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     },
@@ -75,7 +75,7 @@ Future<List<PatientEvent>> getPatientSchedule() async {
       'date': '2022-12-18',
       'startTime': '2022-12-18T09:00:00',
       'finishTime': '2022-12-18T10:00:00',
-      'type': 'ตรวจสุขภาพ',
+      'type': '2',
       'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
       'department': 'ทั่วไป'
     }

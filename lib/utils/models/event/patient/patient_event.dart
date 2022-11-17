@@ -2,10 +2,10 @@ class PatientEvent {
   final int id;
   final int capacity;
   final int patientCount;
+  final int type;
   final DateTime date;
   final DateTime startTime;
   final DateTime finishTime;
-  final String type;
   final String doctor;
   final String department;
 
@@ -25,10 +25,10 @@ class PatientEvent {
         id: int.parse(json['id']),
         capacity: int.parse(json['capacity']),
         patientCount: int.parse(json['patientCount']),
+        type: int.parse(json['type']),
         date: DateTime.parse(json['date']),
         startTime: DateTime.parse(json['startTime']),
         finishTime: DateTime.parse(json['finishTime']),
-        type: json['type'],
         doctor: json['doctorName'],
         department: json['department'],
       );
