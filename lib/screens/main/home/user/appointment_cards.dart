@@ -84,7 +84,7 @@ class AppointmentCards extends StatelessWidget {
 
   Widget _AppointmentCard(BuildContext context, int role, appointment) {
     final size = MediaQuery.of(context).size;
-    final fullDateFormatter = DateFormat.yMMMMEEEEd();
+    final fullDateFormatter = DateFormat('E d MMMM y');
     final timeFormatter = DateFormat.jm();
 
     return Padding(

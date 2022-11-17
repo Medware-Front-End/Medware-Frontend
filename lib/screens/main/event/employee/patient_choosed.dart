@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:convert';
 import 'package:medware/screens/main/event/employee/patient_card.dart';
-import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
+import 'package:medware/screens/main/event/view_appointment/date_time_card.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/event/get_patient_by_schedule_id.dart';
 import 'package:medware/utils/api/appointment/get_employee_appointment_by_id.dart';
