@@ -62,7 +62,7 @@ Future<List<EmployeeAppointment>> getEmployeeAppointments() async {
       'type': '0',
       'date': '2022-11-16',
       'startTime': '2022-12-16T14:00:00',
-      'finishTime': '2022-12-16T12:00:00',
+      'finishTime': '2022-12-16T15:00:00',
       'capacity': '8',
       'patientCount': '3',
     }

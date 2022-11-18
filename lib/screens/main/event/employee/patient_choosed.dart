@@ -10,6 +10,8 @@ import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/api/appointment/get_employee_appointment_by_id.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:medware/utils/models/user/get_all_patient.dart';
+
 class PatientChoosed extends StatefulWidget {
   final int id;
   final DateTime date;
@@ -34,26 +36,22 @@ class PatientChoosed extends StatefulWidget {
 class _PatientChoosedState extends State<PatientChoosed> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late List<GetPatientAppointment> _getdata;
+  late List<AllPatient> _getdata;
 
-  
 
-  Future<List<GetPatientAppointment>> getPatientOnSchedule() async {
-    var url =
-        "https://medcare-database-test.herokuapp.com/appointments/findPatientbyScheduleId/${widget.getId().toString()}";
+  Future<List<AllPatient>> getPatientOnSchedule() async {
+    var url = "https://medcare-database-test.herokuapp.com/patients";
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'authtoken':
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3MDU4MjAsImlhdCI6MTY2ODcwMjgyMCwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.fVXvInCuzThVpPCULuG8QUXD4dczlsFKMWxUr-ySV4k'
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NTk5MzIsImlhdCI6MTY2ODc1NjkzMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.3tO0pJVfb0Re5UpsqJQMZYKi2sobWvJN8JJoHninszk'
     };
 
     var response = await http.get(Uri.parse(url), headers: requestHeaders);
     if (response.statusCode == 200) {
       String responseString = utf8.decode(response.bodyBytes);
-      print(responseString);
-      final _getdata = getPatientAppointmentFromJson(responseString);
-
+      final _getdata = allPatientFromJson(responseString);
       return _getdata;
     } else {
       throw Exception('Failed to load');
@@ -133,17 +131,18 @@ class _PatientChoosedState extends State<PatientChoosed> {
                 SingleChildScrollView(
                   child: RefreshIndicator(
                     onRefresh: getPatientOnSchedule,
-                              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                              backgroundColor: quaternaryColor,
-                              color: primaryColor,
+                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                    backgroundColor: quaternaryColor,
+                    color: primaryColor,
                     child: Container(
                       child: FutureBuilder(
                         future: getPatientOnSchedule(),
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
                             var result = snapshot.data;
-                          
+
                             return Container(
                               padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
                                   size.width * 0.03, size.width * 0.03),
@@ -153,8 +152,8 @@ class _PatientChoosedState extends State<PatientChoosed> {
                                 itemBuilder: (context, i) {
                                   return InkWell(
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: size.width * 0.02),
+                                      margin: EdgeInsets.only(
+                                          top: size.width * 0.02),
                                       decoration: BoxDecoration(
                                         color: quaternaryColor,
                                         borderRadius: BorderRadius.circular(
@@ -167,24 +166,21 @@ class _PatientChoosedState extends State<PatientChoosed> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   AppointmentDisplay(
-                                                      scheduleId: widget.getId(),
-                                                      appointmentDate: result[i]
-                                                          .appointmentDate,
-                                                      appointmentTimeStart: result[
-                                                              i]
-                                                          .appointmentTimeStart,
-                                                      appointmentTimeEnd: result[
-                                                              i]
-                                                          .appointmentTimeEnd,
-                                                      patientFirstName:
-                                                          result[i]
-                                                              .patientFirstName,
-                                                      patientMiddleName:
-                                                          result[
-                                                                  i]
-                                                              .patientMiddleName,
-                                                      patientLastName: result[i]
-                                                          .patientLastName),
+                                                scheduleId: widget.getId(),
+                                                appointmentDate: widget.date,
+                                                appointmentTimeStart:
+                                                    widget.startTime,
+                                                appointmentTimeEnd:
+                                                    widget.finishTime,
+                                                patientFirstName:
+                                                    result[i].patientFirstName,
+                                                patientMiddleName:
+                                                    result[i].patientMiddleName,
+                                                patientLastName:
+                                                    result[i].patientLastName,
+                                                patientNationalId:
+                                                    result[i].patientNationalId,
+                                              ),
                                             ),
                                           );
                                         },
@@ -201,7 +197,10 @@ class _PatientChoosedState extends State<PatientChoosed> {
                               ),
                             );
                           }
-                          return LinearProgressIndicator();
+                          return LinearProgressIndicator(
+                            backgroundColor: tertiaryColor,
+                            color: secondaryColor,
+                          );
                         },
                       ),
                     ),

@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/colors.dart';
+import 'package:http/http.dart' as http;
 
 class addWorkHoursScreen extends StatefulWidget {
   const addWorkHoursScreen({Key? key}) : super(key: key);
@@ -41,6 +44,41 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
         _dropdownTypeValue = selectedValue;
         _scheduleType.text = selectedValue.toString();
       });
+    }
+  }
+
+  Future ConfirmAddSchedule(
+    String scheduleCapacity,
+    String scheduleStart,
+    String scheduleEnd,
+    String scheduleDate,
+    String scheduleLocation,
+    String employeeId,
+    String scheduleType,
+  ) async {
+    final msg = jsonEncode({
+      "scheduleCapacity": "${scheduleCapacity}",
+      "scheduleStart": "${scheduleStart}",
+      "scheduleEnd": "${scheduleEnd}",
+      "scheduleDate": "${scheduleDate}",
+      "scheduleLocation": "${scheduleLocation}",
+      "employeeId": "${employeeId}",
+      "scheduleType": "${scheduleType}",
+    });
+    var url =
+        "https://medcare-database-test.herokuapp.com/schedules/createNewSchedule";
+    Map<String, String> requestHeaders = {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      'authtoken':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NjMyMTUsImlhdCI6MTY2ODc2MDIxNSwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.9ZnPu5HJ55mRvcwzpjKl4Yw4mpOXHEKmzXVxbHush4U'
+    };
+    var response =
+        await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
+    if (response.statusCode == 200) {
+      print("Create Success");
+    } else {
+      print(response.body);
     }
   }
 
@@ -253,12 +291,18 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor),
-                      onPressed: () {
-                        print(_scheduleCapacity.text);
-                        print(_scheduleDate.text);
-                        print(_scheduleStart.text);
-                        print(_scheduleEnd.text);
-                        print(_scheduleType.text);
+                      onPressed: () async {
+                        String scheduleCapacity = _scheduleCapacity.text;
+                        String scheduleStart = _scheduleStart.text;
+                        String scheduleEnd = _scheduleEnd.text;
+                        String scheduleDate = _scheduleDate.text;
+                        String scheduleLocation = _scheduleLocation.text;
+                        String employeeId = "2";
+                        String scheduleType = _scheduleType.text;
+                        await  ConfirmAddSchedule(
+                          scheduleCapacity,scheduleStart,scheduleEnd,scheduleDate,
+                          scheduleLocation,employeeId,scheduleType
+                        );
                       },
                       child: const Text('สร้าง'),
                     ),

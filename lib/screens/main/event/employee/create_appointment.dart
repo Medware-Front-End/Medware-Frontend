@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'package:flutter/services.dart';
@@ -7,11 +9,12 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
 import 'package:medware/utils/api/appointment/get_employee_appointments.dart';
 import 'package:medware/screens/main/event/employee/patient_choosed.dart';
+import '../../../../utils/models/appointment/get_all_schedule.dart';
+import 'package:http/http.dart' as http;
 
-//import 'package:medware/utils/api/event/patient/get_schedule_employee.dart';
-//import 'package:medware/utils/models/event/patient/employee_event.dart';
+import '../../../../utils/models/user/get_all_patient.dart';
 
-LinkedHashMap<DateTime, List<EmployeeAppointment>>? _groupedEvents;
+LinkedHashMap<DateTime, List<Allschedules>>? _groupedEvents;
 
 class AppointmentDoctorCreate extends StatefulWidget {
   const AppointmentDoctorCreate({
@@ -34,20 +37,64 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
     return _groupedEvents?[date] ?? [];
   }
 
+
+  late List<Allschedules> _getdata;
+  Future<List<Allschedules>> getAllSchedule() async {
+    var url = "https://medcare-database-test.herokuapp.com/schedules";
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'authtoken':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NTk5MzIsImlhdCI6MTY2ODc1NjkzMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.3tO0pJVfb0Re5UpsqJQMZYKi2sobWvJN8JJoHninszk'
+    };
+
+    var response = await http.get(Uri.parse(url), headers: requestHeaders);
+    if (response.statusCode == 200) {
+      String responseString = utf8.decode(response.bodyBytes);
+      final _getdata = allschedulesFromJson(responseString);
+      return _getdata;
+
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+  
+   Future<List<AllPatient>> getPatientOnSchedule() async {
+    var url = "https://medcare-database-test.herokuapp.com/patients";
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'authtoken':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NTk5MzIsImlhdCI6MTY2ODc1NjkzMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.3tO0pJVfb0Re5UpsqJQMZYKi2sobWvJN8JJoHninszk'
+    };
+
+    var response = await http.get(Uri.parse(url), headers: requestHeaders);
+    if (response.statusCode == 200) {
+      String responseString = utf8.decode(response.bodyBytes);
+      final _getdata = allPatientFromJson(responseString);
+      return _getdata;
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  
+
   Future _loadAppointments() async {
-    events = await getEmployeeAppointments();
+    events = await getAllSchedule();
     _groupEvent(events);
+    
   }
 
   int getHashCode(DateTime key) {
     return key.day * 1000000 + key.month + 10002 + key.year;
   }
 
-  _groupEvent(List<EmployeeAppointment> events) {
+  _groupEvent(List<Allschedules> events) {
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
       DateTime date =
-          DateTime.utc(event.date.year, event.date.month, event.date.day, 12);
+          DateTime.utc(event.scheduleDate.year, event.scheduleDate.month, event.scheduleDate.day, 12);
       if (_groupedEvents![date] == null) {
         _groupedEvents![date] = [];
       }
@@ -58,13 +105,15 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   @override
   void initState() {
     super.initState();
+    getPatientOnSchedule();
     _selectedDay = DateTime.now();
     _loadAppointments();
   }
 
   bool _checkEventEnrollable(dynamic dayEvent) {
     for (int i = 0; i < dayEvent.length; i++) {
-      if (dayEvent[i].capacity > dayEvent[i].patientCount) {
+      //ตรงนี้มีแก้ scheduleCount
+      if (dayEvent[i].scheduleCapacity > 70) {
         return true;
       }
     }
@@ -286,12 +335,12 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           PatientChoosed(
-                                                            id: event.id,
-                                                              date: event.date,
+                                                            id: event.scheduleId,
+                                                              date: event.scheduleDate,
                                                             startTime:
-                                                                event.startTime,
+                                                                event.scheduleStart,
                                                             finishTime: event
-                                                                .finishTime,
+                                                                .scheduleDate,
                                                              ),
                                                     ),
                                                   );
@@ -309,7 +358,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                   children: [
                                                     Container(
                                                       decoration: BoxDecoration(
-                                                        color: event.type ==
+                                                        color: event.scheduleType ==
                                                                 0
                                                             ? Color(0xFF4CC9FF)
                                                             : Color(0xFFFF0000),
@@ -321,7 +370,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                       padding: EdgeInsets.all(
                                                           size.width * 0.025),
                                                       child: Icon(
-                                                        event.type == 1
+                                                        event.scheduleType == 1
                                                             ? Icons
                                                                 .medical_services_outlined
                                                             : Icons
@@ -338,7 +387,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        event.type == 0
+                                                        event.scheduleType == 0
                                                         ?
                                                         Text(
                                                           'ตรวจสุขภาพ',
@@ -369,7 +418,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                              '${fullDateFormatter.format(event.date)}',
+                                                              '${fullDateFormatter.format(event.scheduleDate)}',
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     size.height *
@@ -379,7 +428,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                               ),
                                                             ),
                                                             Text(
-                                                                'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
+                                                                'เวลา ${timeFormatter.format(event.scheduleStart)} - ${timeFormatter.format(event.scheduleEnd)}',
                                                                 style: TextStyle(
                                                                   fontSize:
                                                                       size.height *
@@ -400,15 +449,12 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                               size.width * 0.03,
                                                               0),
                                                       child: Text(
-                                                          '${event.patientCount} / ${event.capacity}',
+                                                          '  10 / ${event.scheduleCapacity}',
                                                           style: TextStyle(
                                                             fontSize: size.width *
                                                                 0.032,
-                                                            color: event.patientCount >=
-                                                                    event.capacity
-                                                                ? Color(
-                                                                    0xFFFF0000)
-                                                                : primaryColor,
+                                                            color: 
+                                                                 primaryColor,
                                                           )),
                                                     )
                                                   ],

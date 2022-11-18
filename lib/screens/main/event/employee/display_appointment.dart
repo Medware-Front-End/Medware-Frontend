@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/colors.dart';
+import '../../../../utils/models/event/confirm_add_patient.dart';
+import 'package:http/http.dart' as http;
 
 class AppointmentDisplay extends StatelessWidget {
   final int scheduleId;
+  final String patientNationalId;
   final DateTime appointmentDate;
   final DateTime appointmentTimeStart;
   final DateTime appointmentTimeEnd;
@@ -18,7 +23,30 @@ class AppointmentDisplay extends StatelessWidget {
       required this.appointmentTimeEnd,
       required this.patientFirstName,
       required this.patientMiddleName,
-      required this.patientLastName});
+      required this.patientLastName,
+      required this.patientNationalId});
+
+  Future ConfirmAdd(String scheduleId, String patientNationalId) async {
+    final msg = jsonEncode({
+      "scheduleId": "${scheduleId}",
+      "patientNationalId": "${patientNationalId}"
+    });
+    var url =
+        "https://medcare-database-test.herokuapp.com/appointments/createNewAppointment";
+    Map<String, String> requestHeaders = {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      'authtoken':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NTk5MzIsImlhdCI6MTY2ODc1NjkzMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.3tO0pJVfb0Re5UpsqJQMZYKi2sobWvJN8JJoHninszk'
+    };
+    var response =
+        await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
+    if (response.statusCode == 200) {
+      print("Create Success");
+    } else {
+      print(response.body);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +247,8 @@ class AppointmentDisplay extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding:  EdgeInsetsDirectional.only(top: size.width*0.04),
+                      padding:
+                          EdgeInsetsDirectional.only(top: size.width * 0.04),
                       child: Icon(
                         Icons.medical_services,
                         size: size.width * 0.1,
@@ -227,25 +256,43 @@ class AppointmentDisplay extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsetsDirectional.only(top: size.width*0.04),
-                      child: Text("คนไข้",style: TextStyle(
-                                color: Color.fromARGB(115, 28, 103, 88),
-                                fontWeight: FontWeight.w400,
-                                fontSize: size.width * 0.035,
-                              ),),
+                      padding:
+                          EdgeInsetsDirectional.only(top: size.width * 0.04),
+                      child: Text(
+                        "คนไข้",
+                        style: TextStyle(
+                          color: Color.fromARGB(115, 28, 103, 88),
+                          fontWeight: FontWeight.w400,
+                          fontSize: size.width * 0.035,
+                        ),
+                      ),
                     ),
                     Center(
-                        child: Text(
-                            "คุณ ${patientFirstName} ${patientMiddleName} ${patientLastName}",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: size.width * 0.048,
-                            ),),),
+                      child: Text(
+                        "คุณ ${patientFirstName} ${patientMiddleName} ${patientLastName}",
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: size.width * 0.048,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  await ConfirmAdd(scheduleId.toString(), patientNationalId);
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: quaternaryColor,
+                ),
+                child: Text(
+                  "ยืนยัน",
+                  style: TextStyle(color: primaryColor),
+                ))
           ],
         ),
       )),
