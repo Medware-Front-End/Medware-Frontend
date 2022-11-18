@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/action_button.dart';
+import 'package:medware/screens/main/event/delay_appointment/delay_patient_appointment.dart';
 import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
 import 'package:medware/screens/main/event/view_appointment/components/header.dart';
 import 'package:medware/utils/colors.dart';
@@ -92,7 +93,16 @@ class ViewAppointment extends StatelessWidget {
           ),
           ActionButton(
             text: 'เลื่อนนัด',
-            action: () {},
+            action: () 
+            {
+              Navigator.push(context, 
+              MaterialPageRoute(
+                builder: (context) =>
+                    DelayPatientAppointment()                               
+                )
+              );
+
+            },
             percentWidth: 30,
           ),
           SizedBox(height: 1),

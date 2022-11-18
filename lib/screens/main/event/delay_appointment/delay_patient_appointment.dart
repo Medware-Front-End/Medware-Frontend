@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:medware/utils/colors.dart';
-import '../../../../components/notification_bell.dart';
+import 'package:medware/utils/models/event/patient/patient_event.dart';
+import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:intl/intl.dart';
-import 'package:medware/utils/models/appointment/employee_appointment.dart';
-import 'package:medware/utils/api/appointment/get_employee_appointments.dart';
 
-LinkedHashMap<DateTime, List<EmployeeAppointment>>? _groupedEvents;
+import '../patient/confirm_appointment.dart';
 
-class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({Key? key}) : super(key: key);
+LinkedHashMap<DateTime, List<PatientEvent>>? _groupedEvents;
+
+class DelayPatientAppointment extends StatefulWidget {
+  const DelayPatientAppointment({Key? key}) : super(key: key);
 
   @override
-  _CalendarScreenState createState() => _CalendarScreenState();
+  _DelayPatientAppointmentState createState() => _DelayPatientAppointmentState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   var events;
@@ -28,7 +29,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future _loadAppointments() async {
-    events = await getEmployeeAppointments();
+    events = await getPatientSchedule();
     _groupEvent(events);
   }
 
@@ -36,7 +37,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return key.day * 1000000 + key.month + 10002 + key.year;
   }
 
-  _groupEvent(List<EmployeeAppointment> events) {
+  bool _checkEventEnrollable(dynamic dayEvent) {
+    for (int i = 0; i < dayEvent.length; i++) {
+      if (dayEvent[i].capacity > dayEvent[i].patientCount) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  _groupEvent(List<PatientEvent> events) {
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
       DateTime date =
@@ -56,15 +66,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     
   }
 
-  bool _checkEventEnrollable(dynamic dayEvent) {
-    for (int i = 0; i < dayEvent.length; i++) {
-      if (dayEvent[i].capacity > dayEvent[i].patientCount) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -82,28 +83,47 @@ class _CalendarScreenState extends State<CalendarScreen> {
         toolbarHeight: size.height * 0.1,
         backgroundColor: Colors.white,
         leadingWidth: size.width * 0.22,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  size.width * 0.045, 0, size.width * 0.045, 0),
-              child: SizedBox(
-                width: size.width * 0.67,
-                child: Text('ปฎิทินการนัดหมาย',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: 'NotoSansThai',
-                      fontWeight: FontWeight.w700,
-                      fontSize: size.width * 0.072,
+        leading: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(size.width * 0.07, 0, 0, 0),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: size.width * 0.04,
                       color: primaryColor,
-                    )),
-              ),
-            ),
-            NotificationBell(backgroundColor: quaternaryColor),
-          ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(size.width * 0.01, 0, 0, 0),
+                    child: Text('กลับ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'NotoSansThai',
+                          fontWeight: FontWeight.w400,
+                          fontSize: size.width * 0.046,
+                          color: primaryColor,
+                        )),
+                  )
+                ],
+              )),
+        ]),
+        title: SizedBox(
+          width: size.width * 0.67,
+          child: Text('เลื่อนนัดหมาย',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontFamily: 'NotoSansThai',
+                fontWeight: FontWeight.w700,
+                fontSize: size.width * 0.072,
+                color: primaryColor,
+              )),
         ),
-        systemOverlayStyle: const SystemUiOverlayStyle(
+          systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
@@ -173,7 +193,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 height: 10.0,
                                 width: 10.0,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: _checkEventEnrollable(events)
+                                      ? primaryColor
+                                      : Color(0xFFFF0000),
                                   shape: BoxShape.rectangle,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15.0)),
@@ -269,6 +291,34 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 size.height * 0.03),
                                           ),
                                           child: InkWell(
+                                            onTap: () {
+                                              if (event.capacity <=
+                                                  event.patientCount) {
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ConfirmAppointment(
+                                                            id: event.id,
+                                                            capacity: event
+                                                                .capacity,
+                                                            patientCount: event
+                                                                .patientCount,
+                                                            date: event.date,
+                                                            startTime:
+                                                                event.startTime,
+                                                            finishTime: event
+                                                                .finishTime,
+                                                            type: event.type,
+                                                            doctor:
+                                                                event.doctor,
+                                                            department: event
+                                                                .department),
+                                                  ),
+                                                );
+                                              }
+                                            },
                                             child: Padding(
                                               padding: EdgeInsets.fromLTRB(
                                                   size.width * 0.02,
@@ -281,7 +331,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                      color: event.type == 0
+                                                      color: event.type ==
+                                                              'ตรวจสุขภาพ'
                                                           ? Color(0xFF4CC9FF)
                                                           : Color(0xFFFF0000),
                                                       borderRadius:
@@ -292,7 +343,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                     padding: EdgeInsets.all(
                                                         size.width * 0.025),
                                                     child: Icon(
-                                                      event.type == 1
+                                                      event.type == 'ตรวจสุขภาพ'
                                                           ? Icons
                                                               .medical_services_outlined
                                                           : Icons
@@ -309,33 +360,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      event.type == 0
-                                                          ? Text(
-                                                              'ตรวจสุขภาพ',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    primaryColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize:
-                                                                    size.height *
-                                                                        0.02,
-                                                              ),
-                                                            )
-                                                          : Text(
-                                                              'ตรวจเลือด',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    primaryColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize:
-                                                                    size.height *
-                                                                        0.02,
-                                                              ),
-                                                            ),
+                                                      Text(
+                                                        event.type,
+                                                        style: TextStyle(
+                                                          color: primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize:
+                                                              size.height *
+                                                                  0.02,
+                                                        ),
+                                                      ),
                                                       Column(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
@@ -364,6 +399,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                       )
                                                     ],
                                                   ),
+                                                  Spacer(),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0,
+                                                            size.height * 0.045,
+                                                            size.width * 0.03,
+                                                            0),
+                                                    child: Text(
+                                                        '${event.patientCount} / ${event.capacity}',
+                                                        style: TextStyle(
+                                                          fontSize: size.width *
+                                                              0.032,
+                                                          color: event.patientCount >=
+                                                                  event.capacity
+                                                              ? Color(
+                                                                  0xFFFF0000)
+                                                              : primaryColor,
+                                                        )),
+                                                  )
                                                 ],
                                               ),
                                             ),
@@ -373,7 +428,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         )
                       : Center(
                           child: Text(
-                          'ไม่มีนัดหมายของท่านในวันนี้',
+                          'ไม่สามารถเลื่อนนัดได้ในวันนี้',
                           style: TextStyle(
                               fontSize: size.width * 0.05, color: primaryColor),
                         )),
@@ -392,3 +447,6 @@ class CustomScroll extends ScrollBehavior {
     return child;
   }
 }
+
+
+
