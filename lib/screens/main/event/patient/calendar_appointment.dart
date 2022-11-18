@@ -43,6 +43,7 @@ class _CalendarAddState extends State<CalendarAppointment> {
     setState(() {
       _groupEvent(events);
     });
+    print(events[0]);
   }
 
   int getHashCode(DateTime key) {
