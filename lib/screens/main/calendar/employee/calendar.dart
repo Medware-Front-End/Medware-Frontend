@@ -50,10 +50,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
-    _selectedDay = DateTime.now();
-    super.initState();
     _loadAppointments();
-    
+    super.initState();
   }
 
   bool _checkEventEnrollable(dynamic dayEvent) {
