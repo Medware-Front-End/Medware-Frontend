@@ -14,6 +14,7 @@ import 'package:medware/screens/main/postpone/employee/calendar_postpone.dart'
     as postponeEmployee;
 
 import '../delay_appointment/delay_employee_appointment.dart';
+import '../employee/view_patient.dart';
 
 class ViewAppointment extends StatelessWidget {
   final EmployeeAppointment appointment;
@@ -52,7 +53,16 @@ class ViewAppointment extends StatelessWidget {
                 borderRadius: BorderRadius.circular(size.width * 0.05),
               ),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PatientView(
+                        id: appointment.id,
+                      ),
+                    ),
+                  );
+                },
                 borderRadius: BorderRadius.circular(
                   size.width * 0.05,
                 ),
@@ -105,12 +115,10 @@ class ViewAppointment extends StatelessWidget {
                     text: 'เลื่อนนัด',
                     action: () {
                       Navigator.push(
-
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   DelayEmployeeAppointment()));
-
                     },
                     percentWidth: 30,
                   ),
@@ -120,9 +128,7 @@ class ViewAppointment extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TranferPatient()
-                            )
-                          );
+                              builder: (context) => TranferPatient()));
                     },
                     percentWidth: 30,
                   ),

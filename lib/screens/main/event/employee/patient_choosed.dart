@@ -53,7 +53,9 @@ class _PatientChoosedState extends State<PatientChoosed> {
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               backgroundColor: quaternaryColor,
               color: primaryColor,
-              child: Column(mainAxisSize: MainAxisSize.max, children: [
+              child: Column(
+                mainAxisSize: MainAxisSize.max, 
+                children: [
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
