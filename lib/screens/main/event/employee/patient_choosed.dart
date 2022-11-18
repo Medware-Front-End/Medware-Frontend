@@ -1,16 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:medware/screens/main/event/employee/display_appointment.dart';
+import 'package:medware/utils/api/user/get_all_patient.dart';
 import 'package:medware/utils/models/event/getPatientAppointment.dart';
 import 'dart:core';
-import 'dart:convert';
 import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
 import 'package:medware/utils/colors.dart';
-
-import 'package:medware/utils/api/appointment/get_employee_appointment_by_id.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:medware/utils/models/user/get_all_patient.dart';
+import 'package:medware/utils/models/user/get_all_patient.dart' ;
 
 class PatientChoosed extends StatefulWidget {
   final int id;
@@ -38,30 +34,10 @@ class _PatientChoosedState extends State<PatientChoosed> {
 
   late List<AllPatient> _getdata;
 
-
-  Future<List<AllPatient>> getPatientOnSchedule() async {
-    var url = "https://medcare-database-test.herokuapp.com/patients";
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'authtoken':
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NTk5MzIsImlhdCI6MTY2ODc1NjkzMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.3tO0pJVfb0Re5UpsqJQMZYKi2sobWvJN8JJoHninszk'
-    };
-
-    var response = await http.get(Uri.parse(url), headers: requestHeaders);
-    if (response.statusCode == 200) {
-      String responseString = utf8.decode(response.bodyBytes);
-      final _getdata = allPatientFromJson(responseString);
-      return _getdata;
-    } else {
-      throw Exception('Failed to load');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    getPatientOnSchedule();
+    getAllPatient();
   }
 
   @override
@@ -73,7 +49,7 @@ class _PatientChoosedState extends State<PatientChoosed> {
         body: SafeArea(
           child: GestureDetector(
             child: RefreshIndicator(
-              onRefresh: getPatientOnSchedule,
+              onRefresh: getAllPatient,
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               backgroundColor: quaternaryColor,
               color: primaryColor,
@@ -130,13 +106,13 @@ class _PatientChoosedState extends State<PatientChoosed> {
                 ),
                 SingleChildScrollView(
                   child: RefreshIndicator(
-                    onRefresh: getPatientOnSchedule,
+                    onRefresh: getAllPatient,
                     triggerMode: RefreshIndicatorTriggerMode.anywhere,
                     backgroundColor: quaternaryColor,
                     color: primaryColor,
                     child: Container(
                       child: FutureBuilder(
-                        future: getPatientOnSchedule(),
+                        future: getAllPatient(),
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
                           if (snapshot.connectionState ==

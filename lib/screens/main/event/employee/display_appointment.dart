@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/colors.dart';
-import '../../../../utils/models/event/confirm_add_patient.dart';
-import 'package:http/http.dart' as http;
+import '../../../../utils/api/event/add_appointment_employee.dart';
 
 class AppointmentDisplay extends StatelessWidget {
   final int scheduleId;
@@ -26,32 +23,34 @@ class AppointmentDisplay extends StatelessWidget {
       required this.patientLastName,
       required this.patientNationalId});
 
-  Future ConfirmAdd(String scheduleId, String patientNationalId) async {
-    final msg = jsonEncode({
-      "scheduleId": "${scheduleId}",
-      "patientNationalId": "${patientNationalId}"
-    });
-    var url =
-        "https://medcare-database-test.herokuapp.com/appointments/createNewAppointment";
-    Map<String, String> requestHeaders = {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      'authtoken':
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NTk5MzIsImlhdCI6MTY2ODc1NjkzMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.3tO0pJVfb0Re5UpsqJQMZYKi2sobWvJN8JJoHninszk'
-    };
-    var response =
-        await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
-    if (response.statusCode == 200) {
-      print("Create Success");
-    } else {
-      print(response.body);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+_showAlertDialog(BuildContext context) {
+      Widget okButton = TextButton(
+        child:  Text("ยืนยัน",style: TextStyle(color: primaryColor)),
+        onPressed: () async {
+          await ConfirmAdd(scheduleId.toString(), patientNationalId);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
+      );
 
+      AlertDialog alert = AlertDialog(
+        title: Text("เพิ่มผู้ป่วยในการนัดหมาย"),
+       shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        actions: [
+          okButton,
+        ],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
     final MonthDateFormatter = DateFormat.MMMM();
     final YearDateFormatter = DateFormat.y();
     final DateDateFormatter = DateFormat.d();
@@ -282,9 +281,9 @@ class AppointmentDisplay extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                onPressed: () async {
-                  await ConfirmAdd(scheduleId.toString(), patientNationalId);
-                  Navigator.pop(context);
+                onPressed: ()  async{
+                  await _showAlertDialog(context);
+                
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: quaternaryColor,

@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/colors.dart';
-import 'package:http/http.dart' as http;
+import '../../../../utils/api/event/add_schedule.dart';
 
 class addWorkHoursScreen extends StatefulWidget {
   const addWorkHoursScreen({Key? key}) : super(key: key);
@@ -27,6 +25,9 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
 
   int _dropdownTypeValue = 1;
 
+  int isSelectDay = 0;
+  //0 = not selected, 1 = selected
+
   List<int> dropDownCapacityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   void dropdownCapacityCallback(int? selectedValue) {
@@ -47,41 +48,6 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
     }
   }
 
-  Future ConfirmAddSchedule(
-    String scheduleCapacity,
-    String scheduleStart,
-    String scheduleEnd,
-    String scheduleDate,
-    String scheduleLocation,
-    String employeeId,
-    String scheduleType,
-  ) async {
-    final msg = jsonEncode({
-      "scheduleCapacity": "${scheduleCapacity}",
-      "scheduleStart": "${scheduleStart}",
-      "scheduleEnd": "${scheduleEnd}",
-      "scheduleDate": "${scheduleDate}",
-      "scheduleLocation": "${scheduleLocation}",
-      "employeeId": "${employeeId}",
-      "scheduleType": "${scheduleType}",
-    });
-    var url =
-        "https://medcare-database-test.herokuapp.com/schedules/createNewSchedule";
-    Map<String, String> requestHeaders = {
-      'Accept': 'application/json',
-      "content-type": "application/json",
-      'authtoken':
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3NjMyMTUsImlhdCI6MTY2ODc2MDIxNSwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.9ZnPu5HJ55mRvcwzpjKl4Yw4mpOXHEKmzXVxbHush4U'
-    };
-    var response =
-        await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
-    if (response.statusCode == 200) {
-      print("Create Success");
-    } else {
-      print(response.body);
-    }
-  }
-
   @override
   void initState() {
     _scheduleDate.text = "";
@@ -94,6 +60,45 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    bool isLoading = false;
+    _showAlertDialog(BuildContext context) {
+      Widget okButton = TextButton(
+        child:  Text("ยืนยัน",style: TextStyle(color: primaryColor)),
+        onPressed: () async {
+          String scheduleCapacity = _scheduleCapacity.text;
+                        String scheduleStart = _scheduleStart.text;
+                        String scheduleEnd = _scheduleEnd.text;
+                        String scheduleDate = _scheduleDate.text;
+                        String scheduleLocation = _scheduleLocation.text;
+                        String employeeId = "2";
+                        String scheduleType = _scheduleType.text;
+                        await ConfirmAddSchedule(
+                            scheduleCapacity,
+                            scheduleStart,
+                            scheduleEnd,
+                            scheduleDate,
+                            scheduleLocation,
+                            employeeId,
+                            scheduleType);
+          Navigator.of(context).pop();
+        },
+      );
+
+      AlertDialog alert = AlertDialog(
+        title: Text("ยืนยันการสร้างนัดหมาย"),
+       shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        actions: [
+          okButton,
+        ],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
 
     return Scaffold(
       key: scaffoldKey,
@@ -189,6 +194,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                                   .format(pickedDate)
                                   .toString();
                           print(formattedDate);
+                          isSelectDay = 1;
 
                           setState(() {
                             _scheduleDate.text = formattedDate;
@@ -209,16 +215,39 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                       onChanged: (DateTime? startTime, DateTime? endTime,
                           bool isAllDay) {
                         setState(() {
-                          _scheduleStart.text = _scheduleDate.text
-                                  .split("T")[0] +
-                              "T" +
-                              startTime.toString().split(" ")[1].split(".")[0];
-                          print(_scheduleStart.text);
+                          print(DateTime.now());
+                          if (isSelectDay == 0) {
+                            _scheduleStart.text =
+                                DateTime.now().toString().split(" ")[0] +
+                                    "T" +
+                                    startTime
+                                        .toString()
+                                        .split(" ")[1]
+                                        .split(".")[0];
+                            print(_scheduleStart.text);
 
-                          _scheduleEnd.text = _scheduleDate.text.split("T")[0] +
-                              "T" +
-                              endTime.toString().split(" ")[1].split(".")[0];
-                          print(_scheduleEnd.text);
+                            _scheduleEnd.text = DateTime.now()
+                                    .toString()
+                                    .split(" ")[0] +
+                                "T" +
+                                endTime.toString().split(" ")[1].split(".")[0];
+                            print(_scheduleEnd.text);
+                          } else {
+                            _scheduleStart.text =
+                                _scheduleDate.text.split("T")[0] +
+                                    "T" +
+                                    startTime
+                                        .toString()
+                                        .split(" ")[1]
+                                        .split(".")[0];
+                            print(_scheduleStart.text);
+
+                            _scheduleEnd.text = _scheduleDate.text
+                                    .split("T")[0] +
+                                "T" +
+                                endTime.toString().split(" ")[1].split(".")[0];
+                            print(_scheduleEnd.text);
+                          }
                         });
                       },
                     ),
@@ -291,18 +320,8 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor),
-                      onPressed: () async {
-                        String scheduleCapacity = _scheduleCapacity.text;
-                        String scheduleStart = _scheduleStart.text;
-                        String scheduleEnd = _scheduleEnd.text;
-                        String scheduleDate = _scheduleDate.text;
-                        String scheduleLocation = _scheduleLocation.text;
-                        String employeeId = "2";
-                        String scheduleType = _scheduleType.text;
-                        await  ConfirmAddSchedule(
-                          scheduleCapacity,scheduleStart,scheduleEnd,scheduleDate,
-                          scheduleLocation,employeeId,scheduleType
-                        );
+                      onPressed: ()  {
+                        _showAlertDialog(context);
                       },
                       child: const Text('สร้าง'),
                     ),
