@@ -1,14 +1,14 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
+import 'package:medware/utils/models/appointment/patient_appointment.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:medware/utils/colors.dart';
 import '../../../../components/notification_bell.dart';
-import 'package:medware/utils/models/event/patient/patient_event.dart';
-import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:intl/intl.dart';
 
-LinkedHashMap<DateTime, List<PatientEvent>>? _groupedEvents;
+LinkedHashMap<DateTime, List<PatientAppointment>>? _groupedEvents;
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -23,12 +23,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
   var events;
   DateTime? _selectedDay;
 
+  String _mapAppointmentType(int type) {
+    if (type == 0) {
+      return 'ตรวจกับหมอ';
+    } else if (type == 1) {
+      return 'ตรวจสุขภาพ';
+    } else if (type == 2) {
+      return 'บริจาคเลือด';
+    } else {
+      return 'อื่นๆ';
+    }
+  }
+
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
   }
 
   Future _loadAppointments() async {
-    events = await getPatientSchedule();
+    events = await getPatientAppointments();
     _groupEvent(events);
   }
 
@@ -36,7 +48,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return key.day * 1000000 + key.month + 10002 + key.year;
   }
 
-  _groupEvent(List<PatientEvent> events) {
+  _groupEvent(List<PatientAppointment> events) {
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
       DateTime date =
@@ -50,15 +62,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
-    _selectedDay = DateTime.now();
     super.initState();
-    _loadAppointments();
-    
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+     _loadAppointments();
   }
 
   @override
@@ -273,10 +278,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                      color: event.type ==
-                                                              'ตรวจสุขภาพ'
-                                                          ? Color(0xFF4CC9FF)
-                                                          : Color(0xFFFF0000),
+                                                      color: event.type == 2
+                                                          ? Color(0xFFFF0000)
+                                                          : Color(0xFF4CC9FF),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                         size.width * 0.03,
@@ -285,11 +289,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                     padding: EdgeInsets.all(
                                                         size.width * 0.025),
                                                     child: Icon(
-                                                      event.type == 'ตรวจสุขภาพ'
+                                                      event.type == 2
                                                           ? Icons
-                                                              .medical_services_outlined
+                                                              .water_drop_outlined
                                                           : Icons
-                                                              .water_drop_outlined,
+                                                              .medical_services_outlined,
                                                       size: size.width * 0.09,
                                                       color: Colors.white,
                                                     ),
@@ -303,7 +307,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        event.type,
+                                                        _mapAppointmentType(
+                                                            event.type),
                                                         style: TextStyle(
                                                           color: primaryColor,
                                                           fontWeight:
