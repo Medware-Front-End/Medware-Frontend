@@ -3,6 +3,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreference {
   static late SharedPreferences _pref;
+  static List<String> roles = [
+    'แพทย์',
+    'ผู้ป่วย',
+    '',
+  ];
+  static List<String> types = [
+    'ตรวจร่างกาย',
+    'บริจาคเลือด',
+  ];
+  static List<String> notificationTypes = [
+    'system',
+    'เลื่อนนัด',
+    'ยกเลิก',
+    'โอนถ่าย',
+  ];
 
   static Future init() async => _pref = await SharedPreferences.getInstance();
 

@@ -29,6 +29,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  modal_progress_hud_nsn: ^0.3.0
+  hexcolor: ^3.0.1
+  flutter_progress_hud: ^2.0.2
+  api_cache_manager: ^1.0.1
+  http:
   flutter:
     sdk: flutter
 
