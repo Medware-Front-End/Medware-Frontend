@@ -33,7 +33,6 @@ dependencies:
   hexcolor: ^3.0.1
   flutter_progress_hud: ^2.0.2
   api_cache_manager: ^1.0.1
-  http:
   flutter:
     sdk: flutter
 

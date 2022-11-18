@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: auth.screens[0],
-      // home: const MainScreen(),
+      // home: auth.screens[0],
+      home: const MainScreen(),
     );
   }
 }
