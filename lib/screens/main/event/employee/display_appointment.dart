@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/colors.dart';
+import '../../../../utils/api/event/add_appointment_employee.dart';
 
 class AppointmentDisplay extends StatelessWidget {
   final int scheduleId;
+  final String patientNationalId;
   final DateTime appointmentDate;
   final DateTime appointmentTimeStart;
   final DateTime appointmentTimeEnd;
@@ -18,12 +20,37 @@ class AppointmentDisplay extends StatelessWidget {
       required this.appointmentTimeEnd,
       required this.patientFirstName,
       required this.patientMiddleName,
-      required this.patientLastName});
+      required this.patientLastName,
+      required this.patientNationalId});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+_showAlertDialog(BuildContext context) {
+      Widget okButton = TextButton(
+        child:  Text("ยืนยัน",style: TextStyle(color: primaryColor)),
+        onPressed: () async {
+          await ConfirmAdd(scheduleId.toString(), patientNationalId);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
+      );
 
+      AlertDialog alert = AlertDialog(
+        title: Text("เพิ่มผู้ป่วยในการนัดหมาย"),
+       shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        actions: [
+          okButton,
+        ],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
     final MonthDateFormatter = DateFormat.MMMM();
     final YearDateFormatter = DateFormat.y();
     final DateDateFormatter = DateFormat.d();
@@ -219,7 +246,8 @@ class AppointmentDisplay extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding:  EdgeInsetsDirectional.only(top: size.width*0.04),
+                      padding:
+                          EdgeInsetsDirectional.only(top: size.width * 0.04),
                       child: Icon(
                         Icons.medical_services,
                         size: size.width * 0.1,
@@ -227,25 +255,43 @@ class AppointmentDisplay extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsetsDirectional.only(top: size.width*0.04),
-                      child: Text("คนไข้",style: TextStyle(
-                                color: Color.fromARGB(115, 28, 103, 88),
-                                fontWeight: FontWeight.w400,
-                                fontSize: size.width * 0.035,
-                              ),),
+                      padding:
+                          EdgeInsetsDirectional.only(top: size.width * 0.04),
+                      child: Text(
+                        "คนไข้",
+                        style: TextStyle(
+                          color: Color.fromARGB(115, 28, 103, 88),
+                          fontWeight: FontWeight.w400,
+                          fontSize: size.width * 0.035,
+                        ),
+                      ),
                     ),
                     Center(
-                        child: Text(
-                            "คุณ ${patientFirstName} ${patientMiddleName} ${patientLastName}",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: size.width * 0.048,
-                            ),),),
+                      child: Text(
+                        "คุณ ${patientFirstName} ${patientMiddleName} ${patientLastName}",
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: size.width * 0.048,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
+            ElevatedButton(
+                onPressed: ()  async{
+                  await _showAlertDialog(context);
+                
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: quaternaryColor,
+                ),
+                child: Text(
+                  "ยืนยัน",
+                  style: TextStyle(color: primaryColor),
+                ))
           ],
         ),
       )),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/colors.dart';
+import '../../../../utils/api/event/add_schedule.dart';
 
 class addWorkHoursScreen extends StatefulWidget {
   const addWorkHoursScreen({Key? key}) : super(key: key);
@@ -23,6 +24,9 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   int _dropdownCapacityValue = 1;
 
   int _dropdownTypeValue = 1;
+
+  int isSelectDay = 0;
+  //0 = not selected, 1 = selected
 
   List<int> dropDownCapacityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -56,6 +60,45 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    bool isLoading = false;
+    _showAlertDialog(BuildContext context) {
+      Widget okButton = TextButton(
+        child:  Text("ยืนยัน",style: TextStyle(color: primaryColor)),
+        onPressed: () async {
+          String scheduleCapacity = _scheduleCapacity.text;
+                        String scheduleStart = _scheduleStart.text;
+                        String scheduleEnd = _scheduleEnd.text;
+                        String scheduleDate = _scheduleDate.text;
+                        String scheduleLocation = _scheduleLocation.text;
+                        String employeeId = "2";
+                        String scheduleType = _scheduleType.text;
+                        await ConfirmAddSchedule(
+                            scheduleCapacity,
+                            scheduleStart,
+                            scheduleEnd,
+                            scheduleDate,
+                            scheduleLocation,
+                            employeeId,
+                            scheduleType);
+          Navigator.of(context).pop();
+        },
+      );
+
+      AlertDialog alert = AlertDialog(
+        title: Text("ยืนยันการสร้างนัดหมาย"),
+       shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        actions: [
+          okButton,
+        ],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
 
     return Scaffold(
       key: scaffoldKey,
@@ -151,6 +194,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                                   .format(pickedDate)
                                   .toString();
                           print(formattedDate);
+                          isSelectDay = 1;
 
                           setState(() {
                             _scheduleDate.text = formattedDate;
@@ -171,16 +215,39 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                       onChanged: (DateTime? startTime, DateTime? endTime,
                           bool isAllDay) {
                         setState(() {
-                          _scheduleStart.text = _scheduleDate.text
-                                  .split("T")[0] +
-                              "T" +
-                              startTime.toString().split(" ")[1].split(".")[0];
-                          print(_scheduleStart.text);
+                          print(DateTime.now());
+                          if (isSelectDay == 0) {
+                            _scheduleStart.text =
+                                DateTime.now().toString().split(" ")[0] +
+                                    "T" +
+                                    startTime
+                                        .toString()
+                                        .split(" ")[1]
+                                        .split(".")[0];
+                            print(_scheduleStart.text);
 
-                          _scheduleEnd.text = _scheduleDate.text.split("T")[0] +
-                              "T" +
-                              endTime.toString().split(" ")[1].split(".")[0];
-                          print(_scheduleEnd.text);
+                            _scheduleEnd.text = DateTime.now()
+                                    .toString()
+                                    .split(" ")[0] +
+                                "T" +
+                                endTime.toString().split(" ")[1].split(".")[0];
+                            print(_scheduleEnd.text);
+                          } else {
+                            _scheduleStart.text =
+                                _scheduleDate.text.split("T")[0] +
+                                    "T" +
+                                    startTime
+                                        .toString()
+                                        .split(" ")[1]
+                                        .split(".")[0];
+                            print(_scheduleStart.text);
+
+                            _scheduleEnd.text = _scheduleDate.text
+                                    .split("T")[0] +
+                                "T" +
+                                endTime.toString().split(" ")[1].split(".")[0];
+                            print(_scheduleEnd.text);
+                          }
                         });
                       },
                     ),
@@ -253,12 +320,8 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor),
-                      onPressed: () {
-                        print(_scheduleCapacity.text);
-                        print(_scheduleDate.text);
-                        print(_scheduleStart.text);
-                        print(_scheduleEnd.text);
-                        print(_scheduleType.text);
+                      onPressed: ()  {
+                        _showAlertDialog(context);
                       },
                       child: const Text('สร้าง'),
                     ),
