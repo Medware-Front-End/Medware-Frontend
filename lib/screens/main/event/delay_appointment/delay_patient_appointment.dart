@@ -24,6 +24,18 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   var events;
   DateTime? _selectedDay;
 
+  String _mapAppointmentType(int type) {
+    if (type == 1) {
+      return 'ตรวจกับหมอ';
+    } else if (type == 2) {
+      return 'ตรวจสุขภาพ';
+    } else if (type == 3) {
+      return 'บริจาคเลือด';
+    } else {
+      return 'อื่นๆ';
+    }
+  }
+
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
   }
@@ -331,8 +343,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                      color: event.type ==
-                                                              'ตรวจสุขภาพ'
+                                                      color: event.type == 3 
                                                           ? Color(0xFF4CC9FF)
                                                           : Color(0xFFFF0000),
                                                       borderRadius:
@@ -343,7 +354,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                     padding: EdgeInsets.all(
                                                         size.width * 0.025),
                                                     child: Icon(
-                                                      event.type == 'ตรวจสุขภาพ'
+                                                      event.type == 3
                                                           ? Icons
                                                               .medical_services_outlined
                                                           : Icons
@@ -361,7 +372,8 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        event.type,
+                                                        _mapAppointmentType(
+                                                            event.type),
                                                         style: TextStyle(
                                                           color: primaryColor,
                                                           fontWeight:

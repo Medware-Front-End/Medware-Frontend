@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/screens/main/event/tranfer_patient/doctor_card.dart';
+import 'package:medware/screens/main/event/transfer_patient/doctor_card.dart';
 import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
