@@ -47,7 +47,7 @@ class ConfirmAppointment extends StatelessWidget {
       Widget okButton = TextButton(
         child: const Text("OK"),
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.popUntil(context, ModalRoute.withName('/'));
         },
       );
 
