@@ -3,12 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/components/underlined_button.dart';
+import 'package:medware/screens/main/event/tranfer_patient/tranfer_patient.dart';
 import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
 import 'package:medware/screens/main/event/view_appointment/components/header.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+
+import '../delay_appointment/delay_employee_appointment.dart';
 
 class ViewAppointment extends StatelessWidget {
   final EmployeeAppointment appointment;
@@ -98,12 +101,25 @@ class ViewAppointment extends StatelessWidget {
                 children: [
                   ActionButton(
                     text: 'เลื่อนนัด',
-                    action: () {},
+                    action: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DelayEmployeeAppointment()));
+                    },
                     percentWidth: 30,
                   ),
                   ActionButton(
                     text: 'โอนถ่ายแพทย์',
-                    action: () {},
+                    action: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TranferPatient()
+                            )
+                          );
+                    },
                     percentWidth: 30,
                   ),
                 ],
