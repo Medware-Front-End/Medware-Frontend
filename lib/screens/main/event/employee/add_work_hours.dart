@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/colors.dart';
-import '../../../../utils/models/event/add_schedule.dart';
+import '../../../../utils/api/event/add_schedule.dart';
 
 class addWorkHoursScreen extends StatefulWidget {
   const addWorkHoursScreen({Key? key}) : super(key: key);
