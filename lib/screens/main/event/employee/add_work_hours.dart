@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
@@ -60,34 +61,30 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    var errorMessage;
     bool isLoading = false;
     _showAlertDialog(BuildContext context) {
       Widget okButton = TextButton(
-        child:  Text("ยืนยัน",style: TextStyle(color: primaryColor)),
+        child: Text("ยืนยัน", style: TextStyle(color: primaryColor)),
         onPressed: () async {
           String scheduleCapacity = _scheduleCapacity.text;
-                        String scheduleStart = _scheduleStart.text;
-                        String scheduleEnd = _scheduleEnd.text;
-                        String scheduleDate = _scheduleDate.text;
-                        String scheduleLocation = _scheduleLocation.text;
-                        String employeeId = "2";
-                        String scheduleType = _scheduleType.text;
-                        await ConfirmAddSchedule(
-                            scheduleCapacity,
-                            scheduleStart,
-                            scheduleEnd,
-                            scheduleDate,
-                            scheduleLocation,
-                            employeeId,
-                            scheduleType);
+          String scheduleStart = _scheduleStart.text;
+          String scheduleEnd = _scheduleEnd.text;
+          String scheduleDate = _scheduleDate.text;
+          String scheduleLocation = _scheduleLocation.text;
+          String employeeId = "2";
+          String scheduleType = _scheduleType.text;
+          await ConfirmAddSchedule(scheduleCapacity, scheduleStart, scheduleEnd,
+              scheduleDate, scheduleLocation, employeeId, scheduleType,context);
           Navigator.of(context).pop();
         },
       );
 
       AlertDialog alert = AlertDialog(
         title: Text("ยืนยันการสร้างนัดหมาย"),
-       shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32.0))),
         actions: [
           okButton,
         ],
@@ -320,8 +317,26 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor),
-                      onPressed: ()  {
-                        _showAlertDialog(context);
+                      onPressed: () async {
+                        setState(() {
+                          String scheduleCapacity = _scheduleCapacity.text;
+                          String scheduleStart = _scheduleStart.text;
+                          String scheduleEnd = _scheduleEnd.text;
+                          String scheduleDate = _scheduleDate.text;
+                          String scheduleLocation = _scheduleLocation.text;
+                          String employeeId = "2";
+                          String scheduleType = _scheduleType.text;
+                          ConfirmAddSchedule(
+                                  scheduleCapacity,
+                                  scheduleStart,
+                                  scheduleEnd,
+                                  scheduleDate,
+                                  scheduleLocation,
+                                  employeeId,
+                                  scheduleType,
+                                  context);
+                             
+                        });
                       },
                       child: const Text('สร้าง'),
                     ),
