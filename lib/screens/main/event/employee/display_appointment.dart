@@ -26,20 +26,19 @@ class AppointmentDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-_showAlertDialog(BuildContext context) {
+    _showAlertDialog(BuildContext context) {
       Widget okButton = TextButton(
-        child:  Text("ยืนยัน",style: TextStyle(color: primaryColor)),
+        child: Text("ยืนยัน", style: TextStyle(color: primaryColor)),
         onPressed: () async {
           await ConfirmAdd(scheduleId.toString(), patientNationalId);
-          Navigator.of(context).pop();
           Navigator.of(context).pop();
         },
       );
 
       AlertDialog alert = AlertDialog(
         title: Text("เพิ่มผู้ป่วยในการนัดหมาย"),
-       shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32.0))),
         actions: [
           okButton,
         ],
@@ -51,6 +50,7 @@ _showAlertDialog(BuildContext context) {
             return alert;
           });
     }
+
     final MonthDateFormatter = DateFormat.MMMM();
     final YearDateFormatter = DateFormat.y();
     final DateDateFormatter = DateFormat.d();
@@ -281,9 +281,14 @@ _showAlertDialog(BuildContext context) {
               ),
             ),
             ElevatedButton(
-                onPressed: ()  async{
-                  await _showAlertDialog(context);
-                
+                onPressed: () async {
+                  await ConfirmAdd(scheduleId.toString(), patientNationalId);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text(
+                      "Success"
+                    ))
+                  );
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: quaternaryColor,

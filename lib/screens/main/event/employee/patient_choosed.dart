@@ -1,12 +1,11 @@
-import 'package:collection/collection.dart';
+import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:medware/screens/main/event/employee/display_appointment.dart';
 import 'package:medware/utils/api/user/get_all_patient.dart';
-import 'package:medware/utils/models/event/getPatientAppointment.dart';
 import 'dart:core';
-import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
 import 'package:medware/utils/colors.dart';
-import 'package:medware/utils/models/user/get_all_patient.dart' ;
+import 'package:medware/utils/models/user/get_all_patient.dart';
 
 class PatientChoosed extends StatefulWidget {
   final int id;
@@ -29,15 +28,41 @@ class PatientChoosed extends StatefulWidget {
   State<PatientChoosed> createState() => _PatientChoosedState();
 }
 
+class Debouncer {
+  int? milliseconds;
+  VoidCallback? action;
+  Timer? timer;
+
+  run(VoidCallback action) {
+    if (null != timer) {
+      timer!.cancel();
+    }
+    timer = Timer(
+      Duration(milliseconds: Duration.millisecondsPerSecond),
+      action,
+    );
+  }
+}
+
 class _PatientChoosedState extends State<PatientChoosed> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final _debouncer = Debouncer();
+
+  List<AllPatient> ulist = [];
+  List<AllPatient> userLists = [];
 
   late List<AllPatient> _getdata;
 
   @override
   void initState() {
     super.initState();
-    getAllPatient();
+    getAllPatient().then((subjectFromServer) {
+      setState(() {
+        ulist = subjectFromServer;
+        userLists = ulist;
+      });
+    });
   }
 
   @override
@@ -53,9 +78,7 @@ class _PatientChoosedState extends State<PatientChoosed> {
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               backgroundColor: quaternaryColor,
               color: primaryColor,
-              child: Column(
-                mainAxisSize: MainAxisSize.max, 
-                children: [
+              child: Column(mainAxisSize: MainAxisSize.max, children: [
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -94,6 +117,7 @@ class _PatientChoosedState extends State<PatientChoosed> {
                           size.width * 0.05,
                           size.width * 0.05),
                       child: TextField(
+                        textInputAction: TextInputAction.search,
                         decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search),
                             hintText: "ค้นหาคนไข้",
@@ -102,82 +126,81 @@ class _PatientChoosedState extends State<PatientChoosed> {
                                   size.shortestSide * 0.05),
                               borderSide: BorderSide(color: primaryColor),
                             )),
+                        onChanged: (string) {
+                          _debouncer.run(() {
+                            setState(() {
+                              userLists = ulist
+                                  .where((u) =>
+                                      (u.patientFirstName.contains(
+                                        string,
+                                      )) ||
+                                      (u.patientMiddleName.contains(
+                                        string,
+                                      )) ||
+                                      (u.patientLastName.contains(
+                                        string,
+                                      )) ||
+                                      (u.patientHnId.toString().contains(
+                                            string,
+                                          )))
+                                  .toList();
+                            });
+                          });
+                        },
                       ),
                     ),
                   ],
                 ),
                 SingleChildScrollView(
                   child: RefreshIndicator(
-                    onRefresh: getAllPatient,
+                    onRefresh: () => getAllPatient(),
                     triggerMode: RefreshIndicatorTriggerMode.anywhere,
                     backgroundColor: quaternaryColor,
                     color: primaryColor,
                     child: Container(
-                      child: FutureBuilder(
-                        future: getAllPatient(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            var result = snapshot.data;
-
-                            return Container(
-                              padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
-                                  size.width * 0.03, size.width * 0.03),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: result.length,
-                                itemBuilder: (context, i) {
-                                  return InkWell(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          top: size.width * 0.02),
-                                      decoration: BoxDecoration(
-                                        color: quaternaryColor,
-                                        borderRadius: BorderRadius.circular(
-                                            size.width * 0.03),
-                                      ),
-                                      child: ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AppointmentDisplay(
-                                                scheduleId: widget.getId(),
-                                                appointmentDate: widget.date,
-                                                appointmentTimeStart:
-                                                    widget.startTime,
-                                                appointmentTimeEnd:
-                                                    widget.finishTime,
-                                                patientFirstName:
-                                                    result[i].patientFirstName,
-                                                patientMiddleName:
-                                                    result[i].patientMiddleName,
-                                                patientLastName:
-                                                    result[i].patientLastName,
-                                                patientNationalId:
-                                                    result[i].patientNationalId,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        title: Text(
-                                            "${result[i].patientFirstName} ${result[i].patientMiddleName} ${result[i].patientLastName}"),
-                                        trailing: Icon(Icons.arrow_forward_ios),
-                                        leading: Icon(
-                                            Icons.account_circle_rounded,
-                                            size: size.width * 0.08),
+                      padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
+                          size.width * 0.03, size.width * 0.03),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: userLists.length,
+                        itemBuilder: (context, i) {
+                          return InkWell(
+                            child: Container(
+                              margin: EdgeInsets.only(top: size.width * 0.02),
+                              decoration: BoxDecoration(
+                                color: quaternaryColor,
+                                borderRadius:
+                                    BorderRadius.circular(size.width * 0.03),
+                              ),
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AppointmentDisplay(
+                                        scheduleId: widget.getId(),
+                                        appointmentDate: widget.date,
+                                        appointmentTimeStart: widget.startTime,
+                                        appointmentTimeEnd: widget.finishTime,
+                                        patientFirstName:
+                                            userLists[i].patientFirstName,
+                                        patientMiddleName:
+                                            userLists[i].patientMiddleName,
+                                        patientLastName:
+                                            userLists[i].patientLastName,
+                                        patientNationalId:
+                                            userLists[i].patientNationalId,
                                       ),
                                     ),
                                   );
                                 },
+                                title: Text(
+                                    "${userLists[i].patientFirstName} ${userLists[i].patientMiddleName} ${userLists[i].patientLastName}"),
+                                trailing: Icon(Icons.arrow_forward_ios),
+                                leading: Icon(Icons.account_circle_rounded,
+                                    size: size.width * 0.08),
                               ),
-                            );
-                          }
-                          return LinearProgressIndicator(
-                            backgroundColor: tertiaryColor,
-                            color: secondaryColor,
+                            ),
                           );
                         },
                       ),
