@@ -26,7 +26,6 @@ class AppointmentDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    
 
     final MonthDateFormatter = DateFormat.MMMM();
     final YearDateFormatter = DateFormat.y();
@@ -259,9 +258,10 @@ class AppointmentDisplay extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  await ConfirmAdd(scheduleId.toString(), patientNationalId,context);
+                  await ConfirmAdd(
+                      scheduleId.toString(), patientNationalId, context);
                   await Future.delayed(const Duration(seconds: 1));
-Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: quaternaryColor,
