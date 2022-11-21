@@ -5,7 +5,7 @@ import 'package:medware/screens/main/home/user/contact.dart';
 import 'package:medware/screens/main/home/user/header.dart';
 import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class Home extends StatefulWidget {

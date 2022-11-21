@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
 import 'package:medware/utils/api/auth/api_service.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/auth/login_request_model.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 

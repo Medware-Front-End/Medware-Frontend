@@ -8,7 +8,7 @@ import 'package:medware/screens/main/profile/view_profile/detailedList.dart';
 import 'package:medware/screens/main/profile/view_profile/header.dart';
 import 'package:medware/screens/main/profile/view_profile/label.dart';
 import 'package:medware/utils/api/user/get_patient_by_id.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/user/patient.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import '../../../../utils/api/event/add_appointment_employee.dart';
 
 class AppointmentDisplay extends StatelessWidget {

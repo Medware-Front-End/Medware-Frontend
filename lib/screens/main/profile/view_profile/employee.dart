@@ -7,7 +7,7 @@ import 'package:medware/screens/main/profile/view_profile/detail.dart';
 import 'package:medware/screens/main/profile/view_profile/header.dart';
 import 'package:medware/screens/main/profile/view_profile/label.dart';
 import 'package:medware/utils/api/user/get_employee_by_id.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/user/employee.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 

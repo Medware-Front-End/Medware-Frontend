@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/screens/main/event/patient/calendar_appointment.dart';
 
 class EventTypePicker extends StatelessWidget {

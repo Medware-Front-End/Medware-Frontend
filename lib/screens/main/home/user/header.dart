@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/bubbled_header.dart';
 import 'package:medware/components/notification_bell.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class Header extends StatelessWidget {

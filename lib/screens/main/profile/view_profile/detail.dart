@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class Detail extends StatelessWidget {
   final String title;
