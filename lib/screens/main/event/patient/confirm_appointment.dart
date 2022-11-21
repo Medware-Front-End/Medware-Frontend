@@ -39,7 +39,7 @@ class ConfirmAppointment extends StatelessWidget {
       } else if (type == 2) {
         return 'ตรวจสุขภาพ';
       } else if (type == 3) {
-        return 'บริจาคเลือด';
+        return 'บริจาคโลหิต';
       } else {
         return 'อื่นๆ';
       }

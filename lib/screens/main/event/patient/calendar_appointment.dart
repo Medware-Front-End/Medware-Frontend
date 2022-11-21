@@ -31,7 +31,7 @@ class _CalendarAddState extends State<CalendarAppointment> {
     } else if (type == 2) {
       return 'ตรวจสุขภาพ';
     } else if (type == 3) {
-      return 'บริจาคเลือด';
+      return 'บริจาคโลหิต';
     } else {
       return 'อื่นๆ';
     }
@@ -64,6 +64,9 @@ class _CalendarAddState extends State<CalendarAppointment> {
   }
 
   _groupEvent(List<PatientEvent> events) {
+    events.sort(((a, b) {
+      return a.startTime.compareTo(b.startTime);
+    }));
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
       DateTime date =
