@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/screens/main/event/delay_appointment/delay_patient_appointment.dart';
-import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
-import 'package:medware/screens/main/event/view_appointment/components/header.dart';
+import 'package:medware/screens/main/event/view_appointment/date_time_card.dart';
+import 'package:medware/screens/main/event/view_appointment/header.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
