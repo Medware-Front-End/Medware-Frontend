@@ -21,7 +21,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   var events;
-  DateTime? _selectedDay;
+  DateTime _selectedDay = DateTime.now();
 
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
