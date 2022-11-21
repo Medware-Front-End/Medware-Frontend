@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:medware/screens/main/event/employee/display_appointment.dart';
@@ -71,107 +72,134 @@ class _PatientChoosedState extends State<PatientChoosed> {
     return Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: false,
+          toolbarHeight: size.height * 0.1,
+          backgroundColor: Colors.white,
+          leadingWidth: size.width * 0.22,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.07, 0, 0, 0),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: size.width * 0.04,
+                          color: primaryColor,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.01, 0, 0, 0),
+                        child: Text('กลับ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'NotoSansThai',
+                              fontWeight: FontWeight.w400,
+                              fontSize: size.width * 0.046,
+                              color: primaryColor,
+                            )),
+                      )
+                    ],
+                  )),
+            ],
+          ),
+          title: SizedBox(
+            width: size.width * 0.67,
+            child: Text('เลือกคนไข้',
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontFamily: 'NotoSansThai',
+                  fontWeight: FontWeight.w700,
+                  fontSize: size.width * 0.072,
+                  color: primaryColor,
+                )),
+          ),
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarBrightness: Brightness.dark,
+            statusBarIconBrightness: Brightness.dark,
+            systemStatusBarContrastEnforced: true,
+          ),
+        ),
         body: SafeArea(
           child: GestureDetector(
             child: RefreshIndicator(
               onRefresh: getAllPatient,
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              backgroundColor: quaternaryColor,
-              color: primaryColor,
-              child: Column(mainAxisSize: MainAxisSize.max, children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Text(
-                          '<   กลับ',
-                          style: TextStyle(
-                              fontFamily: 'NotoSansThai',
-                              color: primaryColor,
-                              fontWeight: FontWeight.w600),
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        backgroundColor: quaternaryColor,
+        color: primaryColor,
+              child: SingleChildScrollView(
+                 physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+                child: Column(mainAxisSize: MainAxisSize.max, children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            size.width * 0.05,
+                            size.width * 0.05,
+                            size.width * 0.05,
+                            size.width * 0.05),
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.search),
+                              hintText: "ค้นหาคนไข้",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                    size.shortestSide * 0.05),
+                                borderSide: BorderSide(color: primaryColor),
+                              )),
+                          onChanged: (string) {
+                            _debouncer.run(() {
+                              setState(() {
+                                userLists = ulist
+                                    .where((u) =>
+                                        (u.patientFirstName.contains(
+                                          string,
+                                        )) ||
+                                        (u.patientMiddleName.contains(
+                                          string,
+                                        )) ||
+                                        (u.patientLastName.contains(
+                                          string,
+                                        )) ||
+                                        (u.patientHnId.toString().contains(
+                                              string,
+                                            )))
+                                    .toList();
+                              });
+                            });
+                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(130, 30, 0, 0),
-                      child: Text(
-                        'เลือกคนไข้',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansThai',
-                            color: secondaryColor,
-                            fontSize: size.width * 0.07,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          size.width * 0.05,
-                          size.width * 0.05,
-                          size.width * 0.05,
-                          size.width * 0.05),
-                      child: TextField(
-                        textInputAction: TextInputAction.search,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            hintText: "ค้นหาคนไข้",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  size.shortestSide * 0.05),
-                              borderSide: BorderSide(color: primaryColor),
-                            )),
-                        onChanged: (string) {
-                          _debouncer.run(() {
-                            setState(() {
-                              userLists = ulist
-                                  .where((u) =>
-                                      (u.patientFirstName.contains(
-                                        string,
-                                      )) ||
-                                      (u.patientMiddleName.contains(
-                                        string,
-                                      )) ||
-                                      (u.patientLastName.contains(
-                                        string,
-                                      )) ||
-                                      (u.patientHnId.toString().contains(
-                                            string,
-                                          )))
-                                  .toList();
-                            });
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                SingleChildScrollView(
-                  child: RefreshIndicator(
-                    onRefresh: () => getAllPatient(),
-                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                    backgroundColor: quaternaryColor,
-                    color: primaryColor,
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
-                          size.width * 0.03, size.width * 0.03),
-                      child: ListView.builder(
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      ListView.builder(
+                        physics: ScrollPhysics(parent: null),
                         shrinkWrap: true,
                         itemCount: userLists.length,
                         itemBuilder: (context, i) {
-                          return InkWell(
-                            child: Container(
-                              margin: EdgeInsets.only(top: size.width * 0.02),
-                              decoration: BoxDecoration(
-                                color: quaternaryColor,
-                                borderRadius:
-                                    BorderRadius.circular(size.width * 0.03),
-                              ),
+                          return Container(
+                            margin: EdgeInsetsDirectional.fromSTEB(size.width*0.03,size.width*0.04,size.width*0.03,0),
+                            decoration: BoxDecoration(
+                              color: quaternaryColor,
+                              borderRadius:
+                                  BorderRadius.circular(size.width * 0.03),
+                            ),
+                            child: GestureDetector(
                               child: ListTile(
                                 onTap: () {
                                   Navigator.push(
@@ -204,10 +232,10 @@ class _PatientChoosedState extends State<PatientChoosed> {
                           );
                         },
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ]),
+                ]),
+              ),
             ),
           ),
         ));

@@ -10,7 +10,7 @@ String allPatientToJson(List<AllPatient> data) => json.encode(List<dynamic>.from
 
 class AllPatient {
     AllPatient({
-         required this.patientHnId,
+        required this.patientHnId,
         required this.patientFirstName,
         required this.patientMiddleName,
         required this.patientLastName,
@@ -38,7 +38,7 @@ class AllPatient {
     int patientProfileIndex;
     dynamic patientMedicine;
     dynamic patientAllergy;
-    String patientDisease;
+    dynamic patientDisease;
     String patientPassword;
 
     factory AllPatient.fromJson(Map<String, dynamic> json) => AllPatient(
@@ -54,7 +54,7 @@ class AllPatient {
         patientProfileIndex: json["patientProfileIndex"],
         patientMedicine: json["patientMedicine"],
         patientAllergy: json["patientAllergy"],
-        patientDisease: json["patientDisease"] == null ? null : json["patientDisease"],
+        patientDisease: json["patientDisease"],
         patientPassword: json["patientPassword"],
     );
 
@@ -71,7 +71,7 @@ class AllPatient {
         "patientProfileIndex": patientProfileIndex,
         "patientMedicine": patientMedicine,
         "patientAllergy": patientAllergy,
-        "patientDisease": patientDisease == null ? null : patientDisease,
+        "patientDisease": patientDisease,
         "patientPassword": patientPassword,
     };
 }
