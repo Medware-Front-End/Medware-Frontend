@@ -12,7 +12,9 @@ Future main() async {
   initializeDateFormatting();
 
   WidgetsFlutterBinding.ensureInitialized();
+
   PushNotification.init();
+
   await SharedPreference.init();
   await SharedPreference.setToken({
     'token': '12345678suidfjk',
@@ -20,7 +22,6 @@ Future main() async {
   });
   await SharedPreference.setUserRole(0);
   await SharedPreference.setUserFName('ชนน');
-
   runApp(const MyApp());
 }
 
@@ -43,10 +44,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/',
-      // routes: {'/': (context) => auth.screens[0]},
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const MainScreen(),
+        '/login': (context) => auth.screens[0],
+        '/main': (context) => const MainScreen(),
       },
     );
   }

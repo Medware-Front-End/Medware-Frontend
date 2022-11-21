@@ -5,15 +5,39 @@ import 'package:medware/components/action_button.dart';
 import 'package:medware/components/underlined_button.dart';
 import 'package:medware/screens/main/event/view_appointment/date_time_card.dart';
 import 'package:medware/screens/main/event/view_appointment/header.dart';
+import 'package:medware/screens/main/main_screen.dart';
+import 'package:medware/utils/api/appointment/get_employee_appointment_by_id.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 
-class ViewAppointment extends StatelessWidget {
+class ViewAppointment extends StatefulWidget {
   final EmployeeAppointment appointment;
   const ViewAppointment({Key? key, required this.appointment})
       : super(key: key);
+
+  @override
+  State<ViewAppointment> createState() => _ViewAppointmentState();
+}
+
+class _ViewAppointmentState extends State<ViewAppointment> {
+  @override
+  void initState() {
+    super.initState();
+    listenToNotificationStream();
+  }
+
+  void listenToNotificationStream() async {
+    var res = await getEmployeeAppointmentById();
+    PushNotification.onClickNotifications.stream.listen(
+      (payload) => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MainScreen()),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +50,13 @@ class ViewAppointment extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Header(role: role, title: appointmentTypes[appointment.type]),
+          Header(role: role, title: appointmentTypes[widget.appointment.type]),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
             child: DateTimeCard(
-              date: appointment.date,
-              startTime: appointment.startTime,
-              finishTime: appointment.finishTime,
+              date: widget.appointment.date,
+              startTime: widget.appointment.startTime,
+              finishTime: widget.appointment.finishTime,
             ),
           ),
           Padding(
@@ -70,7 +94,7 @@ class ViewAppointment extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          appointment.patientCount.toString(),
+                          widget.appointment.patientCount.toString(),
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w500,
@@ -132,8 +156,8 @@ class ViewAppointment extends StatelessWidget {
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:
-                                  'การนัดหมายการ${appointmentTypes[appointment.type]}ในวันที่ ${dateFormatter.format(appointment.date)} เวลา ${timeFormatter.format(appointment.startTime)} - ${timeFormatter.format(appointment.finishTime)} ถูกยกเลิกแล้ว',
-                              payload: 'id number',
+                                  'การนัดหมายการ${appointmentTypes[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
+                              payload: 'นี่ไงไอสัสสสสสสสสสสส',
                             );
                             Navigator.pop(context);
                             showDialog(
