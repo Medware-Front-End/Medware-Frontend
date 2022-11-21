@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;

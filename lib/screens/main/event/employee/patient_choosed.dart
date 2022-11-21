@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:medware/screens/main/event/employee/display_appointment.dart';
 import 'package:medware/utils/api/user/get_all_patient.dart';
 import 'dart:core';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/user/get_all_patient.dart';
 
 class PatientChoosed extends StatefulWidget {

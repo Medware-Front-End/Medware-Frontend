@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import "package:medware/utils/api/appointment/get_employee_appointment_by_id.dart";
 import 'package:medware/utils/models/event/getPatientAppointment.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class PatientView extends StatefulWidget {
   final int id;

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/login.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/auth/patient_register_request_model.dart';
 
 import '../../utils/api/auth/api_service.dart';

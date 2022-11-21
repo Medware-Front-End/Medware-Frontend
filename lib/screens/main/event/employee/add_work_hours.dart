@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/components/snackbar.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import '../../../../utils/api/event/add_schedule.dart';
 import '../../../../utils/models/user/all_doctor.dart';
 import 'package:medware/utils/api/user/get_all_doctor.dart';

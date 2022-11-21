@@ -3,21 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreference {
   static late SharedPreferences _pref;
-  static List<String> roles = [
-    'แพทย์',
-    'ผู้ป่วย',
-    '',
-  ];
-  static List<String> types = [
-    'ตรวจร่างกาย',
-    'บริจาคเลือด',
-  ];
-  static List<String> notificationTypes = [
-    'system',
-    'เลื่อนนัด',
-    'ยกเลิก',
-    'โอนถ่าย',
-  ];
 
   static Future init() async => _pref = await SharedPreferences.getInstance();
 
@@ -32,7 +17,7 @@ class SharedPreference {
 
   static Future setUserRole(int role) async => await _pref.setInt('role', role);
   static int getUserRole() =>
-      _pref.getInt('role') ?? 1; // employee: 0, patient: 1
+      _pref.getInt('role') ?? 1; // employee: 1, patient: 2
 
   static Future setIsAdmin(bool isAdmin) async =>
       await _pref.setBool('isAdmin', isAdmin);

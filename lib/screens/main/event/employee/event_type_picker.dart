@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/screens/main/event/employee/create_appointment.dart'
     as create_appointment;
 import 'package:medware/screens/main/event/employee/add_work_hours.dart'

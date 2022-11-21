@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 
 class PushNotification {
   static final _noti = FlutterLocalNotificationsPlugin();
-  static final _onNoti = BehaviorSubject<String?>();
+  static final onClickNotifications = BehaviorSubject<String?>();
 
   static Future init() async {
     final androidInitSetting =
@@ -22,10 +22,10 @@ class PushNotification {
 
     await _noti.initialize(
       initSetting,
-      // onDidReceiveBackgroundNotificationResponse: () => NotificationResponse(
-      //   notificationResponseType:
-      //       NotificationResponseType.selectedNotificationAction,
-      // ),
+      onDidReceiveNotificationResponse: (res) async =>
+          onClickNotifications.add(res.payload),
+      // onDidReceiveBackgroundNotificationResponse: (res) async =>
+      //     onClickNotifications.add(res.payload),
     );
   }
 
