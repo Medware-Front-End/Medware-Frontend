@@ -49,6 +49,7 @@ dependencies:
   table_calendar: ^3.0.8
   time_interval_picker: ^0.0.2
   http: ^0.13.5
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:

@@ -79,7 +79,8 @@ class EventTypePicker extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CalendarAppointment(),
+                          builder: (context) =>
+                              const CalendarAppointment(type: 2),
                         ),
                       );
                     },
@@ -145,7 +146,8 @@ class EventTypePicker extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CalendarAppointment(),
+                          builder: (context) =>
+                              const CalendarAppointment(type: 3),
                         ),
                       );
                     },
