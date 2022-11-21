@@ -306,9 +306,9 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                   date: event
                                                                       .scheduleDate,
                                                                   startTime: event
-                                                                      .scheduleStart,
+                                                                      .scheduleStartTIme,
                                                                   finishTime: event
-                                                                      .scheduleEnd,
+                                                                      .scheduleFinishTime,
                                                                 ),
                                                               ),
                                                             );
@@ -409,7 +409,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                           ),
                                                                         ),
                                                                         Text(
-                                                                            'เวลา ${timeFormatter.format(event.scheduleStart)} - ${timeFormatter.format(event.scheduleEnd)}',
+                                                                            'เวลา ${timeFormatter.format(event.scheduleStartTIme)} - ${timeFormatter.format(event.scheduleFinishTime)}',
                                                                             style:
                                                                                 TextStyle(
                                                                               fontSize: size.height * 0.0145,
@@ -429,7 +429,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                           0.03,
                                                                       0),
                                                                   child: Text(
-                                                                      '  10 / ${event.scheduleCapacity}',
+                                                                      '  ${event.patientCount} / ${event.scheduleCapacity}',
                                                                       style:
                                                                           TextStyle(
                                                                         fontSize:

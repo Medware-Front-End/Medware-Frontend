@@ -10,44 +10,56 @@ String allschedulesToJson(List<Allschedules> data) => json.encode(List<dynamic>.
 
 class Allschedules {
     Allschedules({
-        required this.scheduleId,
         required this.scheduleCapacity,
-        required this.scheduleStart,
-        required this.scheduleEnd,
-        required this.scheduleDate,
-        required this.scheduleLocation,
-        required this.scheduleStatus,
+        required this.docterFirstName,
         required this.scheduleType,
+        required this.docterMiddleName,
+        required this.scheduleFinishTime,
+        required this.scheduleDate,
+        required this.patientCount,
+        required this.docterDepartMent,
+        required this.docterLastName,
+        required this.scheduleId,
+        required this.scheduleStartTIme,
     });
 
-    int scheduleId;
     int scheduleCapacity;
-    DateTime scheduleStart;
-    DateTime scheduleEnd;
-    DateTime scheduleDate;
-    String scheduleLocation;
-    bool scheduleStatus;
+    String docterFirstName;
     int scheduleType;
+    dynamic docterMiddleName;
+    DateTime scheduleFinishTime;
+    DateTime scheduleDate;
+    int patientCount;
+    int docterDepartMent;
+    String docterLastName;
+    int scheduleId;
+    DateTime scheduleStartTIme;
 
     factory Allschedules.fromJson(Map<String, dynamic> json) => Allschedules(
-        scheduleId: json["scheduleId"],
         scheduleCapacity: json["scheduleCapacity"],
-        scheduleStart: DateTime.parse(json["scheduleStart"]),
-        scheduleEnd: DateTime.parse(json["scheduleEnd"]),
-        scheduleDate: DateTime.parse(json["scheduleDate"]),
-        scheduleLocation: json["scheduleLocation"],
-        scheduleStatus: json["scheduleStatus"],
+        docterFirstName: json["docterFirstName"],
         scheduleType: json["scheduleType"],
+        docterMiddleName: json["docterMiddleName"],
+        scheduleFinishTime: DateTime.parse(json["scheduleFinishTime"]),
+        scheduleDate: DateTime.parse(json["scheduleDate"]),
+        patientCount: json["patientCount"],
+        docterDepartMent: json["docterDepartMent"],
+        docterLastName: json["docterLastName"],
+        scheduleId: json["scheduleId"],
+        scheduleStartTIme: DateTime.parse(json["scheduleStartTIme"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "scheduleId": scheduleId,
         "scheduleCapacity": scheduleCapacity,
-        "scheduleStart": scheduleStart.toIso8601String(),
-        "scheduleEnd": scheduleEnd.toIso8601String(),
-        "scheduleDate": "${scheduleDate.year.toString().padLeft(4, '0')}-${scheduleDate.month.toString().padLeft(2, '0')}-${scheduleDate.day.toString().padLeft(2, '0')}",
-        "scheduleLocation": scheduleLocation,
-        "scheduleStatus": scheduleStatus,
+        "docterFirstName": docterFirstName,
         "scheduleType": scheduleType,
+        "docterMiddleName": docterMiddleName,
+        "scheduleFinishTime": scheduleFinishTime.toIso8601String(),
+        "scheduleDate": "${scheduleDate.year.toString().padLeft(4, '0')}-${scheduleDate.month.toString().padLeft(2, '0')}-${scheduleDate.day.toString().padLeft(2, '0')}",
+        "patientCount": patientCount,
+        "docterDepartMent": docterDepartMent,
+        "docterLastName": docterLastName,
+        "scheduleId": scheduleId,
+        "scheduleStartTIme": scheduleStartTIme.toIso8601String(),
     };
 }

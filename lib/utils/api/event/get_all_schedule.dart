@@ -8,7 +8,7 @@ Future<List<Allschedules>> getAllSchedule() async {
     'Content-type': 'application/json',
     'Accept': 'application/json',
     'authtoken':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg5MTgyMDIsImlhdCI6MTY2ODkxNTIwMiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.i-UMRiVB40FJHfA0zfvpVik6MUIabofCiVyU_ssxUgE'
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwMjU1NTEsImlhdCI6MTY2OTAyMjU1MSwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.MHYZRV3rh8icvlOOCPT1Qd7m4ehRsDhkhg2CK1fOyrE'
   };
 
   try {
@@ -21,6 +21,7 @@ Future<List<Allschedules>> getAllSchedule() async {
       throw Exception('Failed to load');
     }
   } catch (e) {
+    print(e);
     throw Exception(e.toString());
   }
 }
