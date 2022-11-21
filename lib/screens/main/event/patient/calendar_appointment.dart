@@ -31,7 +31,7 @@ class _CalendarAddState extends State<CalendarAppointment> {
     } else if (type == 2) {
       return 'ตรวจสุขภาพ';
     } else if (type == 3) {
-      return 'บริจาคเลือด';
+      return 'บริจาคโลหิต';
     } else {
       return 'อื่นๆ';
     }
@@ -64,6 +64,9 @@ class _CalendarAddState extends State<CalendarAppointment> {
   }
 
   _groupEvent(List<PatientEvent> events) {
+    events.sort(((a, b) {
+      return a.startTime.compareTo(b.startTime);
+    }));
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
       DateTime date =
@@ -79,14 +82,6 @@ class _CalendarAddState extends State<CalendarAppointment> {
   void initState() {
     _loadAppointments();
     super.initState();
-  }
-
-  String _mapDoctorName(String firstName, String middleName, String LastName) {
-    if (middleName == null) {
-      return firstName + ' ' + LastName;
-    } else {
-      return firstName + ' ' + middleName + ' ' + LastName;
-    }
   }
 
   @override
@@ -348,13 +343,15 @@ class _CalendarAddState extends State<CalendarAppointment> {
                                                                     .finishTime,
                                                                 type:
                                                                     event.type,
-                                                                doctor: _mapDoctorName(
+                                                                doctorFirstName:
                                                                     event
                                                                         .doctorFirstName,
+                                                                doctorMiddleName:
                                                                     event
                                                                         .doctorMiddleName,
+                                                                doctorLastName:
                                                                     event
-                                                                        .doctorLastName),
+                                                                        .doctorLastName,
                                                                 department: event
                                                                     .department),
                                                           ),

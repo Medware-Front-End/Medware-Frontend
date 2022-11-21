@@ -13,7 +13,9 @@ class ConfirmAppointment extends StatelessWidget {
   final DateTime date;
   final DateTime startTime;
   final DateTime finishTime;
-  final String doctor;
+  final String doctorFirstName;
+  final String doctorMiddleName;
+  final String doctorLastName;
   const ConfirmAppointment(
       {required this.id,
       required this.capacity,
@@ -22,7 +24,9 @@ class ConfirmAppointment extends StatelessWidget {
       required this.startTime,
       required this.finishTime,
       required this.type,
-      required this.doctor,
+      required this.doctorFirstName,
+      required this.doctorMiddleName,
+      required this.doctorLastName,
       required this.department});
 
   @override
@@ -39,9 +43,17 @@ class ConfirmAppointment extends StatelessWidget {
       } else if (type == 2) {
         return 'ตรวจสุขภาพ';
       } else if (type == 3) {
-        return 'บริจาคเลือด';
+        return 'บริจาคโลหิต';
       } else {
         return 'อื่นๆ';
+      }
+    }
+
+    String _DoctorName(String firstName, String middleName, String LastName) {
+      if (middleName == null) {
+        return firstName + ' ' + LastName;
+      } else {
+        return firstName + ' ' + middleName + ' ' + LastName;
       }
     }
 
@@ -89,7 +101,14 @@ class ConfirmAppointment extends StatelessWidget {
 
     _showAlertDialog(BuildContext context, int status) {
       Widget okButton = TextButton(
-        child: const Text("OK"),
+        child: Text(
+          'OK',
+          style: TextStyle(
+              fontFamily: 'NotoSansThai',
+              fontWeight: FontWeight.w800,
+              fontSize: size.width * 0.04,
+              color: tertiaryColor),
+        ),
         onPressed: () {
           Navigator.popUntil(context, ModalRoute.withName('/'));
         },
@@ -97,11 +116,37 @@ class ConfirmAppointment extends StatelessWidget {
 
       AlertDialog alert = AlertDialog(
         title: status == 200
-            ? Text("การจองของท่านเสร็จสิ้น")
-            : Text("การจองของท่านไม่สำเร็จ"),
+            ? Text(
+                'การจองของท่านเสร็จสิ้น',
+                style: TextStyle(
+                    fontFamily: 'NotoSansThai',
+                    fontWeight: FontWeight.w700,
+                    fontSize: size.width * 0.06,
+                    color: primaryColor),
+              )
+            : Text(
+                'การจองของท่านไม่สำเร็จ',
+                style: TextStyle(
+                    fontFamily: 'NotoSansThai',
+                    fontWeight: FontWeight.w700,
+                    fontSize: size.width * 0.06,
+                    color: primaryColor),
+              ),
         content: status == 200
-            ? Text("ท่านสามารถแก้นัดไขหมายได้ก่อนถึงวันนัดหมาย 3 วัน")
-            : Text("กรุณาทำรายการใหม่อีกครั้ง"),
+            ? Text('ท่านสามารถแก้นัดไขการนัดหมายได้ก่อนถึงวันนัดหมาย 3 วัน',
+                style: TextStyle(
+                    fontFamily: 'NotoSansThai',
+                    fontWeight: FontWeight.w400,
+                    fontSize: size.width * 0.04,
+                    color: secondaryColor))
+            : Text(
+                'โปรดตรวจสอบให้แน่ใจว่าท่านไม่ได้ทำรายการซ้ำ แล้วลองทำรายการใหม่อีกครั้ง',
+                style: TextStyle(
+                    fontFamily: 'NotoSansThai',
+                    fontWeight: FontWeight.w400,
+                    fontSize: size.width * 0.04,
+                    color: secondaryColor),
+              ),
         actions: [
           okButton,
         ],
@@ -335,7 +380,8 @@ class ConfirmAppointment extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            doctor,
+                            _DoctorName(doctorFirstName, doctorMiddleName,
+                                doctorLastName),
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w500,
@@ -377,15 +423,17 @@ class ConfirmAppointment extends StatelessWidget {
               child: GestureDetector(
                 onTap: () async {
                   var status = await createNewAppointment(
-                      id.toString(), 'patientNationalId');
+                      id.toString(), 1234567891234.toString());
                   _showAlertDialog(context, status);
                 },
                 child: Center(
-                  child: Text(
-                    'ยืนยัน',
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontSize: size.width * 0.038,
+                  child: InkWell(
+                    child: Text(
+                      'ยืนยัน',
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontSize: size.width * 0.038,
+                      ),
                     ),
                   ),
                 ),

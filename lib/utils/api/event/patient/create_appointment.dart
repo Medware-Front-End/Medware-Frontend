@@ -3,21 +3,28 @@ import 'package:http/http.dart' as http;
 
 Future createNewAppointment(String scheduleId, String patientNationalId) async {
   final msg = jsonEncode({
-    "scheduleId": "${scheduleId}",
-    "patientNationalId": "${patientNationalId}"
+    'scheduleId': '${scheduleId}',
+    'patientNationalId': '${patientNationalId}'
   });
   var url =
-      "https://medcare-database-test.herokuapp.com/patient/createNewAppointment";
+      'https://medcare-database-test.herokuapp.com/patient/createNewAppointment';
+  Map<String, String> requestHeaders = {
+    'Accept': 'application/json',
+    'content-type': 'application/json',
+  };
   var response;
   try {
-    response = await http.post(Uri.parse(url), body: msg);
+    response =
+        await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
     if (response.statusCode == 200) {
-      print("Create Success");
+      print('Create Appointment Successfully.');
     } else {
-      throw Exception('Error');
+      throw Exception(response.statusCode);
     }
-  } catch (e) {
-    throw Exception(e.toString());
+  } on Exception catch (_error) {
+    print(_error);
+  } catch (_error) {
+    print(_error);
   }
   return response.statusCode;
 }

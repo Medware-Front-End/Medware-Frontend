@@ -4,18 +4,20 @@ import 'dart:convert';
 
 Future<List<PatientEvent>> getPatientSchedule(int id) async {
   var url =
-      "https://medcare-database-test.herokuapp.com/getScheduleBytpye/${id}";
+      'https://medcare-database-test.herokuapp.com/getScheduleBytpye/${id}';
   var response;
 
   try {
     response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      print("Create Success");
+      print('Call API Successfully.');
     } else {
-      throw Exception('Error');
+      throw Exception(response.statusCode);
     }
-  } catch (e) {
-    throw Exception(e.toString());
+  } on Exception catch (_error) {
+    print(_error);
+  } catch (_error) {
+    print(_error);
   }
   return PatientEventFromJson(utf8.decode(response.bodyBytes));
 }
