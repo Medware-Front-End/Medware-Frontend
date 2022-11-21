@@ -84,14 +84,6 @@ class _CalendarAddState extends State<CalendarAppointment> {
     super.initState();
   }
 
-  String _mapDoctorName(String firstName, String middleName, String LastName) {
-    if (middleName == null) {
-      return firstName + ' ' + LastName;
-    } else {
-      return firstName + ' ' + middleName + ' ' + LastName;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -351,13 +343,15 @@ class _CalendarAddState extends State<CalendarAppointment> {
                                                                     .finishTime,
                                                                 type:
                                                                     event.type,
-                                                                doctor: _mapDoctorName(
+                                                                doctorFirstName:
                                                                     event
                                                                         .doctorFirstName,
+                                                                doctorMiddleName:
                                                                     event
                                                                         .doctorMiddleName,
+                                                                doctorLastName:
                                                                     event
-                                                                        .doctorLastName),
+                                                                        .doctorLastName,
                                                                 department: event
                                                                     .department),
                                                           ),
