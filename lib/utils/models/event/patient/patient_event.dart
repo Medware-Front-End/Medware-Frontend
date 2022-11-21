@@ -1,15 +1,22 @@
-class PatientEvent {
-  final int id;
-  final int capacity;
-  final int patientCount;
-  final int type;
-  final DateTime date;
-  final DateTime startTime;
-  final DateTime finishTime;
-  final String doctor;
-  final String department;
+import 'dart:convert';
 
-  const PatientEvent({
+List<PatientEvent> PatientEventFromJson(String str) => List<PatientEvent>.from(
+    json.decode(str).map((x) => PatientEvent.fromJson(x)));
+
+class PatientEvent {
+  late final int id;
+  late final int capacity;
+  late final int patientCount;
+  late final int type;
+  late final DateTime date;
+  late final DateTime startTime;
+  late final DateTime finishTime;
+  late final String doctorFirstName;
+  late final String doctorMiddleName;
+  late final String doctorLastName;
+  late final int department;
+
+  PatientEvent({
     required this.id,
     required this.capacity,
     required this.patientCount,
@@ -17,19 +24,23 @@ class PatientEvent {
     required this.startTime,
     required this.finishTime,
     required this.type,
-    required this.doctor,
+    required this.doctorFirstName,
+    required this.doctorMiddleName,
+    required this.doctorLastName,
     required this.department,
   });
 
-  static PatientEvent fromJson(Map<String, dynamic> json) => PatientEvent(
-        id: int.parse(json['id']),
-        capacity: int.parse(json['capacity']),
-        patientCount: int.parse(json['patientCount']),
-        type: int.parse(json['type']),
-        date: DateTime.parse(json['date']),
-        startTime: DateTime.parse(json['startTime']),
-        finishTime: DateTime.parse(json['finishTime']),
-        doctor: json['doctorName'],
-        department: json['department'],
+  factory PatientEvent.fromJson(Map<String, dynamic> json) => PatientEvent(
+        id: json['scheduleId'],
+        capacity: json['scheduleCapacity'],
+        patientCount: json['patientCount'],
+        type: json['scheduleType'],
+        date: DateTime.parse(json['scheduleDate']),
+        startTime: DateTime.parse(json['scheduleStartTIme']),
+        finishTime: DateTime.parse(json['scheduleFinishTime']),
+        doctorFirstName: json['docterFirstName'],
+        doctorMiddleName: json['docterMiddleName'],
+        doctorLastName: json['docterLastName'],
+        department: json['docterDepartMent'],
       );
 }
