@@ -33,7 +33,6 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
     return _groupedEvents?[date] ?? [];
   }
 
-
   Future _loadAppointments() async {
     events = await getAllSchedule();
     _groupEvent(events);
@@ -60,7 +59,6 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
     super.initState();
     _selectedDay = DateTime.now();
     _loadAppointments();
-
   }
 
   bool _checkEventEnrollable(dynamic dayEvent) {
@@ -336,8 +334,10 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                             1
                                                                         ? Color(
                                                                             0xFF4CC9FF)
-                                                                        : Color(
-                                                                            0xFFFF0000),
+                                                                        : event.scheduleType ==
+                                                                                2
+                                                                            ? Color(0xFF4CC9FF)
+                                                                            : Color(0xFFFF0000),
                                                                     borderRadius:
                                                                         BorderRadius
                                                                             .circular(
@@ -354,8 +354,10 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                             1
                                                                         ? Icons
                                                                             .medical_services_outlined
-                                                                        : Icons
-                                                                            .water_drop_outlined,
+                                                                        : event.scheduleType ==
+                                                                                2
+                                                                            ? Icons.medical_services_outlined
+                                                                            : Icons.water_drop_outlined,
                                                                     size: size
                                                                             .width *
                                                                         0.09,
@@ -376,7 +378,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                     event.scheduleType ==
                                                                             1
                                                                         ? Text(
-                                                                            'ตรวจสุขภาพ',
+                                                                            'ตรวจกับหมอ',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: primaryColor,
@@ -384,15 +386,24 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                               fontSize: size.height * 0.02,
                                                                             ),
                                                                           )
-                                                                        : Text(
-                                                                            'ตรวจเลือด',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: primaryColor,
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: size.height * 0.02,
-                                                                            ),
-                                                                          ),
+                                                                        : event.scheduleType ==
+                                                                                2
+                                                                            ? Text(
+                                                                                'ตรวจสุขภาพ',
+                                                                                style: TextStyle(
+                                                                                  color: primaryColor,
+                                                                                  fontWeight: FontWeight.w700,
+                                                                                  fontSize: size.height * 0.02,
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                'บริจาคเลือด',
+                                                                                style: TextStyle(
+                                                                                  color: primaryColor,
+                                                                                  fontWeight: FontWeight.w700,
+                                                                                  fontSize: size.height * 0.02,
+                                                                                ),
+                                                                              ),
                                                                     Column(
                                                                       crossAxisAlignment:
                                                                           CrossAxisAlignment

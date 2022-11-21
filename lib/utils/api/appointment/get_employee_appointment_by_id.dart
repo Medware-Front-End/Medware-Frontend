@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medware/utils/models/event/getPatientAppointment.dart';
+import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 
 Future<List<GetPatientAppointment>> getPatientOnSchedule(
     String scheduleId) async {
@@ -9,9 +10,8 @@ Future<List<GetPatientAppointment>> getPatientOnSchedule(
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'authtoken':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg5MjMyOTMsImlhdCI6MTY2ODkyMDI5MywiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.CJnGbx1RPlgz4dsfNTCjeAC54yU0AHhJJ8BSJvToGqk'
-  };
+    'authtoken':authtoken
+         };
 
   try {
     var response = await http.get(Uri.parse(url), headers: requestHeaders);
@@ -21,7 +21,7 @@ Future<List<GetPatientAppointment>> getPatientOnSchedule(
 
       return _getdata;
     } else {
-      throw Exception('Failed to load');
+      throw Exception(response.body);
     }
   } catch (e) {
     throw Exception(e.toString());

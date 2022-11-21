@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:medware/components/snackbar.dart';
+import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 
 Future ConfirmAdd(
     String scheduleId, String patientNationalId, BuildContext _context) async {
@@ -14,9 +15,8 @@ Future ConfirmAdd(
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
-    'authtoken':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwMjcxMjgsImlhdCI6MTY2OTAyNDEyOCwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.5kMzed9wF53gJmiCuChjHWadOzHcEQz_oqU4KDR8s00'
-  };
+    'authtoken':authtoken
+         };
   try {
     var response =
         await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
@@ -38,7 +38,9 @@ Future ConfirmAdd(
       SnackBar_show.buildErrorSnackbar(_context, "คนไข้ไม่ว่างในตอนนี้");
     } else if (e.toString().contains("is already in schedule")) {
       SnackBar_show.buildErrorSnackbar(_context, "คนไข้ไม่ว่างในตอนนี้");
-    } else {
+    } else if (e.toString().contains("Can't Appointment before")) {
+      SnackBar_show.buildErrorSnackbar(_context, "ไม่สามารถสร้างนัดได้ก่อนภายในสามวัน");
+    }else {
       SnackBar_show.buildErrorSnackbar(_context, "เกิดปัญหา ลองใหม่อีกครั้ง");
     }
   }
