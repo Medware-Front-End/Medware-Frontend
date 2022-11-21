@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:medware/components/snackbar.dart';
+import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 
 Future ConfirmAddSchedule(
   String scheduleCapacity,
@@ -29,9 +30,8 @@ Future ConfirmAddSchedule(
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
-    'authtoken':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwMjU1NTEsImlhdCI6MTY2OTAyMjU1MSwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.MHYZRV3rh8icvlOOCPT1Qd7m4ehRsDhkhg2CK1fOyrE'
-  };
+    'authtoken':authtoken
+         };
   try {
     var response =
         await http.post(Uri.parse(url), headers: requestHeaders, body: msg);

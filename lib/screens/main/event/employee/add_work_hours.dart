@@ -315,7 +315,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                             EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
                         child: DropdownButton(
                           items: const [
-                            DropdownMenuItem(
+                             DropdownMenuItem(
                                 child: Text("ตรวจกับหมอ"), value: 1),
                             DropdownMenuItem(
                                 child: Text("ตรวจสุขภาพ"), value: 2),

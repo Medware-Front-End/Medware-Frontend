@@ -21,7 +21,8 @@ class SnackBar_show {
             ),
             title: Text(
               error_text,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,
+              fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -48,7 +49,8 @@ class SnackBar_show {
             ),
             title: Text(
               text,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,
+              fontWeight: FontWeight.w600),
             ),
           ),
         ),

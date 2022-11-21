@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 
 import '../../models/user/get_all_patient.dart';
 
@@ -8,9 +9,8 @@ Future<List<AllPatient>> getAllPatient() async {
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'authtoken':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwMjYzNTIsImlhdCI6MTY2OTAyMzM1MiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.P0k2hYEW7UCDoKHzdpK6D9aVgRHYvFdkThmPR5t9_N4'
-  };
+    'authtoken':authtoken
+         };
   try {
     var response = await http.get(Uri.parse(url), headers: requestHeaders);
     if (response.statusCode == 200) {
@@ -19,7 +19,7 @@ Future<List<AllPatient>> getAllPatient() async {
       print(response.statusCode);
       return _getdata;
     } else {
-      throw Exception('Error');
+      throw Exception(response.body);
     }
   } catch (e) {
     throw Exception(e.toString());
