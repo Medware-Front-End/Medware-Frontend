@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
+import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/auth/api_service.dart';
 import 'package:medware/utils/colors.dart';
 import 'package:medware/utils/models/auth/login_request_model.dart';
@@ -163,36 +163,56 @@ class _LoginState extends State<LoginForm> {
                                   textStyle: const TextStyle(fontSize: 15),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
-                                LoginRequestModel model = LoginRequestModel(
-                                  nationalCardId: _unameTextController.text,
-                                  password: _passwordTextController.text,
-                                );
-                                // if (_unameTextController.text[0] != 'D') {
-                                APIService.patientLogin(model).then((response) {
-                                  if (response.statusCode == '0') {
-                                    print("Patient Login Success");
-                                    // SharedPreference.setToken(jsonDecode(
-                                    //     response.toString())["payload"]);
-                                    SharedPreference.setUserRole(1);
-                                  } else if (response.statusCode == '1') {
-                                    print("User not found");
-                                  } else {
-                                    print("Patient Login Failed");
-                                  }
-                                });
-                                // } else {
-                                //   APIService.employeeLogin(model)
-                                //       .then((response) {
-                                //     if (response) {
-                                //       print("Employee Login Success");
-                                //       // SharedPreference.setToken(jsonDecode(
-                                //       //     response.toString())["payload"]);
-                                //       SharedPreference.setUserRole(0);
-                                //     } else {
-                                //       print("Employee ERROR");
-                                //     }
-                                //   });
-                                // }
+                                if (_unameTextController.text[0] == 'D' ||
+                                    _unameTextController.text[0] == 'd') {
+                                  LoginRequestModel empModel =
+                                      LoginRequestModel(
+                                    nationalCardId:
+                                        _unameTextController.text.substring(1),
+                                    password: _passwordTextController.text,
+                                  );
+                                  APIService.employeeLogin(empModel)
+                                      .then((response) {
+                                    if (response) {
+                                      print("Employee Login Success");
+                                      // SharedPreference.setToken(jsonDecode(
+                                      //     response.toString())["payload"]);
+                                      SharedPreference.setUserRole(0);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MainScreen()),
+                                      );
+                                    } else {
+                                      print("Employee not found");
+                                    }
+                                  });
+                                } else {
+                                  LoginRequestModel model = LoginRequestModel(
+                                    nationalCardId: _unameTextController.text,
+                                    password: _passwordTextController.text,
+                                  );
+                                  APIService.patientLogin(model)
+                                      .then((response) {
+                                    if (response.statusCode == '0') {
+                                      print("Patient Login Success");
+                                      // SharedPreference.setToken(jsonDecode(
+                                      //     response.toString())["payload"]);
+                                      SharedPreference.setUserRole(1);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MainScreen()),
+                                      );
+                                    } else if (response.statusCode == '1') {
+                                      print("User not found");
+                                    } else {
+                                      print("Patient Login Failed");
+                                    }
+                                  });
+                                }
 
                                 print(_unameTextController.text);
                                 print(_passwordTextController.text);
