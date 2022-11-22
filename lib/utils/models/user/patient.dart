@@ -1,5 +1,5 @@
 class Patient {
-  final String id;
+  final int id;
   final String nationalId;
   final String fName;
   final String mName;
@@ -30,22 +30,28 @@ class Patient {
   });
 
   static Patient fromJson(Map<String, dynamic> json) => Patient(
-        id: json['hnId'],
-        nationalId: json['nationalId'],
-        fName: json['fName'],
-        mName: json['mName'],
-        lName: json['lName'],
-        phoneNumber: json['phoneNumber'],
+        id: json['patientHNId'],
+        nationalId: json['patientNationalId'],
+        fName: json['patientFirstName'],
+        mName: json['patientMiddleName'],
+        lName: json['patientLastName'],
+        phoneNumber: json['patientPhoneNumber'],
         password: json['password'],
-        birthDate: DateTime.parse(json['birthDate']),
-        bloodType: int.parse(json['bloodType']),
-        profilePic: int.parse(json['pic']),
-        medicalConditions: json['medicalConditions'] != ''
-            ? json['medicalConditions'].split(',')
-            : [],
+        birthDate: DateTime.parse(json['patientBirthDate']),
+        bloodType: json['patientBloodType'],
+        profilePic: json['patientProfileIndex'],
+        medicalConditions:
+            json['patientDisease'] != '' && json['patientDisease'] != null
+                ? json['patientDisease'].split(',')
+                : [],
         drugAllergies:
-            json['drugAllergies'] != '' ? json['drugAllergies'].split(',') : [],
-        allergies: json['allergies'] != '' ? json['allergies'].split(',') : [],
+            json['patientMedicine'] != '' && json['patientMedicine'] != null
+                ? json['patientMedicine'].split(',')
+                : [],
+        allergies:
+            json['patientAllergy'] != '' && json['patientAllergy'] != null
+                ? json['patientAllergy'].split(',')
+                : [],
       );
   // final int patientHNId;
   // final String patientEmail;

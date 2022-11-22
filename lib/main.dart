@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:medware/screens/auth/login.dart';
-import 'package:medware/screens/auth/register.dart';
 import 'package:medware/screens/auth/screens.dart' as auth;
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
@@ -16,11 +14,9 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PushNotification.init();
   await SharedPreference.init();
-  await SharedPreference.setToken({
-    'token': '12345678suidfjk',
-    'id': '2345678907685874',
-  });
-  await SharedPreference.setUserRole(1);
+  await SharedPreference.setToken('');
+  await SharedPreference.setUserRole(0);
+  await SharedPreference.setUserId(1);
   await SharedPreference.setUserFName('ชนน');
 
   runApp(const MyApp());
@@ -29,7 +25,6 @@ Future main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

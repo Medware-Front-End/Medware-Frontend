@@ -39,7 +39,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   }
 
   Future _loadAppointments() async {
-    events = await getAllSchedule();
+    // events = await getPatientSchedule();
     _groupEvent(events);
   }
 

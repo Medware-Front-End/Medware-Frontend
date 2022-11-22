@@ -20,8 +20,10 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final int id = SharedPreference.getUserId();
+
   Patient patient = Patient(
-    id: 'XXXXXXX',
+    id: 0,
     nationalId: 'XXXXXXXXXXXXX',
     fName: 'F',
     mName: 'M',
@@ -37,7 +39,7 @@ class _ProfileState extends State<Profile> {
   );
 
   Future _loadPatient() async {
-    var temp = await getPatientById();
+    var temp = await getPatientById(id);
     setState(() => patient = temp);
   }
 
@@ -91,7 +93,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Detail(
                       title: 'เลขที่ประจําตัวผู้ป่วยนอก',
-                      detail: patient.id,
+                      detail: patient.id.toString(),
                       icon: Icons.medical_information_outlined,
                     ),
                     Detail(
@@ -108,16 +110,19 @@ class _ProfileState extends State<Profile> {
                       title: 'โรคประจำตัว',
                       details: patient.medicalConditions,
                       icon: Icons.coronavirus_outlined,
+                      refresh: _loadPatient,
                     ),
                     DetailedList(
                       title: 'การแพ้ยา',
                       details: patient.drugAllergies,
                       icon: Icons.vaccines_outlined,
+                      refresh: _loadPatient,
                     ),
                     DetailedList(
                       title: 'ภูมิแพ้',
                       details: patient.allergies,
                       icon: Icons.sick_outlined,
+                      refresh: _loadPatient,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -135,7 +140,7 @@ class _ProfileState extends State<Profile> {
                                   oldPassword: patient.password,
                                 ),
                               ),
-                            ),
+                            ).then((value) async => await _loadPatient()),
                             percentWidth: 35,
                           ),
                           SizedBox(
