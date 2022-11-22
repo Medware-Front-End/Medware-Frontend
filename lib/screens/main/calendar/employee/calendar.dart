@@ -111,277 +111,279 @@ class _CalendarScreenState extends State<CalendarScreen> {
           systemStatusBarContrastEnforced: true,
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-              margin: EdgeInsets.fromLTRB(size.width * 0.045,
-                  size.height * 0.003, size.width * 0.045, 0),
-              child: SizedBox(
-                height: size.height * 0.44,
-                width: size.width,
-                child: TableCalendar(
-                  eventLoader: (day) {
-                    return _getEventsForDay(day);
-                  },
-                  calendarBuilders: CalendarBuilders(
-                    selectedBuilder: ((context, _datetime, focusedDay) {
-                      return Container(
-                        margin: EdgeInsets.fromLTRB(
-                            size.width * 0.005,
-                            size.height * 0.005,
-                            size.width * 0.005,
-                            size.height * 0.005),
-                        decoration: BoxDecoration(
-                            color: tertiaryColor,
-                            borderRadius:
-                                BorderRadius.circular(size.height * 0.02)),
-                        child: Center(
-                            child: Text(
-                          _datetime.day.toString(),
-                          style: TextStyle(
-                              color: primaryColor, fontWeight: FontWeight.w500),
-                        )),
-                      );
-                    }),
-                    todayBuilder: (context, _datetime, focusedDay) {
-                      return Container(
-                        margin: EdgeInsets.fromLTRB(
-                            size.width * 0.005,
-                            size.height * 0.005,
-                            size.width * 0.005,
-                            size.height * 0.005),
-                        decoration: BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius:
-                                BorderRadius.circular(size.height * 0.02)),
-                        child: Center(
-                            child: Text(
-                          _datetime.day.toString(),
-                          style: TextStyle(
-                              color: Color(0xFFEEF2E6),
-                              fontWeight: FontWeight.w500),
-                        )),
-                      );
+      body: SingleChildScrollView(physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            Container(
+                margin: EdgeInsets.fromLTRB(size.width * 0.045,
+                    size.height * 0.003, size.width * 0.045, 0),
+                child: SizedBox(
+                  height: size.height * 0.44,
+                  width: size.width,
+                  child: TableCalendar(
+                    eventLoader: (day) {
+                      return _getEventsForDay(day);
                     },
-                    markerBuilder: (context, day, events) {
-                      if (events.isNotEmpty) {
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Positioned(
-                              bottom: 2.0,
-                              child: Container(
-                                height: 10.0,
-                                width: 10.0,
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
+                    calendarBuilders: CalendarBuilders(
+                      selectedBuilder: ((context, _datetime, focusedDay) {
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(
+                              size.width * 0.005,
+                              size.height * 0.005,
+                              size.width * 0.005,
+                              size.height * 0.005),
+                          decoration: BoxDecoration(
+                              color: tertiaryColor,
+                              borderRadius:
+                                  BorderRadius.circular(size.height * 0.02)),
+                          child: Center(
+                              child: Text(
+                            _datetime.day.toString(),
+                            style: TextStyle(
+                                color: primaryColor, fontWeight: FontWeight.w500),
+                          )),
+                        );
+                      }),
+                      todayBuilder: (context, _datetime, focusedDay) {
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(
+                              size.width * 0.005,
+                              size.height * 0.005,
+                              size.width * 0.005,
+                              size.height * 0.005),
+                          decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius:
+                                  BorderRadius.circular(size.height * 0.02)),
+                          child: Center(
+                              child: Text(
+                            _datetime.day.toString(),
+                            style: TextStyle(
+                                color: Color(0xFFEEF2E6),
+                                fontWeight: FontWeight.w500),
+                          )),
+                        );
+                      },
+                      markerBuilder: (context, day, events) {
+                        if (events.isNotEmpty) {
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Positioned(
+                                bottom: 2.0,
+                                child: Container(
+                                  height: 10.0,
+                                  width: 10.0,
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      } else {}
+                            ],
+                          );
+                        } else {}
+                      },
+                    ),
+                    shouldFillViewport: true,
+                    firstDay: DateTime(1990),
+                    lastDay: DateTime(2050),
+                    focusedDay: _focusedDay,
+                    calendarFormat: _calendarFormat,
+                    daysOfWeekStyle: DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(color: primaryColor),
+                        weekendStyle: TextStyle(color: tertiaryColor)),
+                    calendarStyle: CalendarStyle(
+                        selectedTextStyle: TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.w500),
+                        weekendTextStyle: TextStyle(color: tertiaryColor),
+                        defaultTextStyle: TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.w500)),
+                    headerStyle: HeaderStyle(
+                      leftChevronIcon: Icon(
+                        Icons.arrow_back_ios,
+                        color: primaryColor,
+                        size: size.width * 0.05,
+                      ),
+                      rightChevronIcon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: primaryColor,
+                        size: size.width * 0.05,
+                      ),
+                      titleTextStyle: TextStyle(
+                          color: primaryColor, fontSize: size.width * 0.05),
+                      formatButtonVisible: false,
+                      titleCentered: true,
+                      titleTextFormatter: (date, locale) =>
+                          DateFormat.MMMM(locale).format(date),
+                    ),
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      if (!isSameDay(_selectedDay, selectedDay)) {
+                        setState(() {
+                          _selectedDay = selectedDay;
+                          _focusedDay = focusedDay;
+                        });
+                      }
+                    },
+                    onPageChanged: (focusedDay) {
+                      _focusedDay = focusedDay;
                     },
                   ),
-                  shouldFillViewport: true,
-                  firstDay: DateTime(1990),
-                  lastDay: DateTime(2050),
-                  focusedDay: _focusedDay,
-                  calendarFormat: _calendarFormat,
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                      weekdayStyle: TextStyle(color: primaryColor),
-                      weekendStyle: TextStyle(color: tertiaryColor)),
-                  calendarStyle: CalendarStyle(
-                      selectedTextStyle: TextStyle(
-                          color: primaryColor, fontWeight: FontWeight.w500),
-                      weekendTextStyle: TextStyle(color: tertiaryColor),
-                      defaultTextStyle: TextStyle(
-                          color: primaryColor, fontWeight: FontWeight.w500)),
-                  headerStyle: HeaderStyle(
-                    leftChevronIcon: Icon(
-                      Icons.arrow_back_ios,
-                      color: primaryColor,
-                      size: size.width * 0.05,
-                    ),
-                    rightChevronIcon: Icon(
-                      Icons.arrow_forward_ios,
-                      color: primaryColor,
-                      size: size.width * 0.05,
-                    ),
-                    titleTextStyle: TextStyle(
-                        color: primaryColor, fontSize: size.width * 0.05),
-                    formatButtonVisible: false,
-                    titleCentered: true,
-                    titleTextFormatter: (date, locale) =>
-                        DateFormat.MMMM(locale).format(date),
-                  ),
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    if (!isSameDay(_selectedDay, selectedDay)) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                    }
-                  },
-                  onPageChanged: (focusedDay) {
-                    _focusedDay = focusedDay;
-                  },
-                ),
-              )),
-          
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(size.height * 0.03)),
-            child: Container(
-                width: size.width * 0.88,
-                height: size.height * 0.31,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(
-                      color: Color.fromARGB(106, 28, 103, 88),
-                    ),
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(size.height * 0.03))),
-                child: ScrollConfiguration(
-                  behavior: CustomScroll(),
-                  child: !_getEventsForDay(_selectedDay as DateTime).isEmpty
-                      ? ListView(
-                          shrinkWrap: false,
-                          itemExtent: size.height * 0.102,
-                          children: [
-                            ..._getEventsForDay(_selectedDay as DateTime)
-                                .map((event) => ClipRRect(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(size.height * 0.04)),
-                                      child: Card(
-                                          shadowColor: Colors.transparent,
-                                          margin: EdgeInsets.all(
-                                              size.height * 0.003),
-                                          color: quaternaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                size.height * 0.03),
-                                          ),
-                                          child: InkWell(
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  size.width * 0.02,
-                                                  size.width * 0.015,
-                                                  size.width * 0.02,
-                                                  size.width * 0.015),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      color: event.type == 0
-                                                          ? Color(0xFF4CC9FF)
-                                                          : Color(0xFFFF0000),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        size.width * 0.03,
+                )),
+            
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(size.height * 0.03)),
+              child: Container(
+                  width: size.width * 0.88,
+                  height: size.height * 0.31,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(
+                        color: Color.fromARGB(106, 28, 103, 88),
+                      ),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(size.height * 0.03))),
+                  child: ScrollConfiguration(
+                    behavior: CustomScroll(),
+                    child: !_getEventsForDay(_selectedDay as DateTime).isEmpty
+                        ? ListView(
+                            shrinkWrap: false,
+                            itemExtent: size.height * 0.102,
+                            children: [
+                              ..._getEventsForDay(_selectedDay as DateTime)
+                                  .map((event) => ClipRRect(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(size.height * 0.04)),
+                                        child: Card(
+                                            shadowColor: Colors.transparent,
+                                            margin: EdgeInsets.all(
+                                                size.height * 0.003),
+                                            color: quaternaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  size.height * 0.03),
+                                            ),
+                                            child: InkWell(
+                                              child: Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    size.width * 0.02,
+                                                    size.width * 0.015,
+                                                    size.width * 0.02,
+                                                    size.width * 0.015),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        color: event.type == 0
+                                                            ? Color(0xFF4CC9FF)
+                                                            : Color(0xFFFF0000),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                          size.width * 0.03,
+                                                        ),
+                                                      ),
+                                                      padding: EdgeInsets.all(
+                                                          size.width * 0.025),
+                                                      child: Icon(
+                                                        event.type == 0
+                                                            ? Icons
+                                                                .medical_services_outlined
+                                                            : Icons
+                                                                .water_drop_outlined,
+                                                        size: size.width * 0.09,
+                                                        color: Colors.white,
                                                       ),
                                                     ),
-                                                    padding: EdgeInsets.all(
-                                                        size.width * 0.025),
-                                                    child: Icon(
-                                                      event.type == 0
-                                                          ? Icons
-                                                              .medical_services_outlined
-                                                          : Icons
-                                                              .water_drop_outlined,
-                                                      size: size.width * 0.09,
-                                                      color: Colors.white,
+                                                    SizedBox(
+                                                      width: size.width * 0.04,
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: size.width * 0.04,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      event.type == 0
-                                                          ? Text(
-                                                              'ตรวจสุขภาพ',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    primaryColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize:
-                                                                    size.height *
-                                                                        0.02,
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        event.type == 0
+                                                            ? Text(
+                                                                'ตรวจสุขภาพ',
+                                                                style: TextStyle(
+                                                                  color:
+                                                                      primaryColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  fontSize:
+                                                                      size.height *
+                                                                          0.02,
+                                                                ),
+                                                              )
+                                                            : Text(
+                                                                'ตรวจเลือด',
+                                                                style: TextStyle(
+                                                                  color:
+                                                                      primaryColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  fontSize:
+                                                                      size.height *
+                                                                          0.02,
+                                                                ),
                                                               ),
-                                                            )
-                                                          : Text(
-                                                              'ตรวจเลือด',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    primaryColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize:
-                                                                    size.height *
-                                                                        0.02,
-                                                              ),
-                                                            ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            '${fullDateFormatter.format(event.date)}',
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  size.height *
-                                                                      0.0145,
-                                                              color:
-                                                                  primaryColor,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                              'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              '${fullDateFormatter.format(event.date)}',
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     size.height *
                                                                         0.0145,
                                                                 color:
                                                                     primaryColor,
-                                                              ))
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                                'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
+                                                                style: TextStyle(
+                                                                  fontSize:
+                                                                      size.height *
+                                                                          0.0145,
+                                                                  color:
+                                                                      primaryColor,
+                                                                ))
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          )),
-                                    )),
-                            SizedBox(
-                              height: size.height * 0.038,
-                            )
-                          ],
-                        )
-                      : Center(
-                          child: Text(
-                          'ไม่มีนัดหมายของท่านในวันนี้',
-                          style: TextStyle(
-                              fontSize: size.width * 0.05, color: primaryColor),
-                        )),
-                )),
-          )
-        ],
+                                            )),
+                                      )),
+                              SizedBox(
+                                height: size.height * 0.038,
+                              )
+                            ],
+                          )
+                        : Center(
+                            child: Text(
+                            'ไม่มีนัดหมายของท่านในวันนี้',
+                            style: TextStyle(
+                                fontSize: size.width * 0.05, color: primaryColor),
+                          )),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }

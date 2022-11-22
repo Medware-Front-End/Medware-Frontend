@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medware/utils/api/event/comfirm_delay_employee.dart';
-import 'package:medware/utils/api/event/confirm_delay_patient.dart';
 import 'package:medware/utils/api/event/confirm_transfer.dart';
 import 'package:medware/utils/statics.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 class ConfirmTransferPatient extends StatelessWidget {
   final DateTime scheduleDate;
   final DateTime scheduleStart;
-  final int scheduleCapacity;
   final DateTime scheduleEnd;
   final int scheduleId;
   final String scheduleLocation;
   final bool scheduleStatus;
   final int appointmentDoctorId;
+  final String doctorFirstName; 
+  final String doctorMiddleName;
+  final String doctorLastName;
 
   const ConfirmTransferPatient({
     super.key,
@@ -26,7 +25,9 @@ class ConfirmTransferPatient extends StatelessWidget {
     required this.scheduleLocation,
     required this.scheduleStatus,
     required this.appointmentDoctorId,
-    required this.scheduleCapacity,
+    required this.doctorFirstName,
+    required this.doctorMiddleName,
+    required this.doctorLastName, 
   });
 
   @override
@@ -241,7 +242,7 @@ class ConfirmTransferPatient extends StatelessWidget {
                       padding:
                           EdgeInsetsDirectional.only(top: size.width * 0.04),
                       child: Text(
-                        "คนไข้",
+                        "ชื่อแพทย์",
                         style: TextStyle(
                           color: Color.fromARGB(115, 28, 103, 88),
                           fontWeight: FontWeight.w400,
@@ -251,7 +252,7 @@ class ConfirmTransferPatient extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        "จำนวน 5 คน",
+                        "${doctorFirstName} ${doctorMiddleName} ${doctorLastName}",
                         style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.w500,
@@ -266,7 +267,6 @@ class ConfirmTransferPatient extends StatelessWidget {
             ElevatedButton(
                 onPressed: () async {
                   print(scheduleId.toString());
-                  print(scheduleCapacity.toString());
                   print(scheduleLocation);
                   print(scheduleStatus.toString());
                   print(appointmentDoctorId.toString());

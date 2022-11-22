@@ -1,23 +1,20 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
-
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:medware/screens/main/event/employee/display_appointment.dart';
-import 'package:medware/screens/main/event/transfer_patient/confirm_transfer_patient.dart';
-import 'package:medware/utils/api/user/get_all_doctor.dart';
-import 'package:medware/utils/api/user/get_all_patient.dart';
-import 'package:medware/utils/models/user/all_doctor.dart';
 import 'dart:core';
 import 'package:medware/utils/statics.dart';
-import 'package:medware/utils/models/user/get_all_patient.dart';
+
+import 'package:medware/screens/main/event/transfer_patient/confirm_transfer_patient.dart';
+import 'package:medware/utils/api/user/get_all_doctor.dart';
+import 'package:medware/utils/models/user/all_doctor.dart';
+
+
 
 class TransferPatient extends StatefulWidget {
   final int scheduleId;
   final DateTime scheduleDate;
   final DateTime scheduleEnd;
   final DateTime scheduleStart;
-  final int scheduleCapacity;
 
   getId() {
     return scheduleId;
@@ -29,7 +26,6 @@ class TransferPatient extends StatefulWidget {
     required this.scheduleDate,
     required this.scheduleEnd,
     required this.scheduleStart,
-    required this.scheduleCapacity,
   });
 
   @override
@@ -78,9 +74,8 @@ class _TransferPatientState extends State<TransferPatient> {
     final size = MediaQuery.of(context).size;
     final id = widget.scheduleId;
     final date = widget.scheduleDate;
-    final capacity = widget.scheduleCapacity;
     final timeStart = widget.scheduleStart;
-    final timeEnd = widget.scheduleEnd; 
+    final timeEnd = widget.scheduleEnd;
 
     return Scaffold(
         key: scaffoldKey,
@@ -230,9 +225,11 @@ class _TransferPatientState extends State<TransferPatient> {
                                         scheduleStart: timeStart,
                                         appointmentDoctorId:
                                             userLists[i].employeeId,
-                                        scheduleCapacity: capacity,
                                         scheduleLocation: 'โรงบาลลาดกระบัง',
-                                        scheduleStatus: true,
+                                        scheduleStatus: true, 
+                                        doctorFirstName: userLists[i].employeeFirstName,
+                                        doctorMiddleName: userLists[i].employeeMiddleName,
+                                        doctorLastName: userLists[i].employeeLastName,
                                       ),
                                     ),
                                   );
