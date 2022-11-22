@@ -54,7 +54,7 @@ class Payload {
     employeeFirstName = json['employeeFirstName'];
     employeeGender = json['employeeGender'];
     authtoken = json['authtoken'];
-    employeeHNId = json['employeeHNId'];
+    employeeHNId = json['employeeId'];
     employeeMiddleName = json['employeeMiddleName'];
     employeeNationalId = json['employeeNationalId'];
     employeeLastName = json['employeeLastName'];
@@ -63,14 +63,14 @@ class Payload {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['patientPhoneNumber'] = employeePhoneNumber;
-    _data['patientFirstName'] = employeeFirstName;
-    _data['patientGender'] = employeeGender;
+    _data['employeePhoneNumber'] = employeePhoneNumber;
+    _data['employeeFirstName'] = employeeFirstName;
+    _data['employeeGender'] = employeeGender;
     _data['authtoken'] = authtoken;
-    _data['patientHNId'] = employeeHNId;
-    _data['patientMiddleName'] = employeeMiddleName;
-    _data['patientNationalId'] = employeeNationalId;
-    _data['patientLastName'] = employeeLastName;
+    _data['employeeId'] = employeeHNId;
+    _data['employeeMiddleName'] = employeeMiddleName;
+    _data['employeeNationalId'] = employeeNationalId;
+    _data['employeeLastName'] = employeeLastName;
     _data['isAdmin'] = isAdmin;
     return _data;
   }

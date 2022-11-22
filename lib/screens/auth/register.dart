@@ -329,7 +329,7 @@ class _RegisterState extends State<RegisterForm> {
                                         patientProfileIndex: 1,
                                         patientPassword:
                                             _passwordTextController.text,
-                                        patientHNId: 0);
+                                        patientHNId: 1);
                                 APIService.patientRegister(model)
                                     .then((response) {
                                   if (response.statusCode == '0') {

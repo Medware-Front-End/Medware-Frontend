@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<List<Allschedules>> getAllSchedule() async {
-  var url = "https://medcare-database-test.herokuapp.com/schedules";
+  var url = "https://medware1.herokuapp.com/schedules";
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',

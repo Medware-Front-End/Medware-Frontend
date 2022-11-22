@@ -6,7 +6,7 @@ import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 Future<List<GetPatientAppointment>> getPatientOnSchedule(
     String scheduleId) async {
   var url =
-      "https://medcare-database-test.herokuapp.com/appointments/findPatientbyScheduleId/${scheduleId}";
+      "https://medware1.herokuapp.com/appointments/findPatientbyScheduleId/${scheduleId}";
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',

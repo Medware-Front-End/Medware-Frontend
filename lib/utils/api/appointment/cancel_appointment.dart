@@ -11,7 +11,7 @@ Future<http.Response> CancelAppointment(int id) async {
       Uri.parse(url),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        'authtoken': authtoken,
+        'authtoken': authToken,
       },
       body: {
         'scheduleId': id,

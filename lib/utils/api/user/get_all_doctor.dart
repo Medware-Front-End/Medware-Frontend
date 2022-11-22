@@ -5,7 +5,7 @@ import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 import '../../models/user/all_doctor.dart';
 
 Future<List<AllDoctor>> getAllDoctor() async {
-  var url = "https://medcare-database-test.herokuapp.com/employee/getdoctor";
+  var url = "https://medware1.herokuapp.com/employee/getdoctor";
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
