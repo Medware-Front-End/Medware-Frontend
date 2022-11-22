@@ -110,26 +110,4 @@ class APIService {
       utf8.decode(response.bodyBytes),
     );
   }
-
-  // static Future<String> getUserProfile() async {
-  //   var loginDetails = await SharedService.loginDetails();
-
-  //   Map<String, String> requestHeaders = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Basic ${loginDetails!.payload.token}'
-  //   };
-
-  //   var url = Uri.http(Config.apiURL, Config.userProfileAPI);
-
-  //   var response = await client.get(
-  //     url,
-  //     headers: requestHeaders,
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     return response.body;
-  //   } else {
-  //     return "";
-  //   }
-  // }
 }
