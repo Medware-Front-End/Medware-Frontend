@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:medware/utils/statics.dart';
 import '../../../../components/notification_bell.dart';
@@ -22,13 +23,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   var events;
   DateTime _selectedDay = DateTime.now();
+  final int id = SharedPreference.getUserId();
 
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
   }
 
   Future _loadAppointments() async {
-    events = await getEmployeeAppointments();
+    events = await getEmployeeAppointments(id);
     _groupEvent(events);
   }
 

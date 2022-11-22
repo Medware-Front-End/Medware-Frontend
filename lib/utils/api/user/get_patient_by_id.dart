@@ -1,21 +1,20 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:medware/utils/models/user/patient.dart';
+import 'package:medware/utils/statics.dart';
 
-Future<Patient> getPatientById() async {
-  const data = {
-    'hnId': '234564',
-    'nationalId': '0987654321098',
-    'fName': 'ชื่อของ',
-    'mName': '',
-    'lName': 'คนไข้จ้า',
-    'phoneNumber': '0987654321',
-    'password':'12345678',
-    'birthDate':'2001-01-22T00:00:00',
-    'bloodType': '1',
-    'pic': '1',
-    'medicalConditions': 'โรคหอบหืด,โรคหัวใจ',
-    'drugAllergies': 'พาราเซตามอล',
-    'allergies': 'ภูมิแพ้ฝุ่นละออง,ภูมิแพ้อาหารทะเล',
-  };
+Future<Patient> getPatientById(int id) async {
+  final url = '${baseUrl}/patientsinfo/findbyId/${id}';
 
-  return Patient.fromJson(data);
+  try {
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var res = json.decode(utf8.decode(response.bodyBytes));
+      return Patient.fromJson(res);
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }

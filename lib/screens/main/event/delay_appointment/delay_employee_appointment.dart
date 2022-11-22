@@ -30,8 +30,8 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
   }
 
   Future _loadAppointments() async {
-    events = await getEmployeeAppointments();
-    _groupEvent(events);
+    // events = await getEmployeeAppointments();
+    // _groupEvent(events);
   }
 
   int getHashCode(DateTime key) {

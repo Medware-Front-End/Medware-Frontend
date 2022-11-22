@@ -28,8 +28,8 @@ class _PostPoneEmployeeState extends State<PostPoneEmployee> {
   }
 
   Future _loadAppointments() async {
-    events = await getEmployeeAppointments();
-    _groupEvent(events);
+    // events = await getEmployeeAppointments();
+    // _groupEvent(events);
   }
 
   //late Map<DateTime,List<Event>> selectEvents;

@@ -78,7 +78,7 @@ class ViewAppointment extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        appointment.department,
+                        appointment.department.toString(),
                         style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.w500,

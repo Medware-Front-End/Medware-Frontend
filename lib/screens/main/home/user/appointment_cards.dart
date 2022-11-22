@@ -84,7 +84,7 @@ class AppointmentCards extends StatelessWidget {
 
   Widget _AppointmentCard(BuildContext context, int role, appointment) {
     final size = MediaQuery.of(context).size;
-    final fullDateFormatter = DateFormat.yMMMMEEEEd();
+    final fullDateFormatter = DateFormat('E d MMMM y');
     final timeFormatter = DateFormat.jm();
 
     return Padding(
@@ -118,18 +118,26 @@ class AppointmentCards extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: appointment.type == 0
+                    color: appointment.type == 1
                         ? Colors.blue[200]
-                        : Colors.red[400],
+                        : appointment.type == 2
+                            ? Colors.red[400]
+                            : appointment.type == 3
+                                ? Colors.amber[500]
+                                : Colors.grey,
                     borderRadius: BorderRadius.circular(
                       size.width * 0.03,
                     ),
                   ),
                   padding: EdgeInsets.all(size.width * 0.05),
                   child: Icon(
-                    appointment.type == 0
+                    appointment.type == 1
                         ? Icons.medical_services_outlined
-                        : Icons.water_drop_outlined,
+                        : appointment.type == 2
+                            ? Icons.water_drop_outlined
+                            : appointment.type == 3
+                                ? Icons.medical_services_outlined
+                                : Icons.settings,
                     color: Colors.white,
                   ),
                 ),
