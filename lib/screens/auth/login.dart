@@ -173,7 +173,7 @@ class _LoginState extends State<LoginForm> {
                                   );
                                   APIService.employeeLogin(empModel)
                                       .then((response) {
-                                    if (response) {
+                                    if (response.statusCode == '0') {
                                       print("Employee Login Success");
                                       // SharedPreference.setToken(jsonDecode(
                                       //     response.toString())["payload"]);
@@ -184,7 +184,10 @@ class _LoginState extends State<LoginForm> {
                                             builder: (context) =>
                                                 const MainScreen()),
                                       );
-                                    } else {
+                                    } else if (response.statusCode == '1') {
+                                      print("Employee not found");
+                                    }
+                                    {
                                       print("Employee not found");
                                     }
                                   });

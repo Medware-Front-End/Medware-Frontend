@@ -318,7 +318,7 @@ class _RegisterState extends State<RegisterForm> {
                                         patientNationalId:
                                             _unameTextController.text,
                                         patientPhoneNumber: '',
-                                        patientBirthDate: '',
+                                        patientBirthDate: '2016-11-09',
                                         patientLocation: '',
                                         patientBloodType: '',
                                         patientGender: '',
