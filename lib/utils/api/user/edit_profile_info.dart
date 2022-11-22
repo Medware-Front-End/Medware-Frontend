@@ -8,7 +8,7 @@ Future<http.Response> editProfileInfo({
   String? newPassword,
   String? medicalDetailType,
   String? medicalDetails,
-  String? profileIndex,
+  int? profileIndex,
 }) async {
   final int role = SharedPreference.getUserRole();
 
@@ -16,7 +16,6 @@ Future<http.Response> editProfileInfo({
       ? '${baseUrl}/employee/update/${id}'
       : '${baseUrl}/updatePatient/${id}';
 
-  print(medicalDetailType);
   String body = '';
   if (newPassword != null) {
     role == 0
@@ -38,6 +37,10 @@ Future<http.Response> editProfileInfo({
     body = json.encode({
       'patientAllergy': medicalDetails,
     });
+  } else if (profileIndex != null) {
+    body = json.encode({
+      'patientProfileIndex': profileIndex,
+    });
   }
 
   try {
@@ -48,6 +51,7 @@ Future<http.Response> editProfileInfo({
       },
       body: body,
     );
+    print(response.body);
     return response;
   } catch (e) {
     throw Exception(e.toString());

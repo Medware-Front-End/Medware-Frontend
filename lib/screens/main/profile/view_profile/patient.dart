@@ -69,7 +69,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Header(
                 role: 1,
-                path: profilePictures.sublist(1)[patient.profilePic],
+                path: profilePictures[2],
                 refresh: _loadPatient,
               ),
               Container(
@@ -89,12 +89,12 @@ class _ProfileState extends State<Profile> {
                     ),
                     Detail(
                       title: 'หมายเลขประจำตัวบัตรประชาชน',
-                      detail: patient.nationalId,
+                      detail: "**********${patient.nationalId.substring(10)}",
                       icon: Icons.badge_outlined,
                     ),
                     Detail(
                       title: 'เลขที่ประจําตัวผู้ป่วยนอก',
-                      detail: patient.id.toString(),
+                      detail: patient.id.toString().padLeft(10, "0"),
                       icon: Icons.medical_information_outlined,
                     ),
                     Detail(
@@ -167,10 +167,11 @@ class _ProfileState extends State<Profile> {
                                         await SharedPreference.setToken('');
                                         Navigator.pop(context);
                                         Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Login()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const Login(),
+                                          ),
+                                        );
                                       },
                                       child: const Text('ใช่'),
                                     ),

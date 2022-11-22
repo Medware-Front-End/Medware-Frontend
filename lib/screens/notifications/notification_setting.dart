@@ -100,14 +100,14 @@ class _NotificationSettingState extends State<NotificationSetting> {
                             setState(() => isNotifiedEdited[2] = val);
                           },
                         ),
-                        _SettingRow(
-                          'เมื่อถึงวันนัดหมาย',
-                          isNotifiedEdited[3],
-                          (val) async {
-                            await SharedPreference.setNotifiedDDay(val);
-                            setState(() => isNotifiedEdited[3] = val);
-                          },
-                        ),
+                        // _SettingRow(
+                        //   'เมื่อถึงวันนัดหมาย',
+                        //   isNotifiedEdited[3],
+                        //   (val) async {
+                        //     await SharedPreference.setNotifiedDDay(val);
+                        //     setState(() => isNotifiedEdited[3] = val);
+                        //   },
+                        // ),
                       ],
                     ),
                   )
@@ -115,60 +115,60 @@ class _NotificationSettingState extends State<NotificationSetting> {
                     width: 0,
                     height: 0,
                   ),
-            isNotified
-                ? Padding(
-                    padding: EdgeInsets.only(top: size.width * 0.05),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _SettingTopic('การแจ้งเตือนนัดหมายล่วงหน้า'),
-                        _SettingRow(
-                          '1 วันก่อนวันนัดหมาย',
-                          isScheduleNotified[0],
-                          (val) async {
-                            await SharedPreference.setNotified1DayBefore(val);
-                            setState(() => isScheduleNotified[0] = val);
-                          },
-                        ),
-                        _SettingRow(
-                          '2 วันก่อนวันนัดหมาย',
-                          isScheduleNotified[1],
-                          (val) async {
-                            await SharedPreference.setNotified2DayBefore(val);
-                            setState(() => isScheduleNotified[1] = val);
-                          },
-                        ),
-                        _SettingRow(
-                          '3 วันก่อนวันนัดหมาย',
-                          isScheduleNotified[2],
-                          (val) async {
-                            await SharedPreference.setNotified3DayBefore(val);
-                            setState(() => isScheduleNotified[2] = val);
-                          },
-                        ),
-                        _SettingRow(
-                          '5 วันก่อนวันนัดหมาย',
-                          isScheduleNotified[3],
-                          (val) async {
-                            await SharedPreference.setNotified5DayBefore(val);
-                            setState(() => isScheduleNotified[3] = val);
-                          },
-                        ),
-                        _SettingRow(
-                          '7 วันก่อนวันนัดหมาย',
-                          isScheduleNotified[4],
-                          (val) async {
-                            await SharedPreference.setNotified7DayBefore(val);
-                            setState(() => isScheduleNotified[4] = val);
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                : SizedBox(
-                    width: 0,
-                    height: 0,
-                  ),
+            // isNotified
+            //     ? Padding(
+            //         padding: EdgeInsets.only(top: size.width * 0.05),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             _SettingTopic('การแจ้งเตือนนัดหมายล่วงหน้า'),
+            //             _SettingRow(
+            //               '1 วันก่อนวันนัดหมาย',
+            //               isScheduleNotified[0],
+            //               (val) async {
+            //                 await SharedPreference.setNotified1DayBefore(val);
+            //                 setState(() => isScheduleNotified[0] = val);
+            //               },
+            //             ),
+            //             _SettingRow(
+            //               '2 วันก่อนวันนัดหมาย',
+            //               isScheduleNotified[1],
+            //               (val) async {
+            //                 await SharedPreference.setNotified2DayBefore(val);
+            //                 setState(() => isScheduleNotified[1] = val);
+            //               },
+            //             ),
+            //             _SettingRow(
+            //               '3 วันก่อนวันนัดหมาย',
+            //               isScheduleNotified[2],
+            //               (val) async {
+            //                 await SharedPreference.setNotified3DayBefore(val);
+            //                 setState(() => isScheduleNotified[2] = val);
+            //               },
+            //             ),
+            //             _SettingRow(
+            //               '5 วันก่อนวันนัดหมาย',
+            //               isScheduleNotified[3],
+            //               (val) async {
+            //                 await SharedPreference.setNotified5DayBefore(val);
+            //                 setState(() => isScheduleNotified[3] = val);
+            //               },
+            //             ),
+            //             _SettingRow(
+            //               '7 วันก่อนวันนัดหมาย',
+            //               isScheduleNotified[4],
+            //               (val) async {
+            //                 await SharedPreference.setNotified7DayBefore(val);
+            //                 setState(() => isScheduleNotified[4] = val);
+            //               },
+            //             ),
+            //           ],
+            //         ),
+            //       )
+            //     : SizedBox(
+            //         width: 0,
+            //         height: 0,
+            //       ),
           ],
         ),
       ),

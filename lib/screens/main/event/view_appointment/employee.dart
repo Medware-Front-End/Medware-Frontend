@@ -198,12 +198,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           onPressed: () async {
                             await CancelAppointment(widget.appointment.id);
 
-                            PushNotification.showNotification(
-                              title: 'มีการยกเลิกนัดหมายของคุณ',
-                              body:
-                                  'การนัดหมายการ${appointmentTypes[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
-                              id: widget.appointment.id,
-                            );
+                            (SharedPreference.getNotified() &&
+                                    SharedPreference.getNotifiedCancelled())
+                                ? PushNotification.showNotification(
+                                    title: 'มีการยกเลิกนัดหมายของคุณ',
+                                    body:
+                                        'การนัดหมายการ${appointmentTypes[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
+                                    id: widget.appointment.id,
+                                  )
+                                : null;
                             Navigator.pop(context);
                             showDialog(
                               context: context,

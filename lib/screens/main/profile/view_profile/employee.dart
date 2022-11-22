@@ -83,12 +83,12 @@ class _ProfileState extends State<Profile> {
                     ),
                     Detail(
                       title: 'หมายเลขประจำตัวบัตรประชาชน',
-                      detail: employee.nationalId,
+                      detail: "**********${employee.nationalId.substring(10)}",
                       icon: Icons.badge_outlined,
                     ),
                     Detail(
                       title: 'เลขที่ใบประกอบวิชาชีพเวชกรรม',
-                      detail: employee.id.toString(),
+                      detail: employee.id.toString().padLeft(5, "0"),
                       icon: Icons.medical_information_outlined,
                     ),
                     Detail(

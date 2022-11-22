@@ -63,7 +63,7 @@ List<String> departments = [
 ];
 
 List<String> profilePictures = [
-  'assets/images/profile/m1.png',
+  'assets/images/profile/d.png',
   'assets/images/profile/m1.png',
   'assets/images/profile/m2.png',
   'assets/images/profile/m3.png',
