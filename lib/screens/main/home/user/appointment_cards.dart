@@ -9,11 +9,13 @@ import 'package:medware/utils/statics.dart';
 class AppointmentCards extends StatelessWidget {
   final int role;
   final appointments;
+  final Future<void> Function() refresh;
 
   const AppointmentCards({
     Key? key,
     required this.role,
     required this.appointments,
+    required this.refresh,
   }) : super(key: key);
 
   @override
@@ -104,8 +106,14 @@ class AppointmentCards extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => role == 0
-                  ? employee.ViewAppointment(appointment: appointment)
-                  : patient.ViewAppointment(appointment: appointment),
+                  ? employee.ViewAppointment(
+                      appointment: appointment,
+                      refresh: refresh,
+                    )
+                  : patient.ViewAppointment(
+                      appointment: appointment,
+                      refresh: refresh,
+                    ),
             ),
           ),
           borderRadius: BorderRadius.circular(

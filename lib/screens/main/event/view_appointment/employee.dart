@@ -7,6 +7,7 @@ import 'package:medware/screens/main/event/transfer_patient/transfer_patient.dar
 import 'package:medware/screens/main/event/view_appointment/date_time_card.dart';
 import 'package:medware/screens/main/event/view_appointment/header.dart';
 import 'package:medware/screens/main/main_screen.dart';
+import 'package:medware/utils/api/appointment/cancel_appointment.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
@@ -19,8 +20,13 @@ import '../employee/view_patient.dart';
 
 class ViewAppointment extends StatefulWidget {
   final EmployeeAppointment appointment;
-  const ViewAppointment({Key? key, required this.appointment})
-      : super(key: key);
+  final Future<void> Function() refresh;
+
+  const ViewAppointment({
+    Key? key,
+    required this.appointment,
+    required this.refresh,
+  }) : super(key: key);
 
   @override
   State<ViewAppointment> createState() => _ViewAppointmentState();
@@ -186,13 +192,13 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: const Text('ไม่'),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await CancelAppointment(widget.appointment.id);
 
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:
                                   'การนัดหมายการ${appointmentTypes[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
-                              payload: 'id number',
                             );
                             Navigator.pop(context);
                             showDialog(
@@ -202,7 +208,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                     const Text('การนัดหมายนี้ถูกยกเลิกสำเร็จ'),
                                 actions: [
                                   TextButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      await widget.refresh();
                                       Navigator.pop(context);
                                       Navigator.pop(context);
                                     },

@@ -9,8 +9,12 @@ import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class ViewAppointment extends StatelessWidget {
   final PatientAppointment appointment;
-  const ViewAppointment({Key? key, required this.appointment})
-      : super(key: key);
+  final Future<void> Function() refresh;
+  const ViewAppointment({
+    Key? key,
+    required this.appointment,
+    required this.refresh,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,17 +97,14 @@ class ViewAppointment extends StatelessWidget {
           ),
           ActionButton(
             text: 'เลื่อนนัด',
-            action: () 
-            {
-              Navigator.push(context, 
-              MaterialPageRoute(
-                builder: (context) =>
-                    DelayPatientAppointment(
-                      patientNationalId: 1234567890121,
-                     previousScheduleId: 2)                               
-                )
+            action: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DelayPatientAppointment(
+                      patientNationalId: 1234567890121, previousScheduleId: 2),
+                ),
               );
-
             },
             percentWidth: 30,
           ),

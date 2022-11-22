@@ -107,14 +107,14 @@ class Header extends StatelessWidget {
                       crossAxisSpacing: size.width * 0.075,
                       mainAxisSpacing: size.width * 0.075,
                     ),
-                    itemCount: profilePictures.length,
+                    itemCount: profilePictures.length - 1,
                     itemBuilder: (context, i) => GestureDetector(
                       onTap: () async {
                         await refresh;
                         Navigator.pop(context);
                       },
                       child: Image.asset(
-                        profilePictures[i],
+                        profilePictures.sublist(1)[i],
                         height: size.height * 0.15,
                       ),
                     ),
