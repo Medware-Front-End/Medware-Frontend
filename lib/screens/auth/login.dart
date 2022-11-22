@@ -6,8 +6,10 @@ import 'package:medware/screens/auth/register.dart';
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/auth/api_service.dart';
 import 'package:medware/utils/statics.dart';
-import 'package:medware/utils/models/auth/login_request_model.dart';
+import 'package:medware/utils/models/auth/patient/paitent_login_request_model.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+
+import '../../utils/models/auth/employee/employee_login_request_model.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -65,6 +67,7 @@ class _LoginState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         key: globalFormKey,
         resizeToAvoidBottomInset: false,
@@ -82,8 +85,8 @@ class _LoginState extends State<LoginForm> {
                       fontFamily: 'NotoSansThai'),
                 ),
               ),
-              padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
-              margin: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
+              padding: EdgeInsets.fromLTRB(0.0, size.width * 0.1, 0.0, 0.0),
+              margin: EdgeInsets.fromLTRB(0.0, size.width * 0.1, 0.0, 0.0),
             ),
             Container(
               decoration: new BoxDecoration(
@@ -91,8 +94,10 @@ class _LoginState extends State<LoginForm> {
                   borderRadius: new BorderRadius.all(
                     const Radius.circular(15.0),
                   )),
-              padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 10.0),
-              margin: EdgeInsets.fromLTRB(60.0, 40.0, 60.0, 10.0),
+              padding: EdgeInsets.fromLTRB(size.width * 0.001, size.width * 0.1,
+                  size.width * 0.02, size.width * 0.02),
+              margin: EdgeInsets.fromLTRB(size.width * 0.15, size.width * 0.1,
+                  size.width * 0.15, size.width * 0.1),
               child: Column(children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -105,7 +110,11 @@ class _LoginState extends State<LoginForm> {
                                   color: quaternaryColor,
                                   fontFamily: 'NotoSansThai')),
                         ),
-                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0)),
+                        margin: EdgeInsets.fromLTRB(
+                            size.width * 0.01,
+                            size.width * 0.01,
+                            size.width * 0.01,
+                            size.width * 0.05)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -117,19 +126,35 @@ class _LoginState extends State<LoginForm> {
                                         color: quaternaryColor,
                                         fontFamily: 'NotoSansThai')),
                               ),
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              margin: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0)),
+                              padding: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0.0,
+                                  size.width * 0,
+                                  size.width * 0),
+                              margin: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0,
+                                  size.width * 0,
+                                  size.width * 0)),
                           Container(
                               child: CustomTextField(
                                 controller: _unameTextController,
                                 validator: _errorUname,
                                 obscureText: false,
                               ),
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 10.0)),
+                              padding: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0,
+                                  size.width * 0,
+                                  size.width * 0),
+                              margin: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0.01,
+                                  size.width * 0,
+                                  size.width * 0.01)),
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        padding: EdgeInsets.all(size.width * 0.01),
+                        margin: EdgeInsets.all(size.width * 0.02)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -141,19 +166,35 @@ class _LoginState extends State<LoginForm> {
                                         color: quaternaryColor,
                                         fontFamily: 'NotoSansThai')),
                               ),
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              margin: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0)),
+                              padding: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0.0,
+                                  size.width * 0,
+                                  size.width * 0),
+                              margin: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0,
+                                  size.width * 0,
+                                  size.width * 0)),
                           Container(
                               child: CustomTextField(
                                 controller: _passwordTextController,
                                 validator: _errorPassword,
                                 obscureText: true,
                               ),
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 30.0)),
+                              padding: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0,
+                                  size.width * 0,
+                                  size.width * 0),
+                              margin: EdgeInsets.fromLTRB(
+                                  size.width * 0.01,
+                                  size.width * 0.01,
+                                  size.width * 0,
+                                  size.width * 0.01)),
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        padding: EdgeInsets.all(size.width * 0.01),
+                        margin: EdgeInsets.all(size.width * 0.02)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -165,44 +206,75 @@ class _LoginState extends State<LoginForm> {
                               onPressed: () {
                                 if (_unameTextController.text[0] == 'D' ||
                                     _unameTextController.text[0] == 'd') {
-                                  LoginRequestModel empModel =
-                                      LoginRequestModel(
+                                  EmployeeLoginRequestModel empModel =
+                                      EmployeeLoginRequestModel(
                                     nationalCardId:
                                         _unameTextController.text.substring(1),
                                     password: _passwordTextController.text,
                                   );
                                   APIService.employeeLogin(empModel)
-                                      .then((response) {
-                                    if (response.statusCode == '0') {
-                                      print("Employee Login Success");
-                                      // SharedPreference.setToken(jsonDecode(
-                                      //     response.toString())["payload"]);
-                                      SharedPreference.setUserRole(0);
+                                      .then((response) async {
+                                    if (response.payload.isAdmin == true) {
+                                      await SharedPreference.setUserRole(2);
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const MainScreen()),
                                       );
-                                    } else if (response.statusCode == '1') {
-                                      print("Employee not found");
-                                    }
-                                    {
-                                      print("Employee not found");
+                                    } else {
+                                      if (response.statusCode == '0') {
+                                        await SharedPreference.setToken(
+                                            response.payload.authtoken);
+                                        await SharedPreference.setUserFName(
+                                            response.payload.employeeFirstName);
+                                        await SharedPreference
+                                            .setUserNationalId(int.parse(
+                                                response.payload
+                                                    .employeeNationalId));
+                                        await SharedPreference.setUserId(
+                                            response.payload.employeeHNId !=
+                                                    null
+                                                ? int.parse(response
+                                                    .payload.employeeHNId)
+                                                : 0);
+                                        await SharedPreference.setUserRole(0);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MainScreen()),
+                                        );
+                                      } else if (response.statusCode == '1') {
+                                        print("Employee not found");
+                                      } else {
+                                        print("Employee not found");
+                                      }
                                     }
                                   });
                                 } else {
-                                  LoginRequestModel model = LoginRequestModel(
+                                  PatientLoginRequestModel model =
+                                      PatientLoginRequestModel(
                                     nationalCardId: _unameTextController.text,
                                     password: _passwordTextController.text,
                                   );
                                   APIService.patientLogin(model)
-                                      .then((response) {
+                                      .then((response) async {
                                     if (response.statusCode == '0') {
                                       print("Patient Login Success");
-                                      // SharedPreference.setToken(jsonDecode(
-                                      //     response.toString())["payload"]);
-                                      SharedPreference.setUserRole(1);
+                                      await SharedPreference.setToken(
+                                          response.payload.authtoken);
+                                      await SharedPreference.setUserFName(
+                                          response.payload.patientFirstName);
+                                      await SharedPreference.setUserNationalId(
+                                          int.parse(response
+                                              .payload.patientNationalId));
+                                      await SharedPreference.setUserId(
+                                          response.payload.patientHNId != null
+                                              ? int.parse(
+                                                  response.payload.patientHNId)
+                                              : 0);
+                                      await SharedPreference.setUserRole(1);
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -216,10 +288,6 @@ class _LoginState extends State<LoginForm> {
                                     }
                                   });
                                 }
-
-                                print(_unameTextController.text);
-                                print(_passwordTextController.text);
-
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController.text.isEmpty
@@ -258,11 +326,15 @@ class _LoginState extends State<LoginForm> {
                                           );
                                         }),
                                 ])),
-                            padding: EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
+                            padding: EdgeInsets.fromLTRB(
+                                size.width * 0.001,
+                                size.width * 0.02,
+                                size.width * 0,
+                                size.width * 0),
                           )
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        padding: EdgeInsets.all(size.width * 0.001),
+                        margin: EdgeInsets.all(size.width * 0.05)),
                   ],
                 )
               ]),

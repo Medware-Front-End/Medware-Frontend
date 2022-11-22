@@ -10,8 +10,8 @@ Future<List<GetPatientAppointment>> getPatientOnSchedule(
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'authtoken':authtoken
-         };
+    'authtoken': authToken
+  };
 
   try {
     var response = await http.get(Uri.parse(url), headers: requestHeaders);

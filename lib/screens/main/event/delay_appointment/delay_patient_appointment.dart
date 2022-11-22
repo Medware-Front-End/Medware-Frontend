@@ -15,7 +15,8 @@ class DelayPatientAppointment extends StatefulWidget {
   const DelayPatientAppointment({Key? key}) : super(key: key);
 
   @override
-  _DelayPatientAppointmentState createState() => _DelayPatientAppointmentState();
+  _DelayPatientAppointmentState createState() =>
+      _DelayPatientAppointmentState();
 }
 
 class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
@@ -41,7 +42,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   }
 
   Future _loadAppointments() async {
-    events = await getPatientSchedule();
+    // events = await getPatientSchedule();
     _groupEvent(events);
   }
 
@@ -75,7 +76,6 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
     _selectedDay = DateTime.now();
     super.initState();
     _loadAppointments();
-    
   }
 
   @override
@@ -135,7 +135,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                 color: primaryColor,
               )),
         ),
-          systemOverlayStyle: const SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
@@ -306,29 +306,29 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                             onTap: () {
                                               if (event.capacity <=
                                                   event.patientCount) {
-                                              } else {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ConfirmAppointment(
-                                                            id: event.id,
-                                                            capacity: event
-                                                                .capacity,
-                                                            patientCount: event
-                                                                .patientCount,
-                                                            date: event.date,
-                                                            startTime:
-                                                                event.startTime,
-                                                            finishTime: event
-                                                                .finishTime,
-                                                            type: event.type,
-                                                            doctor:
-                                                                event.doctor,
-                                                            department: event
-                                                                .department),
-                                                  ),
-                                                );
+                                                // } else {
+                                                // Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //     builder: (context) =>
+                                                //         // ConfirmAppointment(
+                                                //         //     id: event.id,
+                                                //         //     capacity: event
+                                                //         //         .capacity,
+                                                //         //     patientCount: event
+                                                //         //         .patientCount,
+                                                //         //     date: event.date,
+                                                //         //     startTime:
+                                                //         //         event.startTime,
+                                                //         //     finishTime: event
+                                                //         //         .finishTime,
+                                                //         //     type: event.type,
+                                                //         //     doctor:
+                                                //         //         event.doctor,
+                                                //         //     department: event
+                                                //         //         .department),
+                                                //   ),
+                                                // );
                                               }
                                             },
                                             child: Padding(
@@ -343,7 +343,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                      color: event.type == 3 
+                                                      color: event.type == 3
                                                           ? Color(0xFF4CC9FF)
                                                           : Color(0xFFFF0000),
                                                       borderRadius:
@@ -459,6 +459,3 @@ class CustomScroll extends ScrollBehavior {
     return child;
   }
 }
-
-
-

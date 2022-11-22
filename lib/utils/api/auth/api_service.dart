@@ -2,21 +2,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medware/utils/api/auth/config.dart';
 import 'package:medware/utils/api/auth/shared_service.dart';
-import '../../models/auth/employee_register_request_model.dart';
-import '../../models/auth/login_request_model.dart';
-import '../../models/auth/login_response_model.dart';
-import '../../models/auth/patient_register_request_model.dart';
-import '../../models/auth/register_response_model.dart';
+import '../../models/auth/employee/employee_login_request_model.dart';
+import '../../models/auth/employee/employee_login_response_model.dart';
+import '../../models/auth/employee/employee_register_request_model.dart';
+import '../../models/auth/employee/employee_register_response_model.dart';
+import '../../models/auth/patient/paitent_login_request_model.dart';
+import '../../models/auth/patient/patient_login_response_model.dart';
+import '../../models/auth/patient/patient_register_request_model.dart';
+import '../../models/auth/patient/patient_register_response_model.dart';
 
 class APIService {
   static var client = http.Client();
 
   //Patient
-  static Future<LoginResponseModel> patientLogin(
-    LoginRequestModel model,
+  static Future<PatientLoginResponseModel> patientLogin(
+    PatientLoginRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
+      'Charset': 'utf-8'
     };
 
     var url = Uri.http(
@@ -30,23 +34,12 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
-    return loginResponseJson(
-      response.body,
+    return patientLoginResponseJson(
+      utf8.decode(response.bodyBytes),
     );
-
-    // if (response.statusCode == 200) {
-    //   await SharedService.setLoginDetails(
-    //     loginResponseJson(
-    //       response.body,
-    //     ),
-    //   );
-    //   return true;
-    // } else {
-    //   return false;
-    // }
   }
 
-  static Future<RegisterResponseModel> patientRegister(
+  static Future<PatientRegisterResponseModel> patientRegister(
     PatientRegisterRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
@@ -64,14 +57,14 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
-    return registerResponseJson(
-      response.body,
+    return patientRegisterResponseJson(
+      utf8.decode(response.bodyBytes),
     );
   }
 
   //Employee
-  static Future<LoginResponseModel> employeeLogin(
-    LoginRequestModel model,
+  static Future<EmployeeLoginResponseModel> employeeLogin(
+    EmployeeLoginRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -88,23 +81,12 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
-    return loginResponseJson(
-      response.body,
+    return employeeLoginResponseJson(
+      utf8.decode(response.bodyBytes),
     );
-
-    // if (response.statusCode == 200) {
-    //   await SharedService.setLoginDetails(
-    //     loginResponseJson(
-    //       response.body,
-    //     ),
-    //   );
-    //   return true;
-    // } else {
-    //   return false;
-    // }
   }
 
-  static Future<RegisterResponseModel> employeeRegister(
+  static Future<EmployeeRegisterResponseModel> employeeRegister(
     EmployeeRegisterRequestModel model,
   ) async {
     Map<String, String> requestHeaders = {
@@ -122,8 +104,8 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
-    return registerResponseJson(
-      response.body,
+    return employeeRegisterResponseJson(
+      utf8.decode(response.bodyBytes),
     );
   }
 

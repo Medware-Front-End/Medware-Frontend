@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/login.dart';
 import 'package:medware/utils/statics.dart';
-import 'package:medware/utils/models/auth/patient_register_request_model.dart';
+import 'package:medware/utils/models/auth/patient/patient_register_request_model.dart';
 
 import '../../utils/api/auth/api_service.dart';
 
@@ -162,6 +162,7 @@ class _RegisterState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         key: _key,
         resizeToAvoidBottomInset: false,
@@ -174,8 +175,10 @@ class _RegisterState extends State<RegisterForm> {
                   borderRadius: new BorderRadius.all(
                     const Radius.circular(15.0),
                   )),
-              padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 20.0),
-              margin: EdgeInsets.fromLTRB(40.0, 80.0, 40.0, 0.0),
+              padding: EdgeInsets.fromLTRB(size.width * 0.07,
+                  size.height * 0.05, size.width * 0.07, size.height * 0.04),
+              margin: EdgeInsets.fromLTRB(
+                  size.width * 0.1, size.height * 0.1, size.width * 0.1, 0.0),
               child: Column(children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -192,7 +195,8 @@ class _RegisterState extends State<RegisterForm> {
                           ),
                         ),
                       ),
-                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
+                      padding:
+                          EdgeInsets.fromLTRB(0.0, 0.0, 0.0, size.width * 0.05),
                     ),
                     Container(
                         child: Column(children: <Widget>[
@@ -214,7 +218,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           ),
                         ]),
-                        margin: EdgeInsets.all(5.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -235,7 +239,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           ),
                         ]),
-                        margin: EdgeInsets.all(5.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -256,7 +260,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           ),
                         ]),
-                        margin: EdgeInsets.all(5.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -277,7 +281,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           ),
                         ]),
-                        margin: EdgeInsets.all(5.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -298,7 +302,7 @@ class _RegisterState extends State<RegisterForm> {
                             ),
                           ),
                         ]),
-                        margin: EdgeInsets.all(5.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -315,15 +319,17 @@ class _RegisterState extends State<RegisterForm> {
                                         patientMiddleName: '',
                                         patientLastName:
                                             _lnameTextController.text,
-                                        patientNationalId:
-                                            _unameTextController.text,
-                                        patientPhoneNumber: '',
-                                        patientBirthDate: '2016-11-09',
+                                        patientNationalId: int.parse(
+                                            _unameTextController.text),
+                                        patientPhoneNumber: '0931244774',
+                                        patientBirthDate:
+                                            '2016-11-09', //Fake data
                                         patientLocation: '',
                                         patientBloodType: '',
-                                        patientGender: '',
+                                        patientProfileIndex: 1,
                                         patientPassword:
-                                            _passwordTextController.text);
+                                            _passwordTextController.text,
+                                        patientHNId: 0);
                                 APIService.patientRegister(model)
                                     .then((response) {
                                   if (response.statusCode == '0') {
@@ -383,10 +389,12 @@ class _RegisterState extends State<RegisterForm> {
                                           );
                                         }),
                                 ])),
-                            padding: EdgeInsets.fromLTRB(0, 10.0, 0.0, 0),
+                            padding: EdgeInsets.fromLTRB(
+                                0, size.width * 0.03, 0.0, 0),
                           ),
                         ]),
-                        margin: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0)),
+                        margin: EdgeInsets.fromLTRB(
+                            0.0, size.width * 0.04, 0.0, 0.0)),
                   ],
                 )
               ]),

@@ -1,12 +1,12 @@
-class LoginRequestModel {
-  LoginRequestModel({
+class EmployeeLoginRequestModel {
+  EmployeeLoginRequestModel({
     required this.nationalCardId,
     required this.password,
   });
   late final String nationalCardId;
   late final String password;
 
-  LoginRequestModel.fromJson(Map<String, dynamic> json) {
+  EmployeeLoginRequestModel.fromJson(Map<String, dynamic> json) {
     nationalCardId = json['nationalCardId'];
     password = json['password'];
   }
