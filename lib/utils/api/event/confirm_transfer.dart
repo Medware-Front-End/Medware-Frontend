@@ -2,27 +2,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 
-Future ConfirmDelayPatient(
-  String previousScheduleId,
-  String toScheduleId,
-  String patientNationalId,
- 
+Future ConfirmTransfer(
+  String scheduleId,
+  String scheduleStatus,
+  String appointmentDoctorId,
 ) async {
   final msg = jsonEncode({
-    "previousScheduleId" : "${previousScheduleId}",
-    "toScheduleId": "${toScheduleId}",
-    "patientNationalId": "${ patientNationalId}",
+    "scheduleId" : "${scheduleId}",
+    "scheduleStatus": "${scheduleStatus}",
+    "appointmentDoctorId": "${appointmentDoctorId}",
   });
-  var url = "https://medware1.herokuapp.com/patient/postponeAppointment";
+  var url = "https://medware1.herokuapp.com/schedules/update";
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
     'authtoken': authtoken,
-       
   };
   try {
     var response =
-        await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
+        await http.put(Uri.parse(url), headers: requestHeaders, body: msg);
     if (response.statusCode == 200) {
       print("Update Success");
     } else {

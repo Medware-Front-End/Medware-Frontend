@@ -2,39 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/api/event/comfirm_delay_employee.dart';
 import 'package:medware/utils/api/event/confirm_delay_patient.dart';
+import 'package:medware/utils/api/event/confirm_transfer.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ConfirmDelayPatientAppointment extends StatelessWidget {
-  
+class ConfirmTransferPatient extends StatelessWidget {
   final DateTime scheduleDate;
   final DateTime scheduleStart;
+  final int scheduleCapacity;
   final DateTime scheduleEnd;
-  final int previousScheduleId;
-  final int toScheduleId ; 
-  final int patientNationalId ; 
+  final int scheduleId;
+  final String scheduleLocation;
+  final bool scheduleStatus;
+  final int appointmentDoctorId;
 
-  const ConfirmDelayPatientAppointment( 
-      {super.key,
-      required this.scheduleDate,
-      required this.scheduleStart,
-      required this.scheduleEnd, 
-      required this.previousScheduleId, 
-      required this.toScheduleId, 
-      required this.patientNationalId,
-      });
-
-/*
-    "scheduleId" : "1",
-    "scheduleCapacity" : "10", 
-    "scheduleStart" : "2022-11-21T09:00:00",
-    "scheduleEnd" : "2022-11-21T012:00:00",
-    "scheduleDate" : "2022-11-21",
-    "scheduleLocation" : "location02",
-    "scheduleStatus" : "true",
-    "appointmentDoctorId" : "2"
-*/
+  const ConfirmTransferPatient({
+    super.key,
+    required this.scheduleId,
+    required this.scheduleDate,
+    required this.scheduleStart,
+    required this.scheduleEnd,
+    required this.scheduleLocation,
+    required this.scheduleStatus,
+    required this.appointmentDoctorId,
+    required this.scheduleCapacity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -272,13 +265,15 @@ class ConfirmDelayPatientAppointment extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  print(previousScheduleId.toString());
-                  print(toScheduleId.toString());
-                  print(patientNationalId.toString());
-                  await ConfirmDelayPatient(
-                    previousScheduleId.toString(),
-                    toScheduleId.toString(),
-                    patientNationalId.toString()
+                  print(scheduleId.toString());
+                  print(scheduleCapacity.toString());
+                  print(scheduleLocation);
+                  print(scheduleStatus.toString());
+                  print(appointmentDoctorId.toString());
+                  await ConfirmTransfer(
+                    scheduleId.toString(),
+                    scheduleStatus.toString(),
+                    appointmentDoctorId.toString(),
                   );
                   await Future.delayed(const Duration(seconds: 1));
                   Navigator.of(context).pop();

@@ -63,7 +63,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-     _loadAppointments();
+    _loadAppointments();
   }
 
   @override
@@ -81,25 +81,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding:EdgeInsets.fromLTRB(size.width * 0.045, 0, size.width * 0.045, 0),
-            child:SizedBox(
-              width: size.width * 0.67,
-              child: Text('ปฎิทินการนัดหมาย',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'NotoSansThai',
-                    fontWeight: FontWeight.w700,
-                    fontSize: size.width * 0.072,
-                    color: primaryColor,
-                  )
-                ),
-            ), 
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  size.width * 0.045, 0, size.width * 0.045, 0),
+              child: SizedBox(
+                width: size.width * 0.67,
+                child: Text('ปฎิทินการนัดหมาย',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: 'NotoSansThai',
+                      fontWeight: FontWeight.w700,
+                      fontSize: size.width * 0.072,
+                      color: primaryColor,
+                    )),
+              ),
             ),
-            
-          NotificationBell(backgroundColor: quaternaryColor),
+            NotificationBell(backgroundColor: quaternaryColor),
           ],
         ),
-        
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarBrightness: Brightness.dark,
@@ -230,9 +229,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   },
                 ),
               )),
-          SizedBox(
-            height: size.height * 0.038,
-          ),
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(size.height * 0.03)),
             child: Container(
@@ -350,7 +346,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                               ),
                                             ),
                                           )),
-                                    ))
+                                    )),
+                            SizedBox(
+                              height: size.height * 0.038,
+                            ),
                           ],
                         )
                       : Center(
@@ -374,6 +373,3 @@ class CustomScroll extends ScrollBehavior {
     return child;
   }
 }
-
-
-
