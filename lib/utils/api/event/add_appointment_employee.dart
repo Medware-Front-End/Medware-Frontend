@@ -11,7 +11,7 @@ Future ConfirmAdd(
     "patientNationalId": "${patientNationalId}"
   });
   var url =
-      "https://medcare-database-test.herokuapp.com/appointments/createNewAppointment";
+      "https://medware1.herokuapp.com//appointments/createNewAppointment";
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",

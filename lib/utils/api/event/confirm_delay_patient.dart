@@ -12,7 +12,7 @@ Future ConfirmDelayPatient(
     "toScheduleId": "${toScheduleId}",
     "patientNationalId": "${ patientNationalId}",
   });
-  var url = "https://medcare-database-test.herokuapp.com/patient/postponeAppointment";
+  var url = "https://medware1.herokuapp.com//patient/postponeAppointment";
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
