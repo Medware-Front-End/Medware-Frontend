@@ -18,6 +18,7 @@ Future<http.Response> CancelAppointment(int id) async {
             'scheduleStatus': false,
           },
         ));
+    print(response.statusCode);
     print(response.body);
     return response;
   } catch (e) {
