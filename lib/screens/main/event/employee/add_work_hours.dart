@@ -315,11 +315,11 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                         child: DropdownButton(
                           items: const [
                             DropdownMenuItem(
-                                child: Text("ตรวจกับหมอ"), value: 1),
+                                child: Text("ตรวจร่างกาย"), value: 1),
                             DropdownMenuItem(
-                                child: Text("ตรวจสุขภาพ"), value: 2),
+                                child: Text("บริจาคเลือด"), value: 2),
                             DropdownMenuItem(
-                                child: Text("ตรวจเลือด"), value: 3),
+                                child: Text("การนัดหมายพิเศษ"), value: 3),
                           ],
                           value: _dropdownTypeValue,
                           onChanged: dropdownTypeCallback,
