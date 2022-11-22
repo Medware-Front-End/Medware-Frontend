@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/components/underlined_button.dart';
+import 'package:medware/screens/main/event/delay_appointment/delay_em_test.dart';
 import 'package:medware/screens/main/event/transfer_patient/transfer_patient.dart';
 import 'package:medware/screens/main/event/view_appointment/date_time_card.dart';
 import 'package:medware/screens/main/event/view_appointment/header.dart';
@@ -140,8 +141,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  DelayEmployeeAppointment()));
+                              builder: (context) => DelayEmployeeAppointment(scheduleId: 5,
+                                  )));
+
                     },
                     percentWidth: 30,
                   ),
