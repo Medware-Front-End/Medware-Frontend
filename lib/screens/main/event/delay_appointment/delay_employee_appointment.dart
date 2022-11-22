@@ -6,9 +6,11 @@ import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/statics.dart';
 
 class DelayEmployeeAppointment extends StatefulWidget {
-  const DelayEmployeeAppointment(
-      {Key? key, required this.scheduleId, /*required this.employeeId*/})
-      : super(key: key);
+  const DelayEmployeeAppointment({
+    Key? key,
+    required this.scheduleId,
+    /*required this.employeeId*/
+  }) : super(key: key);
   final int scheduleId;
   //final int employeeId;
   @override
@@ -76,11 +78,12 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final id = widget.scheduleId.toString();
-    final appointmentId = ''; 
-    
+    final appointmentId = '';
+    final capacity = ''; 
+
     var errorMessage;
     bool isLoading = false;
-    
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
@@ -235,36 +238,6 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
                       },
                     ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            size.width * 0.06, size.width * 0.01, 0, 0),
-                        child: Text(
-                          "จำนวนคนที่รับได้",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, color: primaryColor),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            size.width * 0.06, size.width * 0.01, 0, 0),
-                        child: DropdownButton(
-                          items: dropDownCapacityOptions
-                              .map<DropdownMenuItem<int>>((int mascot) {
-                            return DropdownMenuItem<int>(
-                                child: Text(mascot.toString()), value: mascot);
-                          }).toList(),
-                          value: _dropdownCapacityValue,
-                          onChanged: dropdownCapacityCallback,
-                          iconEnabledColor: primaryColor,
-                          style: TextStyle(
-                            color: primaryColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
@@ -284,13 +257,14 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
                             bool scheduleStatus = true;
                             ConfirmDelay(
                               id,
-                              scheduleCapacity,
+                              capacity,
                               scheduleStart,
                               scheduleEnd,
                               scheduleDate,
                               scheduleLocation,
                               scheduleStatus.toString(),
                               appointmentId,
+                              context,
                             );
                           });
                         }
