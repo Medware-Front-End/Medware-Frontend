@@ -314,7 +314,7 @@ class _RegisterState extends State<RegisterForm> {
                               onPressed: () {
                                 if (_fnameTextController.text == '' ||
                                     _passwordTextController == '' ||
-                                    _unameTextController != '' ||
+                                    _unameTextController == '' ||
                                     _lnameTextController == '') {
                                   craeteRegisterAlreadyExistDialog(context);
                                 } else {
