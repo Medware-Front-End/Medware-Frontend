@@ -10,7 +10,6 @@ import 'dart:convert';
 class ConfirmTransferPatient extends StatelessWidget {
   final DateTime scheduleDate;
   final DateTime scheduleStart;
-  final int scheduleCapacity;
   final DateTime scheduleEnd;
   final int scheduleId;
   final String scheduleLocation;
@@ -26,7 +25,6 @@ class ConfirmTransferPatient extends StatelessWidget {
     required this.scheduleLocation,
     required this.scheduleStatus,
     required this.appointmentDoctorId,
-    required this.scheduleCapacity,
   });
 
   @override
@@ -266,7 +264,6 @@ class ConfirmTransferPatient extends StatelessWidget {
             ElevatedButton(
                 onPressed: () async {
                   print(scheduleId.toString());
-                  print(scheduleCapacity.toString());
                   print(scheduleLocation);
                   print(scheduleStatus.toString());
                   print(appointmentDoctorId.toString());

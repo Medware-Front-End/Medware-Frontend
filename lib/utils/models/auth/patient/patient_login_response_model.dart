@@ -61,7 +61,7 @@ class Payload {
     patientFirstName = json['patientFirstName'];
     patientGender = json['patientGender'];
     authtoken = json['authtoken'];
-    patientHNId = json['patientHNId'];
+    patientHNId = json['patientId'];
     patientMiddleName = json['patientMiddleName'];
     patientNationalId = json['patientNationalId'];
     patientBirthDate = json['patientBirthDate'];

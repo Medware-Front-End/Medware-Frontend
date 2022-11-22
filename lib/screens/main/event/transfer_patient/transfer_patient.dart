@@ -17,7 +17,6 @@ class TransferPatient extends StatefulWidget {
   final DateTime scheduleDate;
   final DateTime scheduleEnd;
   final DateTime scheduleStart;
-  final int scheduleCapacity;
 
   getId() {
     return scheduleId;
@@ -29,7 +28,6 @@ class TransferPatient extends StatefulWidget {
     required this.scheduleDate,
     required this.scheduleEnd,
     required this.scheduleStart,
-    required this.scheduleCapacity,
   });
 
   @override
@@ -78,9 +76,8 @@ class _TransferPatientState extends State<TransferPatient> {
     final size = MediaQuery.of(context).size;
     final id = widget.scheduleId;
     final date = widget.scheduleDate;
-    final capacity = widget.scheduleCapacity;
     final timeStart = widget.scheduleStart;
-    final timeEnd = widget.scheduleEnd; 
+    final timeEnd = widget.scheduleEnd;
 
     return Scaffold(
         key: scaffoldKey,
@@ -230,7 +227,6 @@ class _TransferPatientState extends State<TransferPatient> {
                                         scheduleStart: timeStart,
                                         appointmentDoctorId:
                                             userLists[i].employeeId,
-                                        scheduleCapacity: capacity,
                                         scheduleLocation: 'โรงบาลลาดกระบัง',
                                         scheduleStatus: true,
                                       ),

@@ -148,7 +148,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     text: 'โอนถ่ายแพทย์',
                     action: () {
                       print(widget.appointment.id);
-                      print(widget.appointment.capacity);
                       print(widget.appointment.date);
                       print(widget.appointment.startTime);
                       print(widget.appointment.finishTime);
@@ -157,7 +156,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           MaterialPageRoute(
                               builder: (context) => TransferPatient(
                                     scheduleId: widget.appointment.id,
-                                    scheduleCapacity:widget.appointment.capacity,
                                     scheduleDate: widget.appointment.date,
                                     scheduleStart: widget.appointment.startTime,
                                     scheduleEnd: widget.appointment.finishTime,
@@ -188,7 +186,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         ),
                         TextButton(
                           onPressed: () {
-
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:

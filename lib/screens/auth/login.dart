@@ -50,6 +50,9 @@ class _LoginState extends State<LoginForm> {
     if (text.isEmpty) {
       return 'โปรดใส่ข้อมูล';
     }
+    if (text.length < 13) {
+      return 'ข้อมูลไม่ถูกต้อง';
+    }
     return null;
   }
 
@@ -71,7 +74,7 @@ class _LoginState extends State<LoginForm> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              "ข้อมูลไม่ถูกต้อง",
+              "โปรดกรอกข้อมูลให้ถูกต้อง",
               style: TextStyle(fontFamily: 'NotoSansThai'),
             ),
           );
@@ -232,12 +235,12 @@ class _LoginState extends State<LoginForm> {
                                     );
                                     APIService.employeeLogin(empModel)
                                         .then((response) async {
+                                      await SharedPreference.setIsAdmin(
+                                          response.payload.isAdmin);
                                       if (response.payload.isAdmin == true) {
                                         await SharedPreference.setToken(
                                             response.payload.authtoken);
-                                        await SharedPreference.setUserRole(2);
-                                        await SharedPreference.setIsAdmin(
-                                            response.payload.isAdmin);
+                                        await SharedPreference.setUserRole(1);
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
@@ -246,6 +249,8 @@ class _LoginState extends State<LoginForm> {
                                         );
                                       } else {
                                         if (response.statusCode == '0') {
+                                          await SharedPreference.setIsAdmin(
+                                              false);
                                           await SharedPreference.setToken(
                                               response.payload.authtoken);
                                           await SharedPreference.setUserFName(
@@ -283,6 +288,7 @@ class _LoginState extends State<LoginForm> {
                                     );
                                     APIService.patientLogin(model)
                                         .then((response) async {
+                                      await SharedPreference.setIsAdmin(false);
                                       if (response.statusCode == '0') {
                                         print("Patient Login Success");
                                         await SharedPreference.setToken(

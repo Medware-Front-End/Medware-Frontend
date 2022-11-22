@@ -8,7 +8,7 @@ Future ConfirmTransfer(
   String appointmentDoctorId,
 ) async {
   final msg = jsonEncode({
-    "scheduleId" : "${scheduleId}",
+    "scheduleId": "${scheduleId}",
     "scheduleStatus": "${scheduleStatus}",
     "appointmentDoctorId": "${appointmentDoctorId}",
   });
@@ -16,7 +16,7 @@ Future ConfirmTransfer(
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
-    'authtoken': authtoken,
+    'authtoken': authToken,
   };
   try {
     var response =
