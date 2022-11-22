@@ -153,7 +153,7 @@ class _RegisterState extends State<RegisterForm> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              "ข้อมูลไม่ถูกต้อง",
+              "โปรดกรอกข้อมูลให้ถูกต้อง",
               style: TextStyle(fontFamily: 'NotoSansThai'),
             ),
           );
@@ -335,7 +335,7 @@ class _RegisterState extends State<RegisterForm> {
                                           patientProfileIndex: 1,
                                           patientPassword:
                                               _passwordTextController.text,
-                                          patientHNId: 1);
+                                          patientId: 1);
                                   APIService.patientRegister(model)
                                       .then((response) {
                                     if (response.statusCode == '0') {

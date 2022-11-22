@@ -87,7 +87,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              "ข้อมูลไม่ถูกต้อง",
+              "โปรดตรวจสอบข้อมูลอีกครั้ง",
               style: TextStyle(fontFamily: 'NotoSansThai'),
             ),
           );
@@ -271,7 +271,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
                             child: CustomTextField(
                               controller: _addDocPassword,
                               validator: _errorPassword,
-                              obscureText: false,
+                              obscureText: true,
                             ),
                           ),
                         ]),
@@ -292,7 +292,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
                             child: CustomTextField(
                               controller: _addDocCpassword,
                               validator: _errorCPassword,
-                              obscureText: false,
+                              obscureText: true,
                             ),
                           ),
                         ]),
@@ -303,7 +303,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
                       Container(
                         child: TextButton(
                           style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(5.0),
+                              padding: EdgeInsets.all(size.width * 0.01),
                               textStyle: const TextStyle(fontSize: 12),
                               backgroundColor: Colors.red,
                               shape: RoundedRectangleBorder(
@@ -326,8 +326,11 @@ class _AddDoctorState extends State<AddDoctorForm> {
                       Container(
                           child: TextButton(
                             style: TextButton.styleFrom(
-                                padding: const EdgeInsets.fromLTRB(
-                                    22.0, 7.0, 22.0, 7.0),
+                                padding: EdgeInsets.fromLTRB(
+                                    size.width * 0.05,
+                                    size.width * 0.01,
+                                    size.width * 0.05,
+                                    size.width * 0.01),
                                 textStyle: const TextStyle(fontSize: 12),
                                 backgroundColor: tertiaryColor,
                                 shape: RoundedRectangleBorder(
@@ -349,11 +352,14 @@ class _AddDoctorState extends State<AddDoctorForm> {
                                   _addDocUname == '' ||
                                   _addDocPassword == '' ||
                                   _addDocPhoneNum == '' ||
+                                  _addDocPassword == '' ||
                                   _addDocCpassword == '') {
                                 craeteRegisterAlreadyExistDialog(context);
                               } else {
                                 APIService.employeeRegister(model)
                                     .then((response) {
+                                  print("Status Code " +
+                                      response.statusCode); //Debugger
                                   if (response.statusCode == '0') {
                                     print("Register Success");
                                     craeteRegisterSuccessDialog(context);
@@ -381,9 +387,10 @@ class _AddDoctorState extends State<AddDoctorForm> {
                             ),
                           ),
                           padding: EdgeInsets.all(size.width * 0.01),
-                          margin: EdgeInsets.all(10.0)),
+                          margin: EdgeInsets.all(size.width * 0.03)),
                     ]),
-                    padding: EdgeInsets.fromLTRB(54.0, 10.0, 0.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(
+                        size.width * 0.12, size.width * 0.01, 0.0, 0.0),
                   ),
                 ],
               ))

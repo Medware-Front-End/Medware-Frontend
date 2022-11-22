@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
+import 'package:medware/screens/main/home/admin/add_doc.dart';
 import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/auth/api_service.dart';
 import 'package:medware/utils/statics.dart';
@@ -68,7 +69,7 @@ class _LoginState extends State<LoginForm> {
     return null;
   }
 
-  craeteRegisterAlreadyExistDialog(BuildContext context) {
+  craeteRegisterInputNullDialog(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -94,7 +95,7 @@ class _LoginState extends State<LoginForm> {
             Container(
               child: Center(
                 child: Text(
-                  'KMITL พร้อม',
+                  'MEDWARE',
                   style: TextStyle(
                       fontSize: 30,
                       color: quaternaryColor,
@@ -223,7 +224,7 @@ class _LoginState extends State<LoginForm> {
                               onPressed: () {
                                 if (_unameTextController.text == '' ||
                                     _passwordTextController.text == '') {
-                                  craeteRegisterAlreadyExistDialog(context);
+                                  craeteRegisterInputNullDialog(context);
                                 } else {
                                   if (_unameTextController.text[0] == 'D' ||
                                       _unameTextController.text[0] == 'd') {
@@ -235,9 +236,10 @@ class _LoginState extends State<LoginForm> {
                                     );
                                     APIService.employeeLogin(empModel)
                                         .then((response) async {
-                                      await SharedPreference.setIsAdmin(
-                                          response.payload.isAdmin);
+                                      await SharedPreference.setIsAdmin(false);
                                       if (response.payload.isAdmin == true) {
+                                        await SharedPreference.setIsAdmin(
+                                            response.payload.isAdmin);
                                         await SharedPreference.setToken(
                                             response.payload.authtoken);
                                         await SharedPreference.setUserRole(1);
@@ -245,7 +247,7 @@ class _LoginState extends State<LoginForm> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const MainScreen()),
+                                                  const AddEmployee()),
                                         );
                                       } else {
                                         if (response.statusCode == '0') {
@@ -300,9 +302,9 @@ class _LoginState extends State<LoginForm> {
                                                 response.payload
                                                     .patientNationalId));
                                         await SharedPreference.setUserId(
-                                            response.payload.patientHNId != null
-                                                ? int.parse(response
-                                                    .payload.patientHNId)
+                                            response.payload.patientId != null
+                                                ? int.parse(
+                                                    response.payload.patientId)
                                                 : 0);
                                         await SharedPreference.setUserRole(1);
                                         Navigator.pushReplacement(

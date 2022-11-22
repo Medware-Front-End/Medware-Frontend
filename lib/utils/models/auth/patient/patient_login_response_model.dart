@@ -36,7 +36,7 @@ class Payload {
     required this.patientFirstName,
     required this.patientGender,
     required this.authtoken,
-    required this.patientHNId,
+    required this.patientId,
     required this.patientMiddleName,
     required this.patientNationalId,
     required this.patientBirthDate,
@@ -48,7 +48,7 @@ class Payload {
   late final String patientFirstName;
   late final String patientGender;
   late final String authtoken;
-  late final String patientHNId;
+  late final String patientId;
   late final String patientMiddleName;
   late final String patientNationalId;
   late final String patientBirthDate;
@@ -61,7 +61,7 @@ class Payload {
     patientFirstName = json['patientFirstName'];
     patientGender = json['patientGender'];
     authtoken = json['authtoken'];
-    patientHNId = json['patientId'];
+    patientId = json['patientId'];
     patientMiddleName = json['patientMiddleName'];
     patientNationalId = json['patientNationalId'];
     patientBirthDate = json['patientBirthDate'];
@@ -76,7 +76,7 @@ class Payload {
     _data['patientFirstName'] = patientFirstName;
     _data['patientGender'] = patientGender;
     _data['authtoken'] = authtoken;
-    _data['patientHNId'] = patientHNId;
+    _data['patientId'] = patientId;
     _data['patientMiddleName'] = patientMiddleName;
     _data['patientNationalId'] = patientNationalId;
     _data['patientBirthDate'] = patientBirthDate;
