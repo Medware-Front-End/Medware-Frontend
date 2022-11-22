@@ -15,8 +15,8 @@ LinkedHashMap<DateTime, List<Allschedules>>? _groupedEvents;
 class AppointmentDoctorCreate extends StatefulWidget {
   const AppointmentDoctorCreate({
     Key? key,
-  }) : super(key: key);
-
+  }) : super(key: key); 
+ 
   @override
   AppointmentDoctorCreateState createState() => AppointmentDoctorCreateState();
 }
@@ -26,6 +26,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   var events;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  late bool _isLoading;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -34,8 +35,12 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   }
 
   Future _loadAppointments() async {
+   
     events = await getAllSchedule();
-    _groupEvent(events);
+   
+    setState(() {
+      _groupEvent(events);
+    });
   }
 
   int getHashCode(DateTime key) {
@@ -43,6 +48,9 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   }
 
   _groupEvent(List<Allschedules> events) {
+    events.sort(((a, b) {
+      return a.scheduleStartTIme.compareTo(b.scheduleStartTIme);
+    }));
     _groupedEvents = LinkedHashMap(equals: isSameDay, hashCode: getHashCode);
     for (var event in events) {
       DateTime date = DateTime.utc(event.scheduleDate.year,
@@ -64,7 +72,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   bool _checkEventEnrollable(dynamic dayEvent) {
     for (int i = 0; i < dayEvent.length; i++) {
       //ตรงนี้มีแก้ scheduleCount
-      if (dayEvent[i].scheduleCapacity > 70) {
+      if (dayEvent[i].scheduleCapacity > dayEvent[i].patientCount) {
         return true;
       }
     }
@@ -336,8 +344,8 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                             0xFF4CC9FF)
                                                                         : event.scheduleType ==
                                                                                 2
-                                                                            ? Color(0xFF4CC9FF)
-                                                                            : Color(0xFFFF0000),
+                                                                            ? Colors.red[400]
+                                                                            : Colors.amber[500],
                                                                     borderRadius:
                                                                         BorderRadius
                                                                             .circular(
@@ -356,8 +364,8 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                             .medical_services_outlined
                                                                         : event.scheduleType ==
                                                                                 2
-                                                                            ? Icons.medical_services_outlined
-                                                                            : Icons.water_drop_outlined,
+                                                                            ? Icons.water_drop_outlined
+                                                                            : Icons.medical_services_outlined,
                                                                     size: size
                                                                             .width *
                                                                         0.09,
@@ -378,7 +386,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                     event.scheduleType ==
                                                                             1
                                                                         ? Text(
-                                                                            'ตรวจกับหมอ',
+                                                                            'ตรวจร่างกาย (${event.docterFirstName})',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: primaryColor,
@@ -389,7 +397,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                         : event.scheduleType ==
                                                                                 2
                                                                             ? Text(
-                                                                                'ตรวจสุขภาพ',
+                                                                                'บริจาคเลือด (${event.docterFirstName})',
                                                                                 style: TextStyle(
                                                                                   color: primaryColor,
                                                                                   fontWeight: FontWeight.w700,
@@ -397,7 +405,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                                 ),
                                                                               )
                                                                             : Text(
-                                                                                'บริจาคเลือด',
+                                                                                'การนัดหมายพิเศษ (${event.docterFirstName})',
                                                                                 style: TextStyle(
                                                                                   color: primaryColor,
                                                                                   fontWeight: FontWeight.w700,
@@ -469,6 +477,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                   )
                 ],
               )
+            
             ],
           ),
         ),
