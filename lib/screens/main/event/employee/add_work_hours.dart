@@ -29,11 +29,14 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
 
   int _dropdownTypeValue = 1;
   int _dropdownDoctorValue = 1;
+  String _dropdownLocationValue = 'ห้องตรวจ 1';
 
   int isSelectDay = 0;
   int isSelectTime = 0;
   int isSelectDoctor = 0;
   //0 = not selected, 1 = selected
+
+  late bool _isLoading = false;
 
   List<int> dropDownCapacityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   List<DropdownMenuItem> list = [];
@@ -59,6 +62,14 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
     }
   }
 
+ void dropdownLocationCallback(String? selectedValue) {
+    
+      setState(() {
+        _dropdownLocationValue = selectedValue!;
+        _scheduleLocation.text = selectedValue.toString();
+      });
+    
+  }
   @override
   void initState() {
     _scheduleDate.text = "";
@@ -73,7 +84,6 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
     final size = MediaQuery.of(context).size;
 
     var errorMessage;
-    bool isLoading = false;
     _showAlertDialog(BuildContext context) {
       Widget okButton = TextButton(
         child: Text("ยืนยัน", style: TextStyle(color: primaryColor)),
@@ -375,13 +385,12 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                                     _dropdownDoctorValue = selectedValue;
                                     _scheduleDoctorId.text =
                                         selectedValue.toString();
-                                        isSelectDoctor = 1;
+                                    isSelectDoctor = 1;
                                   });
                                 },
                                 value: isSelectDoctor == 0
-                                ? (data?[0].employeeId)
-                                : _dropdownDoctorValue
-                              ,
+                                    ? (data?[0].employeeId)
+                                    : _dropdownDoctorValue,
                                 iconEnabledColor: primaryColor,
                                 style: TextStyle(
                                   color: primaryColor,
@@ -402,13 +411,46 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
+                        child: Text(
+                          "สถานที่ตรวจ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, color: primaryColor),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
+                        child: DropdownButton(
+                          items: <String>['ห้องตรวจ 1', 'ห้องตรวจ 2', 'ห้องตรวจ 3', 'ห้องตรวจ 4','ห้องตรวจ 5'].map((String value) {
+    return DropdownMenuItem<String>(
+      value: value,
+      child: Text(value),
+    );
+  }).toList(),
+                          value: _dropdownLocationValue,
+                          onChanged: dropdownLocationCallback,
+                          iconEnabledColor: primaryColor,
+                          style: TextStyle(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor),
-                      onPressed: () async {
+                      child:Text("สร้าง"),
+                      onPressed: ()  async{
                         if (isSelectTime == 1 && isSelectDay == 1) {
+                         
                           setState(() {
                             String scheduleCapacity = _scheduleCapacity.text;
                             String scheduleStart = _scheduleStart.text;
@@ -427,12 +469,13 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                                 scheduleType,
                                 context);
                           });
+                          
+                        
                         } else {
                           SnackBar_show.buildErrorSnackbar(
                               context, "กรุณาเลือกเวลาให้ถูกต้อง!");
                         }
                       },
-                      child: const Text('สร้าง'),
                     ),
                   ),
                 ],

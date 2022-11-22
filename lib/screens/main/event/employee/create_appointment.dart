@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:collection';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/api/event/get_all_schedule.dart';
@@ -35,9 +36,9 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
   }
 
   Future _loadAppointments() async {
-   
+   _isLoading = true;
     events = await getAllSchedule();
-   
+   _isLoading = false;
     setState(() {
       _groupEvent(events);
     });
@@ -71,7 +72,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
 
   bool _checkEventEnrollable(dynamic dayEvent) {
     for (int i = 0; i < dayEvent.length; i++) {
-      //ตรงนี้มีแก้ scheduleCount
+
       if (dayEvent[i].scheduleCapacity > dayEvent[i].patientCount) {
         return true;
       }
@@ -84,6 +85,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
     final size = MediaQuery.of(context).size;
     final fullDateFormatter = DateFormat.yMMMMEEEEd();
     final timeFormatter = DateFormat.jm();
+    
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
@@ -122,7 +124,8 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                   ),
                 ],
               ),
-              Column(
+              _isLoading == false
+              ? Column(
                 children: <Widget>[
                   Container(
                       margin: EdgeInsets.fromLTRB(size.width * 0.045,
@@ -195,7 +198,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                   ],
                                 );
                               } else {
-                                return null;
+                                
                               }
                             },
                           ),
@@ -477,7 +480,20 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                   )
                 ],
               )
-            
+              : Center(child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, size.height * 0.3, 0, 0),
+                  child: Column(children: [
+                    SpinKitCircle(
+                      color: primaryColor,
+                      size: size.height * 0.1,
+                    ),
+                    Text(
+                      'Loading...',
+                      style: TextStyle(
+                          color: secondaryColor, fontSize: size.width * 0.05),
+                    )
+                  ]),
+                ),)
             ],
           ),
         ),
