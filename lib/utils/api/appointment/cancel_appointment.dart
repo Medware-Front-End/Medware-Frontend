@@ -7,17 +7,18 @@ Future<http.Response> CancelAppointment(int id) async {
   final url = '${baseUrl}/schedules/update';
 
   try {
-    var response = await http.put(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'authtoken': authToken,
-      },
-      body: {
-        'scheduleId': id,
-        'scheduleStatus': false,
-      },
-    );
+    var response = await http.put(Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authtoken': authToken,
+        },
+        body: jsonEncode(
+          {
+            'scheduleId': id,
+            'scheduleStatus': false,
+          },
+        ));
+    print(response.body);
     return response;
   } catch (e) {
     throw Exception(e.toString());

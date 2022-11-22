@@ -56,6 +56,7 @@ class _HomeState extends State<Home> {
               AppointmentCards(
                 role: role,
                 appointments: sortedValidAppointments,
+                refresh: _loadAppointments,
               ),
               Contact(),
             ],

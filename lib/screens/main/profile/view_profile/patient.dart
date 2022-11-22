@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/components/cancel_button.dart';
+import 'package:medware/screens/auth/login.dart';
 import 'package:medware/screens/main/profile/edit_profile/change_password.dart';
 import 'package:medware/screens/main/profile/view_profile/detail.dart';
 import 'package:medware/screens/main/profile/view_profile/detailedList.dart';
@@ -68,7 +69,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Header(
                 role: 1,
-                path: profilePictures[patient.profilePic],
+                path: profilePictures.sublist(1)[patient.profilePic],
                 refresh: _loadPatient,
               ),
               Container(
@@ -162,8 +163,14 @@ class _ProfileState extends State<Profile> {
                                       child: const Text('ไม่'),
                                     ),
                                     TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        await SharedPreference.setToken('');
                                         Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Login()));
                                       },
                                       child: const Text('ใช่'),
                                     ),

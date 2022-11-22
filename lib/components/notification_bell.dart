@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medware/screens/notifications/notifications.dart';
+import 'package:medware/screens/notifications/notification_setting.dart';
 import 'package:medware/utils/statics.dart';
 
 class NotificationBell extends StatelessWidget {
@@ -15,9 +15,9 @@ class NotificationBell extends StatelessWidget {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onPressed: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Notifications())),
+          MaterialPageRoute(builder: (context) => const NotificationSetting())),
       icon: Icon(
-        Icons.notifications,
+        Icons.settings,
         color: backgroundColor.computeLuminance() > 0.5
             ? primaryColor
             : quaternaryColor,
