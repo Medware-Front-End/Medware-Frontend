@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medware/utils/api/auth/config.dart';
-import 'package:medware/utils/api/auth/shared_service.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 import '../../models/auth/employee/employee_login_request_model.dart';

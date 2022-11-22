@@ -380,7 +380,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
                                   fontFamily: 'Inter'),
                             ),
                           ),
-                          padding: EdgeInsets.all(5.0),
+                          padding: EdgeInsets.all(size.width * 0.01),
                           margin: EdgeInsets.all(10.0)),
                     ]),
                     padding: EdgeInsets.fromLTRB(54.0, 10.0, 0.0, 0.0),

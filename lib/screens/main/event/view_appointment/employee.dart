@@ -187,7 +187,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         ),
                         TextButton(
                           onPressed: () {
-
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:
