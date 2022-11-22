@@ -342,11 +342,11 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     color: event.scheduleType ==
-                                                                            1
+                                                                            2
                                                                         ? Color(
                                                                             0xFF4CC9FF)
                                                                         : event.scheduleType ==
-                                                                                2
+                                                                                3
                                                                             ? Colors.red[400]
                                                                             : Colors.amber[500],
                                                                     borderRadius:
@@ -366,7 +366,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                         ? Icons
                                                                             .medical_services_outlined
                                                                         : event.scheduleType ==
-                                                                                2
+                                                                                3
                                                                             ? Icons.water_drop_outlined
                                                                             : Icons.medical_services_outlined,
                                                                     size: size
@@ -387,9 +387,9 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                           .start,
                                                                   children: [
                                                                     event.scheduleType ==
-                                                                            1
+                                                                            2
                                                                         ? Text(
-                                                                            'ตรวจร่างกาย (${event.docterFirstName})',
+                                                                            'ตรวจสุขภาพ (${event.docterFirstName})',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: primaryColor,
@@ -398,7 +398,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                             ),
                                                                           )
                                                                         : event.scheduleType ==
-                                                                                2
+                                                                                3
                                                                             ? Text(
                                                                                 'บริจาคเลือด (${event.docterFirstName})',
                                                                                 style: TextStyle(
