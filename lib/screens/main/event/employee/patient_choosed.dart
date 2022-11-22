@@ -1,14 +1,12 @@
-import 'package:collection/collection.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:medware/screens/main/event/employee/display_appointment.dart';
-import 'package:medware/utils/models/event/getPatientAppointment.dart';
+import 'package:medware/utils/api/user/get_all_patient.dart';
 import 'dart:core';
-import 'dart:convert';
-import 'package:medware/screens/main/event/view_appointment/components/date_time_card.dart';
-import 'package:medware/utils/colors.dart';
-
-import 'package:medware/utils/api/appointment/get_employee_appointment_by_id.dart';
-import 'package:http/http.dart' as http;
+import 'package:medware/utils/statics.dart';
+import 'package:medware/utils/models/user/get_all_patient.dart';
 
 class PatientChoosed extends StatefulWidget {
   final int id;
@@ -31,39 +29,41 @@ class PatientChoosed extends StatefulWidget {
   State<PatientChoosed> createState() => _PatientChoosedState();
 }
 
+class Debouncer {
+  int? milliseconds;
+  VoidCallback? action;
+  Timer? timer;
+
+  run(VoidCallback action) {
+    if (null != timer) {
+      timer!.cancel();
+    }
+    timer = Timer(
+      Duration(milliseconds: Duration.millisecondsPerSecond),
+      action,
+    );
+  }
+}
+
 class _PatientChoosedState extends State<PatientChoosed> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late List<GetPatientAppointment> _getdata;
+  final _debouncer = Debouncer();
 
-  
+  List<AllPatient> ulist = [];
+  List<AllPatient> userLists = [];
 
-  Future<List<GetPatientAppointment>> getPatientOnSchedule() async {
-    var url =
-        "https://medcare-database-test.herokuapp.com/appointments/findPatientbyScheduleId/${widget.getId().toString()}";
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'authtoken':
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2Njg3MDU4MjAsImlhdCI6MTY2ODcwMjgyMCwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.fVXvInCuzThVpPCULuG8QUXD4dczlsFKMWxUr-ySV4k'
-    };
-
-    var response = await http.get(Uri.parse(url), headers: requestHeaders);
-    if (response.statusCode == 200) {
-      String responseString = utf8.decode(response.bodyBytes);
-      print(responseString);
-      final _getdata = getPatientAppointmentFromJson(responseString);
-
-      return _getdata;
-    } else {
-      throw Exception('Failed to load');
-    }
-  }
+  late List<AllPatient> _getdata;
 
   @override
   void initState() {
     super.initState();
-    getPatientOnSchedule();
+    getAllPatient().then((subjectFromServer) {
+      setState(() {
+        ulist = subjectFromServer;
+        userLists = ulist;
+      });
+    });
   }
 
   @override
@@ -72,142 +72,170 @@ class _PatientChoosedState extends State<PatientChoosed> {
     return Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: false,
+          toolbarHeight: size.height * 0.1,
+          backgroundColor: Colors.white,
+          leadingWidth: size.width * 0.22,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.07, 0, 0, 0),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: size.width * 0.04,
+                          color: primaryColor,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(size.width * 0.01, 0, 0, 0),
+                        child: Text('กลับ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'NotoSansThai',
+                              fontWeight: FontWeight.w400,
+                              fontSize: size.width * 0.046,
+                              color: primaryColor,
+                            )),
+                      )
+                    ],
+                  )),
+            ],
+          ),
+          title: SizedBox(
+            width: size.width * 0.67,
+            child: Text('เลือกคนไข้',
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontFamily: 'NotoSansThai',
+                  fontWeight: FontWeight.w700,
+                  fontSize: size.width * 0.072,
+                  color: primaryColor,
+                )),
+          ),
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarBrightness: Brightness.dark,
+            statusBarIconBrightness: Brightness.dark,
+            systemStatusBarContrastEnforced: true,
+          ),
+        ),
         body: SafeArea(
           child: GestureDetector(
             child: RefreshIndicator(
-              onRefresh: getPatientOnSchedule,
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              backgroundColor: quaternaryColor,
-              color: primaryColor,
-              child: Column(mainAxisSize: MainAxisSize.max, children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(30, 30, 0, 0),
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Text(
-                          '<   กลับ',
-                          style: TextStyle(
-                              fontFamily: 'NotoSansThai',
-                              color: primaryColor,
-                              fontWeight: FontWeight.w600),
+              onRefresh: getAllPatient,
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        backgroundColor: quaternaryColor,
+        color: primaryColor,
+              child: SingleChildScrollView(
+                 physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+                child: Column(mainAxisSize: MainAxisSize.max, children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            size.width * 0.05,
+                            size.width * 0.05,
+                            size.width * 0.05,
+                            size.width * 0.05),
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.search),
+                              hintText: "ค้นหาคนไข้",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                    size.shortestSide * 0.05),
+                                borderSide: BorderSide(color: primaryColor),
+                              )),
+                          onChanged: (string) {
+                            _debouncer.run(() {
+                              setState(() {
+                                userLists = ulist
+                                    .where((u) =>
+                                        (u.patientFirstName.contains(
+                                          string,
+                                        )) ||
+                                        (u.patientMiddleName.contains(
+                                          string,
+                                        )) ||
+                                        (u.patientLastName.contains(
+                                          string,
+                                        )) ||
+                                        (u.patientHnId.toString().contains(
+                                              string,
+                                            )))
+                                    .toList();
+                              });
+                            });
+                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(130, 30, 0, 0),
-                      child: Text(
-                        'เลือกคนไข้',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansThai',
-                            color: secondaryColor,
-                            fontSize: size.width * 0.07,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          size.width * 0.05,
-                          size.width * 0.05,
-                          size.width * 0.05,
-                          size.width * 0.05),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            hintText: "ค้นหาคนไข้",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  size.shortestSide * 0.05),
-                              borderSide: BorderSide(color: primaryColor),
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
-                SingleChildScrollView(
-                  child: RefreshIndicator(
-                    onRefresh: getPatientOnSchedule,
-                              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                              backgroundColor: quaternaryColor,
-                              color: primaryColor,
-                    child: Container(
-                      child: FutureBuilder(
-                        future: getPatientOnSchedule(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            var result = snapshot.data;
-                          
-                            return Container(
-                              padding: EdgeInsets.fromLTRB(size.width * 0.03, 0,
-                                  size.width * 0.03, size.width * 0.03),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: result.length,
-                                itemBuilder: (context, i) {
-                                  return InkWell(
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: size.width * 0.02),
-                                      decoration: BoxDecoration(
-                                        color: quaternaryColor,
-                                        borderRadius: BorderRadius.circular(
-                                            size.width * 0.03),
-                                      ),
-                                      child: ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AppointmentDisplay(
-                                                      scheduleId: widget.getId(),
-                                                      appointmentDate: result[i]
-                                                          .appointmentDate,
-                                                      appointmentTimeStart: result[
-                                                              i]
-                                                          .appointmentTimeStart,
-                                                      appointmentTimeEnd: result[
-                                                              i]
-                                                          .appointmentTimeEnd,
-                                                      patientFirstName:
-                                                          result[i]
-                                                              .patientFirstName,
-                                                      patientMiddleName:
-                                                          result[
-                                                                  i]
-                                                              .patientMiddleName,
-                                                      patientLastName: result[i]
-                                                          .patientLastName),
-                                            ),
-                                          );
-                                        },
-                                        title: Text(
-                                            "${result[i].patientFirstName} ${result[i].patientMiddleName} ${result[i].patientLastName}"),
-                                        trailing: Icon(Icons.arrow_forward_ios),
-                                        leading: Icon(
-                                            Icons.account_circle_rounded,
-                                            size: size.width * 0.08),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      ListView.builder(
+                        physics: ScrollPhysics(parent: null),
+                        shrinkWrap: true,
+                        itemCount: userLists.length,
+                        itemBuilder: (context, i) {
+                          return Container(
+                            margin: EdgeInsetsDirectional.fromSTEB(size.width*0.03,size.width*0.04,size.width*0.03,0),
+                            decoration: BoxDecoration(
+                              color: quaternaryColor,
+                              borderRadius:
+                                  BorderRadius.circular(size.width * 0.03),
+                            ),
+                            child: GestureDetector(
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AppointmentDisplay(
+                                        scheduleId: widget.getId(),
+                                        appointmentDate: widget.date,
+                                        appointmentTimeStart: widget.startTime,
+                                        appointmentTimeEnd: widget.finishTime,
+                                        patientFirstName:
+                                            userLists[i].patientFirstName,
+                                        patientMiddleName:
+                                            userLists[i].patientMiddleName,
+                                        patientLastName:
+                                            userLists[i].patientLastName,
+                                        patientNationalId:
+                                            userLists[i].patientNationalId,
                                       ),
                                     ),
                                   );
                                 },
+                                title: Text(
+                                    "${userLists[i].patientFirstName} ${userLists[i].patientMiddleName} ${userLists[i].patientLastName}"),
+                                trailing: Icon(Icons.arrow_forward_ios),
+                                leading: Icon(Icons.account_circle_rounded,
+                                    size: size.width * 0.08),
                               ),
-                            );
-                          }
-                          return LinearProgressIndicator();
+                            ),
+                          );
                         },
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ]),
+                ]),
+              ),
             ),
           ),
         ));

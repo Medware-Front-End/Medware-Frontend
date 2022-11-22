@@ -22,6 +22,15 @@ class Employee {
     required this.role,
     required this.department,
   });
+  // late final String employeeFirstName;
+  // late final String employeeMiddleName;
+  // late final String employeeLastName;
+  // late final String employeeNationalId;
+  // late final bool employeeIsAdmin;
+  // late final String employeePhoneNumber;
+  // late final int employeeRole;
+  // late final int employeeDepartment;
+  // late final String employeePassword;
 
   static Employee fromJson(Map<String, dynamic> json) => Employee(
         id: json['id'],

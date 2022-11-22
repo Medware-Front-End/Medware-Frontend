@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/screens/main/event/employee/create_appointment.dart'
     as create_appointment;
 import 'package:medware/screens/main/event/employee/add_work_hours.dart'
@@ -108,6 +108,7 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                       ),
                       Positioned(
                         top: size.width*0.05,
+                        left:size.width*0.16,
                         height: size.height *0.31,
                         child: GestureDetector(
                           onTap: () => Navigator.push(
@@ -180,7 +181,9 @@ class AppointmentTypeScreenState extends State<AppointmentTypeScreen> {
                           ),
                         ),
                         Positioned(
+                        
                           top: size.width*0.01,
+                          left:size.width*0.175,
                         height: size.height *0.31,
                           child: GestureDetector(
                             onTap: () => Navigator.push(

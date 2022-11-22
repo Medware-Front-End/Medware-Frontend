@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import '../../../../components/notification_bell.dart';
 import 'package:intl/intl.dart';
 

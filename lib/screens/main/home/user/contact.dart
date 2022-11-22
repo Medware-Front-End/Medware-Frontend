@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class Contact extends StatelessWidget {
   const Contact({Key? key}) : super(key: key);

@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/event/patient/patient_event.dart';
 import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:intl/intl.dart';

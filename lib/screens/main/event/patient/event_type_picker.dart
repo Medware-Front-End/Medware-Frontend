@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/screens/main/event/patient/calendar_appointment.dart';
 
 class EventTypePicker extends StatelessWidget {
@@ -79,7 +79,8 @@ class EventTypePicker extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CalendarAppointment(),
+                          builder: (context) =>
+                              const CalendarAppointment(type: 2),
                         ),
                       );
                     },
@@ -145,7 +146,8 @@ class EventTypePicker extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CalendarAppointment(),
+                          builder: (context) =>
+                              const CalendarAppointment(type: 3),
                         ),
                       );
                     },

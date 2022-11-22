@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class ActionButton extends StatelessWidget {
   final String text;
