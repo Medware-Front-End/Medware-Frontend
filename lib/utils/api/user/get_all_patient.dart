@@ -9,8 +9,8 @@ Future<List<AllPatient>> getAllPatient() async {
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'authtoken':authtoken
-         };
+    'authtoken': authToken
+  };
   try {
     var response = await http.get(Uri.parse(url), headers: requestHeaders);
     if (response.statusCode == 200) {

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreference {
@@ -6,18 +5,22 @@ class SharedPreference {
 
   static Future init() async => _pref = await SharedPreferences.getInstance();
 
-  static Future setToken(Map<String, dynamic> token) async =>
-      await _pref.setString('token', jsonEncode(token));
-  static Map<String, dynamic> getToken() =>
-      jsonDecode(_pref.getString('token')!)!;
+  static Future setToken(String token) async =>
+      await _pref.setString('token', token);
+  static String getToken() => _pref.getString('token')!;
 
   static Future setUserFName(String name) async =>
       await _pref.setString('name', name);
   static String getUserFName() => _pref.getString('name')!;
 
+  static Future setUserNationalId(int id) async => await _pref.setInt('id', id);
+  static int getUserNationalId() => _pref.getInt('id')!;
+
+  static Future setUserId(int id) async => await _pref.setInt('id', id);
+  static int getUserId() => _pref.getInt('id')!;
+
   static Future setUserRole(int role) async => await _pref.setInt('role', role);
-  static int getUserRole() =>
-      _pref.getInt('role') ?? 1; // employee: 1, patient: 2
+  static int getUserRole() => _pref.getInt('role') ?? 1;
 
   static Future setIsAdmin(bool isAdmin) async =>
       await _pref.setBool('isAdmin', isAdmin);

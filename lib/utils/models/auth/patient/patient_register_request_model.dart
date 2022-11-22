@@ -1,38 +1,41 @@
 class PatientRegisterRequestModel {
-  PatientRegisterRequestModel({
-    required this.patientFirstName,
-    required this.patientMiddleName,
-    required this.patientLastName,
-    required this.patientNationalId,
-    required this.patientPhoneNumber,
-    required this.patientBirthDate,
-    required this.patientLocation,
-    required this.patientBloodType,
-    required this.patientGender,
-    required this.patientPassword,
-  });
+  PatientRegisterRequestModel(
+      {required this.patientFirstName,
+      required this.patientMiddleName,
+      required this.patientLastName,
+      required this.patientNationalId,
+      required this.patientPhoneNumber,
+      required this.patientBirthDate,
+      required this.patientLocation,
+      required this.patientBloodType,
+      required this.patientProfileIndex,
+      required this.patientPassword,
+      required this.patientHNId});
+
   late final String patientFirstName;
   late final String patientMiddleName;
   late final String patientLastName;
-  late final String patientNationalId;
+  late final int patientNationalId;
   late final String patientPhoneNumber;
   late final String patientBirthDate;
   late final String patientLocation;
   late final String patientBloodType;
-  late final String patientGender;
+  late final int patientProfileIndex;
   late final String patientPassword;
+  late final int patientHNId;
 
   PatientRegisterRequestModel.fromJson(Map<String, dynamic> json) {
     patientFirstName = json['patientFirstName'];
     patientMiddleName = json['patientMiddleName'];
     patientLastName = json['patientLastName'];
-    patientNationalId = json['patientNationalId'];
+    patientNationalId = int.parse(json['patientNationalId']);
     patientPhoneNumber = json['patientPhoneNumber'];
     patientBirthDate = json['patientBirthDate'];
     patientLocation = json['patientLocation'];
     patientBloodType = json['patientBloodType'];
-    patientGender = json['patientGender'];
+    patientProfileIndex = json['patientProfileIndex'];
     patientPassword = json['patientPassword'];
+    patientHNId = int.parse(json[patientHNId]);
   }
 
   Map<String, dynamic> toJson() {
@@ -45,8 +48,9 @@ class PatientRegisterRequestModel {
     _data['patientBirthDate'] = patientBirthDate;
     _data['patientLocation'] = patientLocation;
     _data['patientBloodType'] = patientBloodType;
-    _data['patientGender'] = patientGender;
+    _data['patientProfileIndex'] = patientProfileIndex;
     _data['patientPassword'] = patientPassword;
+    _data['patientHNId'] = patientHNId;
     return _data;
   }
 }
