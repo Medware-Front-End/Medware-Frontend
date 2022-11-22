@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:medware/utils/statics.dart';
 import '../../../../components/notification_bell.dart';
@@ -22,6 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   var events;
   DateTime? _selectedDay;
+  final int id = SharedPreference.getUserId();
 
   String _mapAppointmentType(int type) {
     if (type == 0) {
@@ -40,7 +42,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future _loadAppointments() async {
-    events = await getPatientAppointments();
+    events = await getPatientAppointments(id);
     _groupEvent(events);
   }
 

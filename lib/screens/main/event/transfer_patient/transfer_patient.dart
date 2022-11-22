@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/screens/main/event/transfer_patient/doctor_card.dart';
 import 'package:medware/utils/api/appointment/get_patient_appointments.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/appointment/patient_appointment.dart';
 import 'package:medware/utils/models/user/patient.dart';
@@ -19,8 +20,10 @@ class TranferPatient extends StatefulWidget {
 
 class _DelayPatientAppointmentState extends State<TranferPatient> {
   Map<DateTime, List<PatientAppointment>> sortedValidPatients = {};
+  final int id = SharedPreference.getUserId();
+  
   Future _loadAppointments() async {
-    var appointments = await getPatientAppointments();
+    var appointments = await getPatientAppointments(id);
     setState(
       () => sortedValidPatients = groupBy(
         appointments,

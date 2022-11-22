@@ -7,7 +7,6 @@ import 'package:medware/screens/main/event/transfer_patient/transfer_patient.dar
 import 'package:medware/screens/main/event/view_appointment/date_time_card.dart';
 import 'package:medware/screens/main/event/view_appointment/header.dart';
 import 'package:medware/screens/main/main_screen.dart';
-import 'package:medware/utils/api/appointment/temp/get_employee_appointment_by_id.dart';
 import 'package:medware/utils/api/notification/push_notification.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
@@ -35,7 +34,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   }
 
   void listenToNotificationStream() async {
-    var res = await getEmployeeAppointmentById();
     PushNotification.onClickNotifications.stream.listen(
       (payload) => Navigator.pushReplacement(
         context,
@@ -179,6 +177,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         ),
                         TextButton(
                           onPressed: () {
+
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:

@@ -7,12 +7,14 @@ class DetailedList extends StatelessWidget {
   final String title;
   final List<String> details;
   final IconData icon;
+  final Future<void> Function() refresh;
 
   const DetailedList({
     Key? key,
     required this.title,
     required this.details,
     required this.icon,
+    required this.refresh,
   }) : super(key: key);
 
   @override
@@ -91,7 +93,7 @@ class DetailedList extends StatelessWidget {
                   details: details,
                 ),
               ),
-            ),
+            ).then((value) async => await refresh()),
           ),
         ],
       ),

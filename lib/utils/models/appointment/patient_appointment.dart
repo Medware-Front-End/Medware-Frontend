@@ -5,7 +5,7 @@ class PatientAppointment {
   final DateTime startTime;
   final DateTime finishTime;
   final String doctor;
-  final String department;
+  final int department;
 
   const PatientAppointment({
     required this.id,
@@ -17,13 +17,14 @@ class PatientAppointment {
     required this.department,
   });
 
-  static PatientAppointment fromJson(Map<String, dynamic> json) => PatientAppointment(
-        id: int.parse(json['id']),
-        type: int.parse(json['type']),
-        date: DateTime.parse(json['date']),
-        startTime: DateTime.parse(json['startTime']),
-        finishTime: DateTime.parse(json['finishTime']),
-        doctor: json['doctorName'],
-        department: json['department'],
+  static PatientAppointment fromJson(json) =>
+      PatientAppointment(
+        id: json['EmployeeId'],
+        type: json['Scheduletype'],
+        date: DateTime.parse(json['appointmentDate']),
+        startTime: DateTime.parse(json['appointmentTimeStart']),
+        finishTime: DateTime.parse(json['appointmentTimeEnd']),
+        doctor: '${json['EmployeeFirstName']} ${json['EmployeeMiddleName']} ${json['EmployeeLastName']}',
+        department: json['EmployeeDepartment'],
       );
 }

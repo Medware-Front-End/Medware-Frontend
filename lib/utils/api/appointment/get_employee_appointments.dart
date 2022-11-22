@@ -1,77 +1,29 @@
+import 'dart:convert';
 import 'package:medware/utils/models/appointment/employee_appointment.dart';
+import 'package:http/http.dart' as http;
+import 'package:medware/utils/statics.dart';
 
-Future<List<EmployeeAppointment>> getEmployeeAppointments() async {
-  const data = [
-    {
-      'id': '0',
-      'type': '1',
-      'date': '2022-11-18',
-      'startTime': '2022-12-18T09:00:00',
-      'finishTime': '2022-12-18T10:00:00',
-      'capacity': '3',
-      'patientCount': '3',
-    },
-    {
-      'id': '1',
-      'type': '2',
-      'date': '2022-11-17',
-      'startTime': '2022-12-17T13:00:00',
-      'finishTime': '2022-12-17T15:00:00',
-      'capacity': '3',
-      'patientCount': '2',
-    },
-    {
-      'id': '2',
-      'type': '2',
-      'date': '2022-11-17',
-      'startTime': '2022-12-17T09:00:00',
-      'finishTime': '2022-12-17T11:00:00',
-      'capacity': '3',
-      'patientCount': '2',
-    },
-    {
-      'id': '3',
-      'type': '1',
-      'date': '2022-11-16',
-      'startTime': '2022-12-16T10:00:00',
-      'finishTime': '2022-12-16T11:00:00',
-      'capacity': '7',
-      'patientCount': '5',
-    },
-    {
-      'id': '4',
-      'type': '1',
-      'date': '2022-11-16',
-      'startTime': '2022-12-16T11:00:00',
-      'finishTime': '2022-12-16T12:00:00',
-      'capacity': '3',
-      'patientCount': '2',
-    },
-    {
-      'id': '5',
-      'type': '1',
-      'date': '2022-11-16',
-      'startTime': '2022-12-16T13:00:00',
-      'finishTime': '2022-12-16T14:00:00',
-      'capacity': '4',
-      'patientCount': '3',
-    },
-    {
-      'id': '6',
-      'type': '1',
-      'date': '2022-11-16',
-      'startTime': '2022-12-16T14:00:00',
-      'finishTime': '2022-12-16T15:00:00',
-      'capacity': '8',
-      'patientCount': '3',
+Future<List<EmployeeAppointment>> getEmployeeAppointments(int id) async {
+  final url = '${baseUrl}/getappointmentbyEmployee/${id}';
+
+  try {
+    var results = await http.get(Uri.parse(url));
+    if (results.statusCode == 200) {
+      print(json.decode(utf8.decode(results.bodyBytes)));
+      var res = json
+          .decode(utf8.decode(results.bodyBytes))
+          .map<EmployeeAppointment>(EmployeeAppointment.fromJson)
+          .toList()
+          .where((i) =>
+              DateTime.parse(i.startTime.toString()).isAfter(DateTime.now()))
+          .toList();
+      res.sort((a, b) => DateTime.parse(a.startTime.toString())
+          .compareTo(DateTime.parse(b.startTime.toString())));
+      return res;
+    } else {
+      return [];
     }
-  ];
-
-  var res = data
-      .map<EmployeeAppointment>(EmployeeAppointment.fromJson)
-      .toList()
-      .where((i) => i.startTime.isAfter(DateTime.now()))
-      .toList();
-  res.sort((a, b) => a.startTime.compareTo(b.startTime));
-  return res;
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }
