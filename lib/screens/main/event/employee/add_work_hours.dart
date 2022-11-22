@@ -56,6 +56,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   void dropdownTypeCallback(int? selectedValue) {
     if (selectedValue is int) {
       setState(() {
+        print(selectedValue);
         _dropdownTypeValue = selectedValue;
         _scheduleType.text = selectedValue.toString();
       });
@@ -325,11 +326,11 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                         child: DropdownButton(
                           items: const [
                             DropdownMenuItem(
-                                child: Text("ตรวจร่างกาย"), value: 1),
+                                child: Text("ตรวจสุขภาพ"), value: 2),
                             DropdownMenuItem(
-                                child: Text("บริจาคเลือด"), value: 2),
+                                child: Text("บริจาคเลือด"), value: 3),
                             DropdownMenuItem(
-                                child: Text("การนัดหมายพิเศษ"), value: 3),
+                                child: Text("การนัดหมายพิเศษ"), value: 1),
                           ],
                           value: _dropdownTypeValue,
                           onChanged: dropdownTypeCallback,
