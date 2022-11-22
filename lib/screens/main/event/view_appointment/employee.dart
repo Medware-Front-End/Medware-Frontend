@@ -51,6 +51,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   @override
   Widget build(BuildContext context) {
     final int role = SharedPreference.getUserRole();
+    final int id = SharedPreference.getUserRole();
     final size = MediaQuery.of(context).size;
     final dateFormatter = DateFormat('d MMMM y');
     final timeFormatter = DateFormat.jm();
@@ -147,7 +148,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           MaterialPageRoute(
                               builder: (context) => DelayEmployeeAppointment(
                                     scheduleId: widget.appointment.id,
-                                    
+
                                     //employeeId: '',
                                   )));
                     },
@@ -194,7 +195,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: const Text('ไม่'),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await CancelAppointment(widget.appointment.id);
+
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:
