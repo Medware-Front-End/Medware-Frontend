@@ -98,7 +98,9 @@ class ViewAppointment extends StatelessWidget {
               Navigator.push(context, 
               MaterialPageRoute(
                 builder: (context) =>
-                    DelayPatientAppointment()                               
+                    DelayPatientAppointment(
+                      patientNationalId: 1234567890121,
+                     previousScheduleId: 2)                               
                 )
               );
 
