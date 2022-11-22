@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/components/action_button.dart';
-import 'package:medware/screens/main/profile/edit_profile/components/input_field.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/screens/main/profile/edit_profile/input_field.dart';
+import 'package:medware/utils/statics.dart';
 
 class ChangePassword extends StatefulWidget {
   final String oldPassword;

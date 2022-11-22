@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/components/bubbled_header.dart';
 import 'package:medware/components/notification_bell.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class Header extends StatelessWidget {
   final int role;

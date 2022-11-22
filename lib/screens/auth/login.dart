@@ -1,17 +1,20 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:medware/components/text_field.dart';
 import 'package:medware/screens/auth/register.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/screens/main/main_screen.dart';
+import 'package:medware/utils/api/auth/api_service.dart';
+import 'package:medware/utils/statics.dart';
+import 'package:medware/utils/models/auth/login_request_model.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginForm(),
-    );
+    return const LoginForm();
   }
 }
 
@@ -25,12 +28,12 @@ class LoginForm extends StatefulWidget {
 class _LoginState extends State<LoginForm> {
   TextEditingController _unameTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
-
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool _validate = false;
+  bool isAPICallProcess = false;
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     _unameTextController.dispose();
     _passwordTextController.dispose();
     super.dispose();
@@ -45,7 +48,6 @@ class _LoginState extends State<LoginForm> {
     if (text.isEmpty) {
       return 'โปรดใส่ข้อมูล';
     }
-    // return null if the text is valid
     return null;
   }
 
@@ -58,13 +60,13 @@ class _LoginState extends State<LoginForm> {
     if (text.isEmpty) {
       return 'โปรดใส่ข้อมูล';
     }
-    // return null if the text is valid
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: globalFormKey,
         resizeToAvoidBottomInset: false,
         backgroundColor: secondaryColor,
         body: Column(
@@ -121,6 +123,7 @@ class _LoginState extends State<LoginForm> {
                               child: CustomTextField(
                                 controller: _unameTextController,
                                 validator: _errorUname,
+                                obscureText: false,
                               ),
                               padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                               margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 10.0)),
@@ -144,6 +147,7 @@ class _LoginState extends State<LoginForm> {
                               child: CustomTextField(
                                 controller: _passwordTextController,
                                 validator: _errorPassword,
+                                obscureText: true,
                               ),
                               padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                               margin: EdgeInsets.fromLTRB(5.0, 2.0, 0.0, 30.0)),
@@ -159,7 +163,63 @@ class _LoginState extends State<LoginForm> {
                                   textStyle: const TextStyle(fontSize: 15),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
-                                // Navigator.pop(context);
+                                if (_unameTextController.text[0] == 'D' ||
+                                    _unameTextController.text[0] == 'd') {
+                                  LoginRequestModel empModel =
+                                      LoginRequestModel(
+                                    nationalCardId:
+                                        _unameTextController.text.substring(1),
+                                    password: _passwordTextController.text,
+                                  );
+                                  APIService.employeeLogin(empModel)
+                                      .then((response) {
+                                    if (response.statusCode == '0') {
+                                      print("Employee Login Success");
+                                      // SharedPreference.setToken(jsonDecode(
+                                      //     response.toString())["payload"]);
+                                      SharedPreference.setUserRole(0);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MainScreen()),
+                                      );
+                                    } else if (response.statusCode == '1') {
+                                      print("Employee not found");
+                                    }
+                                    {
+                                      print("Employee not found");
+                                    }
+                                  });
+                                } else {
+                                  LoginRequestModel model = LoginRequestModel(
+                                    nationalCardId: _unameTextController.text,
+                                    password: _passwordTextController.text,
+                                  );
+                                  APIService.patientLogin(model)
+                                      .then((response) {
+                                    if (response.statusCode == '0') {
+                                      print("Patient Login Success");
+                                      // SharedPreference.setToken(jsonDecode(
+                                      //     response.toString())["payload"]);
+                                      SharedPreference.setUserRole(1);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MainScreen()),
+                                      );
+                                    } else if (response.statusCode == '1') {
+                                      print("User not found");
+                                    } else {
+                                      print("Patient Login Failed");
+                                    }
+                                  });
+                                }
+
+                                print(_unameTextController.text);
+                                print(_passwordTextController.text);
+
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController.text.isEmpty
@@ -190,7 +250,6 @@ class _LoginState extends State<LoginForm> {
                                       text: "สร้างบัญชี",
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
-                                          Navigator.pop(context);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

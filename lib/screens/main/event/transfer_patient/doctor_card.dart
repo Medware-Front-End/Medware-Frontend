@@ -1,5 +1,5 @@
 import 'package:medware/screens/main/event/patient/confirm_appointment.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/screens/main/event/employee/patient_choosed.dart';

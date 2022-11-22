@@ -17,7 +17,7 @@ class SharedPreference {
 
   static Future setUserRole(int role) async => await _pref.setInt('role', role);
   static int getUserRole() =>
-      _pref.getInt('role') ?? 1; // employee: 0, patient: 1
+      _pref.getInt('role') ?? 1; // employee: 1, patient: 2
 
   static Future setIsAdmin(bool isAdmin) async =>
       await _pref.setBool('isAdmin', isAdmin);

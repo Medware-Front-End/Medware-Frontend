@@ -4,7 +4,7 @@ import 'package:medware/screens/main/event/view_appointment/employee.dart'
     as employee;
 import 'package:medware/screens/main/event/view_appointment/patient.dart'
     as patient;
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class AppointmentCards extends StatelessWidget {
   final int role;

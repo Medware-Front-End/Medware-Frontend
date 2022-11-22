@@ -1,91 +1,23 @@
 import 'package:medware/utils/models/event/patient/patient_event.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-Future<List<PatientEvent>> getPatientSchedule() async {
-  const data = [
-    {
-      'id': '0',
-      'capacity': '3',
-      'patientCount': '1',
-      'date': '2022-11-18T00:00:00',
-      'startTime': '2022-11-18T09:00:00',
-      'finishTime': '2022-11-18T10:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
-    },
-    {
-      'id': '1',
-      'capacity': '3',
-      'patientCount': '2',
-      'date': '2022-11-18',
-      'startTime': '2022-11-18T10:00:00',
-      'finishTime': '2022-11-18T11:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
-    },
-    {
-      'id': '2',
-      'capacity': '3',
-      'patientCount': '1',
-      'date': '2022-11-18',
-      'startTime': '2022-11-18T11:00:00',
-      'finishTime': '2022-11-18T12:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
-    },
-    {
-      'id': '3',
-      'capacity': '3',
-      'patientCount': '3',
-      'date': '2022-11-19',
-      'startTime': '2022-11-19T09:00:00',
-      'finishTime': '2022-11-19T10:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
-    },
-    {
-      'id': '4',
-      'capacity': '3',
-      'patientCount': '3',
-      'date': '2022-11-19',
-      'startTime': '2022-11-19T10:00:00',
-      'finishTime': '2022-11-19T11:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
-    },
-    {
-      'id': '5',
-      'capacity': '3',
-      'patientCount': '3',
-      'date': '2022-11-19',
-      'startTime': '2022-11-19T11:00:00',
-      'finishTime': '2022-11-19T12:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
-    },
-    {
-      'id': '6',
-      'capacity': '3',
-      'patientCount': '2',
-      'date': '2022-12-18',
-      'startTime': '2022-12-18T09:00:00',
-      'finishTime': '2022-12-18T10:00:00',
-      'type': '2',
-      'doctorName': 'นพ. ชื่อจ้า นามสกุลเอง',
-      'department': 'ทั่วไป'
+Future<List<PatientEvent>> getPatientSchedule(int id) async {
+  var url =
+      'https://medcare-database-test.herokuapp.com/getScheduleBytpye/${id}';
+  var response;
+
+  try {
+    response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      print('Call API Successfully.');
+    } else {
+      throw Exception(response.statusCode);
     }
-  ];
-
-  var res = data
-      .map<PatientEvent>(PatientEvent.fromJson)
-      .toList()
-      .where((i) => i.startTime.isAfter(DateTime.now()))
-      .toList();
-  res.sort((a, b) => a.startTime.compareTo(b.startTime));
-  return res;
+  } on Exception catch (_error) {
+    print(_error);
+  } catch (_error) {
+    print(_error);
+  }
+  return PatientEventFromJson(utf8.decode(response.bodyBytes));
 }

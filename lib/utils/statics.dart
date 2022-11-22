@@ -6,17 +6,21 @@ Color tertiaryColor = const Color(0xFFD6CDA4);
 Color quaternaryColor = const Color(0xFFEEF2E6);
 
 List<String> employeeRoles = [
+  '0',
   'แพทย์',
   'พยาบาล',
+  'ผู้ดูแลระบบ',
 ];
 
 List<String> appointmentTypes = [
+  '0',
   'ตรวจร่างกาย',
   'บริจาคเลือด',
   'การนัดหมายพิเศษ',
 ];
 
 List<String> notificationTypes = [
+  '0',
   'ระบบ',
   'เลื่อนนัด',
   'ยกเลิก',

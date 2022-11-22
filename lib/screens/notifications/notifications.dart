@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/screens/notifications/notification_setting.dart';
 import 'package:medware/utils/api/notification/get_notifications.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/notification/notification.dart' as model;
 
 class Notifications extends StatefulWidget {

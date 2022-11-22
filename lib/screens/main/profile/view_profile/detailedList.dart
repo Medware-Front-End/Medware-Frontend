@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medware/components/underlined_button.dart';
 import 'package:medware/screens/main/profile/edit_profile/edit_medical_details.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class DetailedList extends StatelessWidget {
   final String title;

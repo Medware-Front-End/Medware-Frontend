@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class NotificationSetting extends StatefulWidget {
