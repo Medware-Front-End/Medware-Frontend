@@ -141,12 +141,13 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   ActionButton(
                     text: 'เลื่อนนัด',
                     action: () {
+                      print(widget.appointment.id);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => DelayEmployeeAppointment(
                                     scheduleId: widget.appointment.id,
-                              
+                                    //employeeId: '',
                                   )));
                     },
                     percentWidth: 30,

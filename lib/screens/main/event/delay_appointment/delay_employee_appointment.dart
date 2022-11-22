@@ -6,9 +6,11 @@ import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/statics.dart';
 
 class DelayEmployeeAppointment extends StatefulWidget {
-  const DelayEmployeeAppointment({Key? key, required this.scheduleId})
+  const DelayEmployeeAppointment(
+      {Key? key, required this.scheduleId, /*required this.employeeId*/})
       : super(key: key);
   final int scheduleId;
+  //final int employeeId;
   @override
   _DelayEmployeeAppointmentState createState() =>
       _DelayEmployeeAppointmentState();
@@ -74,49 +76,11 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final id = widget.scheduleId.toString();
+    final appointmentId = ''; 
+    
     var errorMessage;
     bool isLoading = false;
-    _showAlertDialog(BuildContext context) {
-      Widget okButton = TextButton(
-        child: Text("ยืนยัน", style: TextStyle(color: primaryColor)),
-        onPressed: () async {
-          String scheduleCapacity = _scheduleCapacity.text;
-          String scheduleStart = _scheduleStart.text;
-          String scheduleEnd = _scheduleEnd.text;
-          String scheduleDate = _scheduleDate.text;
-          String scheduleLocation = _scheduleLocation.text;
-          String employeeId = "2";
-          String scheduleType = _scheduleType.text;
-          await ConfirmDelay(
-            id,
-            scheduleCapacity,
-            scheduleStart,
-            scheduleEnd,
-            scheduleDate,
-            scheduleLocation,
-            employeeId,
-            scheduleType,
-          );
-          Navigator.of(context).pop();
-        },
-      );
-
-      AlertDialog alert = AlertDialog(
-        title: Text("ยืนยันการสร้างนัดหมาย"),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        actions: [
-          okButton,
-        ],
-      );
-
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return alert;
-          });
-    }
-
+    
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
@@ -309,13 +273,14 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
                       onPressed: () async {
                         if (isSelectTime == 1 && isSelectDay == 1) {
                           print(id);
+                          print(appointmentId);
                           setState(() {
                             String scheduleCapacity = _scheduleCapacity.text;
                             String scheduleStart = _scheduleStart.text;
                             String scheduleEnd = _scheduleEnd.text;
                             String scheduleDate = _scheduleDate.text;
                             String scheduleLocation = _scheduleLocation.text;
-                            String employeeId = _scheduleDoctorId.text;
+
                             bool scheduleStatus = true;
                             ConfirmDelay(
                               id,
@@ -325,7 +290,7 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
                               scheduleDate,
                               scheduleLocation,
                               scheduleStatus.toString(),
-                              employeeId,
+                              appointmentId,
                             );
                           });
                         }
