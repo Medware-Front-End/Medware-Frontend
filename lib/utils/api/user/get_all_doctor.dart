@@ -9,6 +9,7 @@ Future<List<AllDoctor>> getAllDoctor() async {
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
+
     'authtoken': authToken
   };
   try {
@@ -16,10 +17,12 @@ Future<List<AllDoctor>> getAllDoctor() async {
     if (response.statusCode == 200) {
       String responseString = utf8.decode(response.bodyBytes);
       final _getdata = allDoctorFromJson(responseString);
+      
+      print(response.statusCode);
 
       return _getdata;
     } else {
-      throw Exception('Error');
+      throw Exception(response.body);
     }
   } catch (e) {
     throw Exception(e.toString());

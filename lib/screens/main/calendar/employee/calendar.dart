@@ -25,6 +25,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime? _selectedDay;
   final int id = SharedPreference.getUserId();
 
+
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
   }
@@ -233,9 +234,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   },
                 ),
               )),
-          SizedBox(
-            height: size.height * 0.038,
-          ),
+          
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(size.height * 0.03)),
             child: Container(
@@ -368,7 +367,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                               ),
                                             ),
                                           )),
-                                    ))
+                                    )),
+                            SizedBox(
+                              height: size.height * 0.038,
+                            )
                           ],
                         )
                       : Center(

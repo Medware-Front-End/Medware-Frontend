@@ -6,7 +6,9 @@ Future createNewAppointment(String scheduleId, String patientNationalId) async {
     'scheduleId': '${scheduleId}',
     'patientNationalId': '${patientNationalId}'
   });
+
   var url = 'https://medware1.herokuapp.com/patient/createNewAppointment';
+
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     'content-type': 'application/json',

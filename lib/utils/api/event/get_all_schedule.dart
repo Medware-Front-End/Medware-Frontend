@@ -8,7 +8,6 @@ Future<List<Allschedules>> getAllSchedule() async {
 
   var url = "https://medware1.herokuapp.com/schedules";
 
-
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
