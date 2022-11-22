@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:medware/utils/api/auth/api_service.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/statics.dart';
 
 import '../../../../components/text_field.dart';
@@ -102,6 +103,61 @@ class _AddDoctorState extends State<AddDoctorForm> {
     if (text.isEmpty) {
       return 'โปรดกรอกข้อมูล';
     }
+    if (text.length < 13) {
+      return 'ข้อมูลไม่ถูกต้อง';
+    }
+    return null;
+  }
+
+  String? get _errorName {
+    final text = _addDocName.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorPhoneNum {
+    final text = _addDocPhoneNum.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorPassword {
+    final text = _addDocPassword.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
+  }
+
+  String? get _errorCPassword {
+    final text = _addDocCpassword.value.text;
+    final text2 = _addDocPassword.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    if (text != text2) {
+      return 'รหัสผ่านไม่ต้องกัน';
+    }
     return null;
   }
 
@@ -111,7 +167,8 @@ class _AddDoctorState extends State<AddDoctorForm> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: Column(children: <Widget>[
+        body: SingleChildScrollView(
+            child: Column(children: <Widget>[
           Container(
               decoration: new BoxDecoration(
                   color: Colors.white,
@@ -143,7 +200,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('หมายเลขบัตรประชาชน',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: quaternaryColor,
+                                      color: secondaryColor,
                                       fontFamily: 'NotoSansThai')),
                             ),
                           ),
@@ -164,14 +221,14 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('ชื่อ - นามสกุล',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: quaternaryColor,
+                                      color: secondaryColor,
                                       fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
                             child: CustomTextField(
-                              controller: _addDocUname,
-                              validator: _errorUname,
+                              controller: _addDocName,
+                              validator: _errorName,
                               obscureText: false,
                             ),
                           ),
@@ -185,14 +242,14 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('เบอร์โทรศัพท์',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: quaternaryColor,
+                                      color: secondaryColor,
                                       fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
                             child: CustomTextField(
-                              controller: _addDocUname,
-                              validator: _errorUname,
+                              controller: _addDocPhoneNum,
+                              validator: _errorPhoneNum,
                               obscureText: false,
                             ),
                           ),
@@ -206,14 +263,14 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('รหัสผ่าน',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: quaternaryColor,
+                                      color: secondaryColor,
                                       fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
                             child: CustomTextField(
-                              controller: _addDocUname,
-                              validator: _errorUname,
+                              controller: _addDocPassword,
+                              validator: _errorPassword,
                               obscureText: false,
                             ),
                           ),
@@ -224,17 +281,17 @@ class _AddDoctorState extends State<AddDoctorForm> {
                           Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text('ยืนยันรหหัสผ่าน',
+                              child: Text('ยืนยันรหัสผ่าน',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: quaternaryColor,
+                                      color: secondaryColor,
                                       fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
                             child: CustomTextField(
-                              controller: _addDocUname,
-                              validator: _errorUname,
+                              controller: _addDocCpassword,
+                              validator: _errorCPassword,
                               obscureText: false,
                             ),
                           ),
@@ -251,7 +308,13 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               backgroundColor: Colors.red,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login()),
+                            );
+                          },
                           child: const Text(
                             'ออกจากระบบ',
                             style: TextStyle(
@@ -272,29 +335,38 @@ class _AddDoctorState extends State<AddDoctorForm> {
                             onPressed: () {
                               EmployeeRegisterRequestModel model =
                                   EmployeeRegisterRequestModel(
-                                      employeeFirstName: _addDocName.text,
-                                      employeeMiddleName: '',
-                                      employeeLastName: '',
-                                      employeeDepartment: 0,
-                                      employeeIsAdmin: false,
-                                      employeeNationalId: _addDocUname.text,
-                                      employeePassword: _addDocPassword.text,
-                                      employeePhoneNumber: _addDocPhoneNum.text,
-                                      employeeRole: 1);
-                              APIService.employeeRegister(model)
-                                  .then((response) {
-                                if (response.statusCode == '0') {
-                                  print("Register Success");
-                                  craeteRegisterSuccessDialog(context);
-                                } else if (response.statusCode == '1') {
-                                  print("NationalID already exist");
-                                  craeteRegisterAlreadyExistDialog(context);
-                                } else {
-                                  print(
-                                      "Register Faild " + response.statusCode);
-                                  craeteRegisterFailedDialog(context);
-                                }
-                              });
+                                employeeFirstName: _addDocName.text,
+                                employeeMiddleName: '',
+                                employeeLastName: '',
+                                employeeDepartment: 0,
+                                employeeIsAdmin: false,
+                                employeeNationalId: _addDocUname.text,
+                                employeePassword: _addDocPassword.text,
+                                employeePhoneNumber: _addDocPhoneNum.text,
+                                employeeRole: 1,
+                              );
+                              if (_addDocName.text == '' ||
+                                  _addDocUname == '' ||
+                                  _addDocPassword == '' ||
+                                  _addDocPhoneNum == '' ||
+                                  _addDocCpassword == '') {
+                                craeteRegisterAlreadyExistDialog(context);
+                              } else {
+                                APIService.employeeRegister(model)
+                                    .then((response) {
+                                  if (response.statusCode == '0') {
+                                    print("Register Success");
+                                    craeteRegisterSuccessDialog(context);
+                                  } else if (response.statusCode == '1') {
+                                    print("NationalID already exist");
+                                    craeteRegisterAlreadyExistDialog(context);
+                                  } else {
+                                    print("Register Faild " +
+                                        response.statusCode);
+                                    craeteRegisterFailedDialog(context);
+                                  }
+                                });
+                              }
                               setState(() {
                                 _addDocUname.text.isEmpty
                                     ? _validate = true
@@ -315,6 +387,6 @@ class _AddDoctorState extends State<AddDoctorForm> {
                   ),
                 ],
               ))
-        ]));
+        ])));
   }
 }

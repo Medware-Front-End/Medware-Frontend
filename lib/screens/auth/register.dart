@@ -312,38 +312,46 @@ class _RegisterState extends State<RegisterForm> {
                                   textStyle: const TextStyle(fontSize: 20),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
-                                PatientRegisterRequestModel model =
-                                    PatientRegisterRequestModel(
-                                        patientFirstName:
-                                            _fnameTextController.text,
-                                        patientMiddleName: '',
-                                        patientLastName:
-                                            _lnameTextController.text,
-                                        patientNationalId: int.parse(
-                                            _unameTextController.text),
-                                        patientPhoneNumber: '0931244774',
-                                        patientBirthDate:
-                                            '2016-11-09', //Fake data
-                                        patientLocation: '',
-                                        patientBloodType: '',
-                                        patientProfileIndex: 1,
-                                        patientPassword:
-                                            _passwordTextController.text,
-                                        patientHNId: 1);
-                                APIService.patientRegister(model)
-                                    .then((response) {
-                                  if (response.statusCode == '0') {
-                                    print("Register Success");
-                                    craeteRegisterSuccessDialog(context);
-                                  } else if (response.statusCode == '1') {
-                                    print("NationalID already exist");
-                                    craeteRegisterAlreadyExistDialog(context);
-                                  } else {
-                                    print("Register Faild " +
-                                        response.statusCode);
-                                    craeteRegisterFailedDialog(context);
-                                  }
-                                });
+                                if (_fnameTextController.text == '' ||
+                                    _passwordTextController == '' ||
+                                    _unameTextController != '' ||
+                                    _lnameTextController == '') {
+                                  craeteRegisterAlreadyExistDialog(context);
+                                } else {
+                                  PatientRegisterRequestModel model =
+                                      PatientRegisterRequestModel(
+                                          patientFirstName:
+                                              _fnameTextController.text,
+                                          patientMiddleName: '',
+                                          patientLastName:
+                                              _lnameTextController.text,
+                                          patientNationalId: int.parse(
+                                              _unameTextController.text),
+                                          patientPhoneNumber: '0931244774',
+                                          patientBirthDate:
+                                              '2016-11-09', //Fake data
+                                          patientLocation: '',
+                                          patientBloodType: '',
+                                          patientProfileIndex: 1,
+                                          patientPassword:
+                                              _passwordTextController.text,
+                                          patientHNId: 1);
+                                  APIService.patientRegister(model)
+                                      .then((response) {
+                                    if (response.statusCode == '0') {
+                                      print("Register Success");
+                                      craeteRegisterSuccessDialog(context);
+                                    } else if (response.statusCode == '1') {
+                                      print("NationalID already exist");
+                                      craeteRegisterAlreadyExistDialog(context);
+                                    } else {
+                                      print("Register Faild " +
+                                          response.statusCode);
+                                      craeteRegisterFailedDialog(context);
+                                    }
+                                  });
+                                }
+
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController

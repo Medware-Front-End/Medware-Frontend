@@ -30,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(_role);
     final List<Widget> screens = [
       _homeScreens[_role],
       _calendarScreens[_role],
