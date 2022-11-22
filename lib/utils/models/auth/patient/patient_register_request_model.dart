@@ -9,8 +9,7 @@ class PatientRegisterRequestModel {
       required this.patientLocation,
       required this.patientBloodType,
       required this.patientProfileIndex,
-      required this.patientPassword,
-      required this.patientId});
+      required this.patientPassword});
 
   late final String patientFirstName;
   late final String patientMiddleName;
@@ -22,7 +21,6 @@ class PatientRegisterRequestModel {
   late final String patientBloodType;
   late final int patientProfileIndex;
   late final String patientPassword;
-  late final int patientId;
 
   PatientRegisterRequestModel.fromJson(Map<String, dynamic> json) {
     patientFirstName = json['patientFirstName'];
@@ -35,7 +33,6 @@ class PatientRegisterRequestModel {
     patientBloodType = json['patientBloodType'];
     patientProfileIndex = json['patientProfileIndex'];
     patientPassword = json['patientPassword'];
-    patientId = int.parse(json[patientId]);
   }
 
   Map<String, dynamic> toJson() {
@@ -50,7 +47,6 @@ class PatientRegisterRequestModel {
     _data['patientBloodType'] = patientBloodType;
     _data['patientProfileIndex'] = patientProfileIndex;
     _data['patientPassword'] = patientPassword;
-    _data['patientId'] = patientId;
     return _data;
   }
 }

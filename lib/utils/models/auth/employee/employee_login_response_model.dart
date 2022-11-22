@@ -34,7 +34,7 @@ class Payload {
       required this.employeeFirstName,
       required this.employeeGender,
       required this.authtoken,
-      required this.employeeHNId,
+      required this.employeeId,
       required this.employeeMiddleName,
       required this.employeeNationalId,
       required this.employeeLastName,
@@ -43,7 +43,7 @@ class Payload {
   late final String employeeFirstName;
   late final String employeeGender;
   late final String authtoken;
-  late final String employeeHNId;
+  late final String employeeId;
   late final String employeeMiddleName;
   late final String employeeNationalId;
   late final String employeeLastName;
@@ -54,7 +54,7 @@ class Payload {
     employeeFirstName = json['employeeFirstName'];
     employeeGender = json['employeeGender'];
     authtoken = json['authtoken'];
-    employeeHNId = json['employeeId'];
+    employeeId = json['employeeId'];
     employeeMiddleName = json['employeeMiddleName'];
     employeeNationalId = json['employeeNationalId'];
     employeeLastName = json['employeeLastName'];
@@ -67,7 +67,7 @@ class Payload {
     _data['employeeFirstName'] = employeeFirstName;
     _data['employeeGender'] = employeeGender;
     _data['authtoken'] = authtoken;
-    _data['employeeId'] = employeeHNId;
+    _data['employeeId'] = employeeId;
     _data['employeeMiddleName'] = employeeMiddleName;
     _data['employeeNationalId'] = employeeNationalId;
     _data['employeeLastName'] = employeeLastName;

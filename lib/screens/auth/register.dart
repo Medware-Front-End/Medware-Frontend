@@ -124,7 +124,8 @@ class _RegisterState extends State<RegisterForm> {
               MaterialButton(
                   child: Text("เข้าสู่ระบบ"),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => const Login()),
                     );
@@ -320,22 +321,19 @@ class _RegisterState extends State<RegisterForm> {
                                 } else {
                                   PatientRegisterRequestModel model =
                                       PatientRegisterRequestModel(
-                                          patientFirstName:
-                                              _fnameTextController.text,
-                                          patientMiddleName: '',
-                                          patientLastName:
-                                              _lnameTextController.text,
-                                          patientNationalId: int.parse(
-                                              _unameTextController.text),
-                                          patientPhoneNumber: '0931244774',
-                                          patientBirthDate:
-                                              '2016-11-09', //Fake data
-                                          patientLocation: '',
-                                          patientBloodType: '',
-                                          patientProfileIndex: 1,
-                                          patientPassword:
-                                              _passwordTextController.text,
-                                          patientId: 1);
+                                    patientFirstName: _fnameTextController.text,
+                                    patientMiddleName: '',
+                                    patientLastName: _lnameTextController.text,
+                                    patientNationalId:
+                                        int.parse(_unameTextController.text),
+                                    patientPhoneNumber: '0931244774',
+                                    patientBirthDate: '2016-11-09', //Fake data
+                                    patientLocation: '',
+                                    patientBloodType: '',
+                                    patientProfileIndex: 1,
+                                    patientPassword:
+                                        _passwordTextController.text,
+                                  );
                                   APIService.patientRegister(model)
                                       .then((response) {
                                     if (response.statusCode == '0') {
@@ -389,12 +387,7 @@ class _RegisterState extends State<RegisterForm> {
                                       text: "ย้อนกลับ",
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Login()),
-                                          );
+                                          Navigator.pop(context);
                                         }),
                                 ])),
                             padding: EdgeInsets.fromLTRB(

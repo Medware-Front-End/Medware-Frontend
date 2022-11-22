@@ -226,6 +226,7 @@ class _LoginState extends State<LoginForm> {
                                     _passwordTextController.text == '') {
                                   craeteRegisterInputNullDialog(context);
                                 } else {
+                                  //Employee
                                   if (_unameTextController.text[0] == 'D' ||
                                       _unameTextController.text[0] == 'd') {
                                     EmployeeLoginRequestModel empModel =
@@ -236,7 +237,7 @@ class _LoginState extends State<LoginForm> {
                                     );
                                     APIService.employeeLogin(empModel)
                                         .then((response) async {
-                                      await SharedPreference.setIsAdmin(false);
+                                      // await SharedPreference.setIsAdmin(false);
                                       if (response.payload.isAdmin == true) {
                                         await SharedPreference.setIsAdmin(
                                             response.payload.isAdmin);
@@ -263,10 +264,10 @@ class _LoginState extends State<LoginForm> {
                                                   response.payload
                                                       .employeeNationalId));
                                           await SharedPreference.setUserId(
-                                              response.payload.employeeHNId !=
+                                              response.payload.employeeId !=
                                                       null
                                                   ? int.parse(response
-                                                      .payload.employeeHNId)
+                                                      .payload.employeeId)
                                                   : 0);
                                           await SharedPreference.setUserRole(0);
                                           Navigator.pushReplacement(
@@ -283,6 +284,7 @@ class _LoginState extends State<LoginForm> {
                                       }
                                     });
                                   } else {
+                                    //Patient
                                     PatientLoginRequestModel model =
                                         PatientLoginRequestModel(
                                       nationalCardId: _unameTextController.text,

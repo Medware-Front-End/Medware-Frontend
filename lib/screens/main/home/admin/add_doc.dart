@@ -355,11 +355,10 @@ class _AddDoctorState extends State<AddDoctorForm> {
                                   _addDocPassword == '' ||
                                   _addDocCpassword == '') {
                                 craeteRegisterAlreadyExistDialog(context);
+                                print("Input still null");
                               } else {
                                 APIService.employeeRegister(model)
                                     .then((response) {
-                                  print("Status Code " +
-                                      response.statusCode); //Debugger
                                   if (response.statusCode == '0') {
                                     print("Register Success");
                                     craeteRegisterSuccessDialog(context);
