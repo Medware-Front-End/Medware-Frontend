@@ -1,2 +1,4 @@
-String authtoken =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwNDMwODYsImlhdCI6MTY2OTA0MDA4NiwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.bKiJGXiZcv0Yk5bz7gnu-4RAqja2PSgv1GtarRHciNw';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String authToken = SharedPreference.getToken();

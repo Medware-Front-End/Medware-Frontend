@@ -12,7 +12,7 @@ Future ConfirmDelay(
   String appointmentDoctorId,
 ) async {
   final msg = jsonEncode({
-    "scheduleId" : "${scheduleId}",
+    "scheduleId": "${scheduleId}",
     "scheduleCapacity": "${scheduleCapacity}",
     "scheduleStart": "${scheduleStart}",
     "scheduleEnd": "${scheduleEnd}",
@@ -21,12 +21,14 @@ Future ConfirmDelay(
     "scheduleStatus": "${scheduleStatus}",
     "appointmentDoctorId": "${appointmentDoctorId}",
   });
-  var url = "https://medware1.herokuapp.com//schedules/update";
+
+  var url = "https://medware1.herokuapp.com/schedules/update";
+
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
     'authtoken':
-       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwOTE4MzksImlhdCI6MTY2OTA4ODgzOSwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.luK6qIC_C6ieD3xHYWbbP2IheJIcRTx02kowk5P0QTo"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJjb2RlcGVuZGEiLCJleHAiOjE2NjkwOTE4MzksImlhdCI6MTY2OTA4ODgzOSwiYXV0aElkIjoiMTIzNDU2Nzg5MTIzNSJ9.luK6qIC_C6ieD3xHYWbbP2IheJIcRTx02kowk5P0QTo"
   };
   try {
     var response =

@@ -19,21 +19,21 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final int id = SharedPreference.getUserId();
+
   Employee employee = Employee(
-    id: 'XXXXX',
+    id: 0,
     nationalId: 'XXXXXXXXXXXXX',
     fName: 'F',
     mName: 'M',
     lName: 'L',
-    profilePic: 0,
     phoneNumber: 'XXXXXXXXXX',
-    password: 'XXXXXXXX',
     role: 0,
     department: 0,
   );
 
   Future _loadEmployee() async {
-    var temp = await getEmployeeById();
+    var temp = await getEmployeeById(id);
     setState(() => employee = temp);
   }
 
@@ -62,7 +62,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Header(
                 role: 0,
-                path: profilePictures[employee.profilePic],
+                path: profilePictures[0],
                 refresh: _loadEmployee,
               ),
               Container(
@@ -87,7 +87,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Detail(
                       title: 'เลขที่ใบประกอบวิชาชีพเวชกรรม',
-                      detail: employee.id,
+                      detail: employee.id.toString(),
                       icon: Icons.medical_information_outlined,
                     ),
                     Detail(
@@ -112,7 +112,8 @@ class _ProfileState extends State<Profile> {
                             action: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ChangePassword(oldPassword: employee.password),
+                                builder: (context) => ChangePassword(
+                                    oldPassword: 'employee.password'),
                               ),
                             ),
                             percentWidth: 35,

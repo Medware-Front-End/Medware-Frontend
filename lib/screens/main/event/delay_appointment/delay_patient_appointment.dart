@@ -11,14 +11,13 @@ import '../../../../utils/api/appointment/get_employee_schdule.dart';
 LinkedHashMap<DateTime, List<Allschedules>>? _groupedEvents;
 
 class DelayPatientAppointment extends StatefulWidget {
-  const DelayPatientAppointment({Key? key, 
-  required this.previousScheduleId, 
-  required this.patientNationalId, 
-  
+  const DelayPatientAppointment({
+    Key? key,
+    required this.previousScheduleId,
+    required this.patientNationalId,
   }) : super(key: key);
   final int previousScheduleId;
   final int patientNationalId;
-  
 
   @override
   _DelayPatientAppointmentState createState() =>
@@ -28,7 +27,7 @@ class DelayPatientAppointment extends StatefulWidget {
 class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   var events;
-  
+
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
@@ -39,7 +38,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   }
 
   Future _loadAppointments() async {
-    events = await getAllSchedule();
+    // events = await getPatientSchedule();
     _groupEvent(events);
   }
 
@@ -75,12 +74,12 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
     }
     return false;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final fullDateFormatter = DateFormat.yMMMMEEEEd();
-    final prevId = widget.previousScheduleId ;
+    final prevId = widget.previousScheduleId;
     final nationalId = widget.patientNationalId;
     final timeFormatter = DateFormat.jm();
     return Scaffold(
@@ -300,22 +299,30 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                         ),
                                                         child: InkWell(
                                                           onTap: () {
-                                                            print(event
-                                                                .scheduleCapacity,);
+                                                            print(
+                                                              event
+                                                                  .scheduleCapacity,
+                                                            );
                                                             print("Navi");
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => ConfirmDelayPatientAppointment(
-                                                                    patientNationalId: nationalId, 
-                                                                    previousScheduleId: prevId, 
-                                                                    scheduleDate: event.scheduleDate, 
-                                                                    scheduleEnd: event.scheduleFinishTime , 
-                                                                    scheduleStart: event.scheduleStartTIme, 
-                                                                    toScheduleId: event.scheduleId,
-                                                                      
-                                                                    )
-                                                                  ),
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ConfirmDelayPatientAppointment(
+                                                                            patientNationalId:
+                                                                                nationalId,
+                                                                            previousScheduleId:
+                                                                                prevId,
+                                                                            scheduleDate:
+                                                                                event.scheduleDate,
+                                                                            scheduleEnd:
+                                                                                event.scheduleFinishTime,
+                                                                            scheduleStart:
+                                                                                event.scheduleStartTIme,
+                                                                            toScheduleId:
+                                                                                event.scheduleId,
+                                                                          )),
                                                             );
                                                           },
                                                           child: Padding(

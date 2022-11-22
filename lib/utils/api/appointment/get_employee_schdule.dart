@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<List<Allschedules>> getAllSchedule() async {
-  var url = "https://medware1.herokuapp.com//schedules";
+
+  var url = "https://medware1.herokuapp.com/schedules";
+
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -12,7 +14,7 @@ Future<List<Allschedules>> getAllSchedule() async {
   };
 
   try {
-    var response = await http.get(Uri.parse(url), headers: requestHeaders); 
+    var response = await http.get(Uri.parse(url), headers: requestHeaders);
 
     if (response.statusCode == 200) {
       String responseString = utf8.decode(response.bodyBytes);

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/components/action_button.dart';
 import 'package:medware/screens/main/profile/edit_profile/input_field.dart';
+import 'package:medware/utils/api/user/edit_profile_info.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/statics.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -13,7 +15,7 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  final _oldPwdController = TextEditingController();
+  final int id = SharedPreference.getUserId();
   final _newPwdController = TextEditingController();
   final _reNewPwdController = TextEditingController();
   String _errMsg = '';
@@ -23,21 +25,22 @@ class _ChangePasswordState extends State<ChangePassword> {
     final size = MediaQuery.of(context).size;
 
     Future<void> onSubmit() async {
-      if (_oldPwdController.text != '' &&
-          _newPwdController.text != '' &&
-          _reNewPwdController.text != '') {
-        if (_oldPwdController.text != widget.oldPassword) {
-          setState(() => _errMsg = 'รหัสผ่านผิด');
-        } else if (_newPwdController.text.length < 8) {
+      if (_newPwdController.text != '' && _reNewPwdController.text != '') {
+        if (_newPwdController.text.length < 8) {
           setState(() => _errMsg = 'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร');
         } else if (_newPwdController.text != _reNewPwdController.text) {
           setState(() => _errMsg = 'โปรดกรอกรหัสผ่านใหม่ให้ตรงกัน');
         } else if (_newPwdController.text.length >= 8 &&
             _reNewPwdController.text.length >= 8 &&
-            _newPwdController.text == _reNewPwdController.text &&
-            _oldPwdController.text == widget.oldPassword) {
+            _newPwdController.text == _reNewPwdController.text) {
           setState(() => _errMsg = '');
-          // api
+          var res = await editProfileInfo(
+            id: id,
+            newPassword: _newPwdController.text,
+          );
+          res.statusCode == 200
+              ? Navigator.pop(context)
+              : print(res.statusCode);
         }
       } else {
         setState(() => _errMsg = 'โปรดกรอกข้อมูลให้ครบถ้วน');
@@ -72,14 +75,6 @@ class _ChangePasswordState extends State<ChangePassword> {
           children: [
             Column(
               children: [
-                InputField(
-                  label: 'รหัสผ่านเก่า',
-                  placeholder: 'กรอกรหัสผ่าน',
-                  error: '',
-                  isNextable: true,
-                  isPassword: true,
-                  controller: _oldPwdController,
-                ),
                 InputField(
                   label: 'รหัสผ่านใหม่',
                   placeholder: 'กรอกรหัสผ่าน',

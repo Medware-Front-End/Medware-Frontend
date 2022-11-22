@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medware/screens/main/profile/edit_profile/input_field.dart';
+import 'package:medware/utils/api/user/edit_profile_info.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/statics.dart';
 
 class EditMedicalDetails extends StatefulWidget {
@@ -17,6 +19,8 @@ class EditMedicalDetails extends StatefulWidget {
 }
 
 class _EditMedicalDetailsState extends State<EditMedicalDetails> {
+  final int id = SharedPreference.getUserId();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -55,26 +59,31 @@ class _EditMedicalDetailsState extends State<EditMedicalDetails> {
               controller: inputController,
               suffix: IconButton(
                 splashRadius: 1,
-                onPressed: () => setState(
-                  () => widget.details.add(inputController.text),
-                ),
+                onPressed: () async {
+                  setState(() => widget.details.add(inputController.text));
+                  await editProfileInfo(
+                    id: id,
+                    medicalDetailType: widget.title,
+                    medicalDetails: widget.details.join(','),
+                  );
+                },
                 icon: Icon(
                   Icons.add,
                   color: primaryColor,
                 ),
               ),
             ),
-            _ListDisplay(widget.details),
+            _ListDisplay(widget.title, widget.details),
           ],
         ),
       ),
     );
   }
 
-  Widget _ListDisplay(List<String> list) {
+  Widget _ListDisplay(String title, List<String> details) {
     final size = MediaQuery.of(context).size;
 
-    return list.length > 0
+    return details.length > 0
         ? Container(
             width: size.width,
             height: size.height * 0.675,
@@ -89,26 +98,32 @@ class _EditMedicalDetailsState extends State<EditMedicalDetails> {
               physics: AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
-              itemCount: list.length,
+              itemCount: details.length,
               itemBuilder: (context, i) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    list[i],
+                    details[i],
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: size.width * 0.04,
                     ),
                   ),
                   IconButton(
-                      splashRadius: 1,
-                      onPressed: () {
-                        setState(() => list.removeAt(i));
-                      },
-                      icon: Icon(
-                        Icons.delete_forever_rounded,
-                        color: Colors.red,
-                      ))
+                    splashRadius: 1,
+                    onPressed: () async {
+                      setState(() => details.removeAt(i));
+                      await editProfileInfo(
+                        id: id,
+                        medicalDetailType: title,
+                        medicalDetails: details.join(','),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.delete_forever_rounded,
+                      color: Colors.red,
+                    ),
+                  )
                 ],
               ),
             ),

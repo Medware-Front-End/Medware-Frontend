@@ -17,11 +17,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final int role = SharedPreference.getUserRole();
+  final int id = SharedPreference.getUserId();
   final String name = SharedPreference.getUserFName();
 
   Map<DateTime, List<PatientAppointment>> sortedValidAppointments = {};
   Future _loadAppointments() async {
-    var appointments = await getPatientAppointments();
+    var appointments = await getPatientAppointments(id);
     setState(
       () => sortedValidAppointments = groupBy(
         appointments,
