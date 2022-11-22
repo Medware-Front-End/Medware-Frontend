@@ -65,6 +65,19 @@ class _LoginState extends State<LoginForm> {
     return null;
   }
 
+  craeteRegisterAlreadyExistDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "ข้อมูลไม่ถูกต้อง",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -72,7 +85,8 @@ class _LoginState extends State<LoginForm> {
         key: globalFormKey,
         resizeToAvoidBottomInset: false,
         backgroundColor: secondaryColor,
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: <Widget>[
             Container(
               child: Center(
@@ -204,41 +218,87 @@ class _LoginState extends State<LoginForm> {
                                   textStyle: const TextStyle(fontSize: 15),
                                   backgroundColor: tertiaryColor),
                               onPressed: () {
-                                if (_unameTextController.text[0] == 'D' ||
-                                    _unameTextController.text[0] == 'd') {
-                                  EmployeeLoginRequestModel empModel =
-                                      EmployeeLoginRequestModel(
-                                    nationalCardId:
-                                        _unameTextController.text.substring(1),
-                                    password: _passwordTextController.text,
-                                  );
-                                  APIService.employeeLogin(empModel)
-                                      .then((response) async {
-                                    if (response.payload.isAdmin == true) {
-                                      await SharedPreference.setUserRole(2);
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MainScreen()),
-                                      );
-                                    } else {
+                                if (_unameTextController.text == '' ||
+                                    _passwordTextController.text == '') {
+                                  craeteRegisterAlreadyExistDialog(context);
+                                } else {
+                                  if (_unameTextController.text[0] == 'D' ||
+                                      _unameTextController.text[0] == 'd') {
+                                    EmployeeLoginRequestModel empModel =
+                                        EmployeeLoginRequestModel(
+                                      nationalCardId: _unameTextController.text
+                                          .substring(1),
+                                      password: _passwordTextController.text,
+                                    );
+                                    APIService.employeeLogin(empModel)
+                                        .then((response) async {
+                                      if (response.payload.isAdmin == true) {
+                                        await SharedPreference.setToken(
+                                            response.payload.authtoken);
+                                        await SharedPreference.setUserRole(2);
+                                        await SharedPreference.setIsAdmin(
+                                            response.payload.isAdmin);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MainScreen()),
+                                        );
+                                      } else {
+                                        if (response.statusCode == '0') {
+                                          await SharedPreference.setToken(
+                                              response.payload.authtoken);
+                                          await SharedPreference.setUserFName(
+                                              response
+                                                  .payload.employeeFirstName);
+                                          await SharedPreference
+                                              .setUserNationalId(int.parse(
+                                                  response.payload
+                                                      .employeeNationalId));
+                                          await SharedPreference.setUserId(
+                                              response.payload.employeeHNId !=
+                                                      null
+                                                  ? int.parse(response
+                                                      .payload.employeeHNId)
+                                                  : 0);
+                                          await SharedPreference.setUserRole(0);
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const MainScreen()),
+                                          );
+                                        } else if (response.statusCode == '1') {
+                                          print("Employee not found");
+                                        } else {
+                                          print("Employee not found");
+                                        }
+                                      }
+                                    });
+                                  } else {
+                                    PatientLoginRequestModel model =
+                                        PatientLoginRequestModel(
+                                      nationalCardId: _unameTextController.text,
+                                      password: _passwordTextController.text,
+                                    );
+                                    APIService.patientLogin(model)
+                                        .then((response) async {
                                       if (response.statusCode == '0') {
+                                        print("Patient Login Success");
                                         await SharedPreference.setToken(
                                             response.payload.authtoken);
                                         await SharedPreference.setUserFName(
-                                            response.payload.employeeFirstName);
+                                            response.payload.patientFirstName);
                                         await SharedPreference
                                             .setUserNationalId(int.parse(
                                                 response.payload
-                                                    .employeeNationalId));
+                                                    .patientNationalId));
                                         await SharedPreference.setUserId(
-                                            response.payload.employeeHNId !=
-                                                    null
+                                            response.payload.patientHNId != null
                                                 ? int.parse(response
-                                                    .payload.employeeHNId)
+                                                    .payload.patientHNId)
                                                 : 0);
-                                        await SharedPreference.setUserRole(0);
+                                        await SharedPreference.setUserRole(1);
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
@@ -246,48 +306,14 @@ class _LoginState extends State<LoginForm> {
                                                   const MainScreen()),
                                         );
                                       } else if (response.statusCode == '1') {
-                                        print("Employee not found");
+                                        print("User not found");
                                       } else {
-                                        print("Employee not found");
+                                        print("Patient Login Failed");
                                       }
-                                    }
-                                  });
-                                } else {
-                                  PatientLoginRequestModel model =
-                                      PatientLoginRequestModel(
-                                    nationalCardId: _unameTextController.text,
-                                    password: _passwordTextController.text,
-                                  );
-                                  APIService.patientLogin(model)
-                                      .then((response) async {
-                                    if (response.statusCode == '0') {
-                                      print("Patient Login Success");
-                                      await SharedPreference.setToken(
-                                          response.payload.authtoken);
-                                      await SharedPreference.setUserFName(
-                                          response.payload.patientFirstName);
-                                      await SharedPreference.setUserNationalId(
-                                          int.parse(response
-                                              .payload.patientNationalId));
-                                      await SharedPreference.setUserId(
-                                          response.payload.patientHNId != null
-                                              ? int.parse(
-                                                  response.payload.patientHNId)
-                                              : 0);
-                                      await SharedPreference.setUserRole(1);
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MainScreen()),
-                                      );
-                                    } else if (response.statusCode == '1') {
-                                      print("User not found");
-                                    } else {
-                                      print("Patient Login Failed");
-                                    }
-                                  });
+                                    });
+                                  }
                                 }
+
                                 setState(() {
                                   _unameTextController.text.isEmpty ||
                                           _passwordTextController.text.isEmpty
@@ -340,6 +366,6 @@ class _LoginState extends State<LoginForm> {
               ]),
             )
           ],
-        ));
+        )));
   }
 }

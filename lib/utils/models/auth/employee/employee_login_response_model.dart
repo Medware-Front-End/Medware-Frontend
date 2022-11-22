@@ -58,7 +58,7 @@ class Payload {
     employeeMiddleName = json['employeeMiddleName'];
     employeeNationalId = json['employeeNationalId'];
     employeeLastName = json['employeeLastName'];
-    isAdmin = json['isAdmin'];
+    isAdmin = json['employeeIsAdmin'] == 'true';
   }
 
   Map<String, dynamic> toJson() {
