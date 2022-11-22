@@ -21,7 +21,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   var events;
-  DateTime? _selectedDay;
+  DateTime? _selectedDay ;
 
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
@@ -290,7 +290,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                     padding: EdgeInsets.all(
                                                         size.width * 0.025),
                                                     child: Icon(
-                                                      event.type == 1
+                                                      event.type == 0
                                                           ? Icons
                                                               .medical_services_outlined
                                                           : Icons
