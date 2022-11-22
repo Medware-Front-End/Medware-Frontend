@@ -9,14 +9,17 @@ Future<List<AllDoctor>> getAllDoctor() async {
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'authtoken': authtoken
+
+    'authtoken': authToken
   };
   try {
     var response = await http.get(Uri.parse(url), headers: requestHeaders);
     if (response.statusCode == 200) {
       String responseString = utf8.decode(response.bodyBytes);
       final _getdata = allDoctorFromJson(responseString);
+      
       print(response.statusCode);
+
       return _getdata;
     } else {
       throw Exception(response.body);

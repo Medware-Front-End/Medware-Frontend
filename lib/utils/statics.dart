@@ -5,11 +5,12 @@ Color secondaryColor = const Color(0xFF3D8361);
 Color tertiaryColor = const Color(0xFFD6CDA4);
 Color quaternaryColor = const Color(0xFFEEF2E6);
 
+String baseUrl = 'https://medware1.herokuapp.com';
+
 List<String> employeeRoles = [
   '0',
   'แพทย์',
   'พยาบาล',
-  'ผู้ดูแลระบบ',
 ];
 
 List<String> appointmentTypes = [
@@ -28,6 +29,7 @@ List<String> notificationTypes = [
 ];
 
 List<String> bloodTypes = [
+  '0',
   'A (positive)',
   'A (negative)',
   'B (positive)',
@@ -39,6 +41,7 @@ List<String> bloodTypes = [
 ];
 
 List<String> departments = [
+  '0',
   'ดูแลก่อนคลอด', // ANC
   'ห้องคลอด', // LR
   'ผู้ป่วยโรคหัวใจและหลอดเลือด', // CCU
@@ -60,6 +63,7 @@ List<String> departments = [
 ];
 
 List<String> profilePictures = [
+  'assets/images/profile/m1.png',
   'assets/images/profile/m1.png',
   'assets/images/profile/m2.png',
   'assets/images/profile/m3.png',

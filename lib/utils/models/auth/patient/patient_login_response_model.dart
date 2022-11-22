@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-LoginResponseModel loginResponseJson(String str) =>
-    LoginResponseModel.fromJson(json.decode(str));
+PatientLoginResponseModel patientLoginResponseJson(String str) =>
+    PatientLoginResponseModel.fromJson(json.decode(str));
 
-class LoginResponseModel {
-  LoginResponseModel({
+class PatientLoginResponseModel {
+  PatientLoginResponseModel({
     required this.payload,
     required this.statusCode,
     required this.statusText,
@@ -13,7 +13,7 @@ class LoginResponseModel {
   late final String statusCode;
   late final String statusText;
 
-  LoginResponseModel.fromJson(Map<String, dynamic> json) {
+  PatientLoginResponseModel.fromJson(Map<String, dynamic> json) {
     payload = Payload.fromJson(json['payload']);
     statusCode = json['statusCode'];
     statusText = json['statusText'];

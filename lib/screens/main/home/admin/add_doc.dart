@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:medware/utils/api/auth/api_service.dart';
 import 'package:medware/utils/statics.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+import '../../../../components/text_field.dart';
+import '../../../../utils/models/auth/employee/employee_register_request_model.dart';
+import '../../../auth/login.dart';
+
+class AddEmployee extends StatelessWidget {
+  const AddEmployee({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: AddDoctorForm(),
-    );
+    return const AddDoctorForm();
   }
 }
 
@@ -22,31 +25,94 @@ class AddDoctorForm extends StatefulWidget {
 }
 
 class _AddDoctorState extends State<AddDoctorForm> {
-  final addDocUname = TextEditingController();
-  final addDocName = TextEditingController();
-  final addDocIdenNum = TextEditingController();
-  final addDocPassword = TextEditingController();
-  final addDocCpassword = TextEditingController();
+  final _addDocUname = TextEditingController();
+  final _addDocName = TextEditingController();
+  final _addDocPhoneNum = TextEditingController();
+  final _addDocPassword = TextEditingController();
+  final _addDocCpassword = TextEditingController();
+
+  bool _validate = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    addDocUname.dispose();
-    addDocName.dispose();
-    addDocIdenNum.dispose();
-    addDocPassword.dispose();
-    addDocCpassword.dispose();
+    _addDocUname.dispose();
+    _addDocName.dispose();
+    _addDocPhoneNum.dispose();
+    _addDocPassword.dispose();
+    _addDocCpassword.dispose();
     super.dispose();
+  }
+
+  craeteRegisterSuccessDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "เพิ่มบัญชีแพทย์สำเร็จ",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                  child: Text("เข้าสู่ระบบ"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
+                  })
+            ],
+          );
+        });
+  }
+
+  craeteRegisterFailedDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "ระบบขัดข้อง",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+          );
+        });
+  }
+
+  craeteRegisterAlreadyExistDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "ข้อมูลไม่ถูกต้อง",
+              style: TextStyle(fontFamily: 'NotoSansThai'),
+            ),
+          );
+        });
+  }
+
+  String? get _errorUname {
+    final text = _addDocUname.value.text;
+
+    if (!_validate) {
+      return null;
+    }
+    if (text.isEmpty) {
+      return 'โปรดกรอกข้อมูล';
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: Column(
-          children: <Widget>[
-            Container(
+        body: Column(children: <Widget>[
+          Container(
               decoration: new BoxDecoration(
                   color: Colors.white,
                   borderRadius: new BorderRadius.all(
@@ -54,9 +120,9 @@ class _AddDoctorState extends State<AddDoctorForm> {
                   )),
               padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
               margin: EdgeInsets.fromLTRB(60.0, 70.0, 60.0, 10.0),
-              child: Column(children: <Widget>[
-                Column(
-                  children: <Widget>[
+              child: Column(
+                children: <Widget>[
+                  Column(children: <Widget>[
                     Container(
                       child: Align(
                         alignment: Alignment.center,
@@ -77,31 +143,19 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('หมายเลขบัตรประชาชน',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: primaryColor,
-                                      fontFamily: 'Inter')),
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(4),
-                                  filled: true,
-                                  fillColor: quaternaryColor,
-                                ),
-                                controller: addDocUname,
-                              ),
-                              margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0)),
+                            child: CustomTextField(
+                              controller: _addDocUname,
+                              validator: _errorUname,
+                              obscureText: false,
+                            ),
+                          ),
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -110,65 +164,40 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('ชื่อ - นามสกุล',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: primaryColor,
-                                      fontFamily: 'Inter')),
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(4),
-                                  filled: true,
-                                  fillColor: quaternaryColor,
-                                ),
-                                controller: addDocName,
-                              ),
-                              margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0)),
+                            child: CustomTextField(
+                              controller: _addDocUname,
+                              validator: _errorUname,
+                              obscureText: false,
+                            ),
+                          ),
                         ]),
-                        // color: Colors.grey,
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text('เลขประจำตัวแพทย์ ',
+                              child: Text('เบอร์โทรศัพท์',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: primaryColor,
-                                      fontFamily: 'Inter')),
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(4),
-                                  filled: true,
-                                  fillColor: quaternaryColor,
-                                ),
-                                controller: addDocIdenNum,
-                              ),
-                              margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0)),
+                            child: CustomTextField(
+                              controller: _addDocUname,
+                              validator: _errorUname,
+                              obscureText: false,
+                            ),
+                          ),
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
@@ -177,110 +206,115 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               child: Text('รหัสผ่าน',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: primaryColor,
-                                      fontFamily: 'Inter')),
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(4),
-                                  filled: true,
-                                  fillColor: quaternaryColor,
-                                ),
-                                controller: addDocPassword,
-                              ),
-                              margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0)),
+                            child: CustomTextField(
+                              controller: _addDocUname,
+                              validator: _errorUname,
+                              obscureText: false,
+                            ),
+                          ),
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
+                        margin: EdgeInsets.all(size.width * 0.01)),
                     Container(
                         child: Column(children: <Widget>[
                           Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text('ยืนยันรหัสผ่าน',
+                              child: Text('ยืนยันรหหัสผ่าน',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: primaryColor,
-                                      fontFamily: 'Inter')),
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
                             ),
                           ),
                           Container(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(4),
-                                  filled: true,
-                                  fillColor: quaternaryColor,
-                                ),
-                                controller: addDocCpassword,
-                              ),
-                              margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0)),
+                            child: CustomTextField(
+                              controller: _addDocUname,
+                              validator: _errorUname,
+                              obscureText: false,
+                            ),
+                          ),
                         ]),
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(10.0)),
-                    Container(
-                      child: Row(children: <Widget>[
-                        Container(
+                        margin: EdgeInsets.all(size.width * 0.01)),
+                  ]),
+                  Container(
+                    child: Row(children: <Widget>[
+                      Container(
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(5.0),
+                              textStyle: const TextStyle(fontSize: 12),
+                              backgroundColor: Colors.red,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          onPressed: () {},
+                          child: const Text(
+                            'ออกจากระบบ',
+                            style: TextStyle(
+                                color: const Color(0xFFEEF2E6),
+                                fontFamily: 'Inter'),
+                          ),
+                        ),
+                      ),
+                      Container(
                           child: TextButton(
                             style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(5.0),
+                                padding: const EdgeInsets.fromLTRB(
+                                    22.0, 7.0, 22.0, 7.0),
                                 textStyle: const TextStyle(fontSize: 12),
-                                backgroundColor: Colors.red,
+                                backgroundColor: tertiaryColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
-                            onPressed: () {},
+                            onPressed: () {
+                              EmployeeRegisterRequestModel model =
+                                  EmployeeRegisterRequestModel(
+                                      employeeFirstName: _addDocName.text,
+                                      employeeMiddleName: '',
+                                      employeeLastName: '',
+                                      employeeDepartment: 0,
+                                      employeeIsAdmin: false,
+                                      employeeNationalId: _addDocUname.text,
+                                      employeePassword: _addDocPassword.text,
+                                      employeePhoneNumber: _addDocPhoneNum.text,
+                                      employeeRole: 1);
+                              APIService.employeeRegister(model)
+                                  .then((response) {
+                                if (response.statusCode == '0') {
+                                  print("Register Success");
+                                  craeteRegisterSuccessDialog(context);
+                                } else if (response.statusCode == '1') {
+                                  print("NationalID already exist");
+                                  craeteRegisterAlreadyExistDialog(context);
+                                } else {
+                                  print(
+                                      "Register Faild " + response.statusCode);
+                                  craeteRegisterFailedDialog(context);
+                                }
+                              });
+                              setState(() {
+                                _addDocUname.text.isEmpty
+                                    ? _validate = true
+                                    : _validate = false;
+                              });
+                            },
                             child: const Text(
-                              'ออกจากระบบ',
+                              'ยืนยัน',
                               style: TextStyle(
-                                  color: const Color(0xFFEEF2E6),
+                                  color: const Color(0xFF1C6758),
                                   fontFamily: 'Inter'),
                             ),
                           ),
-                        ),
-                        Container(
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      22.0, 7.0, 22.0, 7.0),
-                                  textStyle: const TextStyle(fontSize: 12),
-                                  backgroundColor: tertiaryColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10))),
-                              onPressed: () {},
-                              child: const Text(
-                                'ยืนยัน',
-                                style: TextStyle(
-                                    color: const Color(0xFF1C6758),
-                                    fontFamily: 'Inter'),
-                              ),
-                            ),
-                            padding: EdgeInsets.all(5.0),
-                            margin: EdgeInsets.all(10.0)),
-                      ]),
-                      padding: EdgeInsets.fromLTRB(54.0, 10.0, 0.0, 0.0),
-                    ),
-                  ],
-                )
-              ]),
-            )
-          ],
-        ));
+                          padding: EdgeInsets.all(5.0),
+                          margin: EdgeInsets.all(10.0)),
+                    ]),
+                    padding: EdgeInsets.fromLTRB(54.0, 10.0, 0.0, 0.0),
+                  ),
+                ],
+              ))
+        ]));
   }
 }

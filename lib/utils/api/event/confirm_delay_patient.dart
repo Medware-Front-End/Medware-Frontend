@@ -6,19 +6,18 @@ Future ConfirmDelayPatient(
   String previousScheduleId,
   String toScheduleId,
   String patientNationalId,
- 
 ) async {
   final msg = jsonEncode({
-    "previousScheduleId" : "${previousScheduleId}",
+    "previousScheduleId": "${previousScheduleId}",
     "toScheduleId": "${toScheduleId}",
-    "patientNationalId": "${ patientNationalId}",
+    "patientNationalId": "${patientNationalId}",
   });
+
   var url = "https://medware1.herokuapp.com/patient/postponeAppointment";
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
     'authtoken': authtoken,
-       
   };
   try {
     var response =

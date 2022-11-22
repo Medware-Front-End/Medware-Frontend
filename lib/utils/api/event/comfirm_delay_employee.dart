@@ -13,7 +13,7 @@ Future ConfirmDelay(
   String appointmentDoctorId,
 ) async {
   final msg = jsonEncode({
-    "scheduleId" : "${scheduleId}",
+    "scheduleId": "${scheduleId}",
     "scheduleCapacity": "${scheduleCapacity}",
     "scheduleStart": "${scheduleStart}",
     "scheduleEnd": "${scheduleEnd}",
@@ -22,11 +22,13 @@ Future ConfirmDelay(
     "scheduleStatus": "${scheduleStatus}",
     "appointmentDoctorId": "${appointmentDoctorId}",
   });
+
   var url = "https://medware1.herokuapp.com/schedules/update";
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
     'authtoken': authtoken 
+
   };
   try {
     var response =

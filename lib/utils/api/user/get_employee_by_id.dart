@@ -1,18 +1,20 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:medware/utils/models/user/employee.dart';
+import 'package:medware/utils/statics.dart';
 
-Future<Employee> getEmployeeById() async {
-  const data = {
-    'id': '12345',
-    'nationalId': '1234567890123',
-    'fName': 'สวัสดี',
-    'mName': '',
-    'lName': 'จ้าาา',
-    'pic': '1',
-    'phoneNumber': '0123456789',
-    'password' : '12345678',
-    'role': '1',
-    'department': '0',
-  };
+Future<Employee> getEmployeeById(int id) async {
+  final url = '${baseUrl}/employeeinfo/findbyId/${id}';
 
-  return Employee.fromJson(data);
+  try {
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var res = json.decode(utf8.decode(response.bodyBytes));
+      return Employee.fromJson(res);
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }

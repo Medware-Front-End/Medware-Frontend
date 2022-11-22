@@ -10,13 +10,14 @@ Future ConfirmAdd(
     "scheduleId": "${scheduleId}",
     "patientNationalId": "${patientNationalId}"
   });
-  var url =
-      "https://medware1.herokuapp.com/appointments/createNewAppointment";
+
+  var url = "https://medware1.herokuapp.com/appointments/createNewAppointment";
+
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
-    'authtoken':authtoken
-         };
+    'authtoken': authToken
+  };
   try {
     var response =
         await http.post(Uri.parse(url), headers: requestHeaders, body: msg);
@@ -39,8 +40,9 @@ Future ConfirmAdd(
     } else if (e.toString().contains("is already in schedule")) {
       SnackBar_show.buildErrorSnackbar(_context, "คนไข้ไม่ว่างในตอนนี้");
     } else if (e.toString().contains("Can't Appointment before")) {
-      SnackBar_show.buildErrorSnackbar(_context, "ไม่สามารถสร้างนัดได้ก่อนภายในสามวัน");
-    }else {
+      SnackBar_show.buildErrorSnackbar(
+          _context, "ไม่สามารถสร้างนัดได้ก่อนภายในสามวัน");
+    } else {
       SnackBar_show.buildErrorSnackbar(_context, "เกิดปัญหา ลองใหม่อีกครั้ง");
     }
   }

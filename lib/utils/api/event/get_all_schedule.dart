@@ -4,14 +4,15 @@ import '../../models/appointment/get_all_schedule.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 Future<List<Allschedules>> getAllSchedule() async {
+
   var url = "https://medware1.herokuapp.com/schedules";
+
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'authtoken':authtoken,
-         };
+    'authtoken': authToken,
+  };
 
   try {
     var response = await http.get(Uri.parse(url), headers: requestHeaders);
