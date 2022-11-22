@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/api/event/patient/create_appointment.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 
 class ConfirmAppointment extends StatelessWidget {
   final int id;
@@ -100,6 +101,9 @@ class ConfirmAppointment extends StatelessWidget {
     }
 
     _showAlertDialog(BuildContext context, int status) {
+      print('schedule : ' + id.toString());
+      print('User National id : ' +
+          SharedPreference.getUserNationalId().toString());
       Widget okButton = TextButton(
         child: Text(
           'OK',
@@ -110,7 +114,7 @@ class ConfirmAppointment extends StatelessWidget {
               color: tertiaryColor),
         ),
         onPressed: () {
-          Navigator.popUntil(context, ModalRoute.withName('/'));
+          Navigator.of(context).popUntil((route) => route.isFirst);
         },
       );
 
@@ -422,8 +426,8 @@ class ConfirmAppointment extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () async {
-                  var status = await createNewAppointment(
-                      id.toString(), 1234567891234.toString());
+                  var status = await createNewAppointment(id.toString(),
+                      SharedPreference.getUserNationalId().toString());
                   _showAlertDialog(context, status);
                 },
                 child: Center(

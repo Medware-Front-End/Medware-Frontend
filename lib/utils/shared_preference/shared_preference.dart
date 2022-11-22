@@ -13,8 +13,9 @@ class SharedPreference {
       await _pref.setString('name', name);
   static String getUserFName() => _pref.getString('name')!;
 
-  static Future setUserNationalId(int id) async => await _pref.setInt('id', id);
-  static int getUserNationalId() => _pref.getInt('id')!;
+  static Future setUserNationalId(int id) async =>
+      await _pref.setInt('nationId', id);
+  static int getUserNationalId() => _pref.getInt('nationId')!;
 
   static Future setUserId(int id) async => await _pref.setInt('id', id);
   static int getUserId() => _pref.getInt('id')!;
