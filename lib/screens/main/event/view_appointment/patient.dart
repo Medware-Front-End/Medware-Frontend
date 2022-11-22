@@ -102,7 +102,10 @@ class ViewAppointment extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DelayPatientAppointment(
-                      patientNationalId: 1234567890121, previousScheduleId: 2),
+                    patientNationalId: SharedPreference.getUserId(),
+                    previousScheduleId: appointment.scheduleId,
+                    type: appointment.type,
+                  ),
                 ),
               );
             },

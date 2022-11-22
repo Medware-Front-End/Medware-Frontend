@@ -30,7 +30,7 @@ class PushNotification {
   }
 
   static Future showNotification({
-    int id = 0,
+    required int id,
     required String title,
     required String body,
     String? payload,

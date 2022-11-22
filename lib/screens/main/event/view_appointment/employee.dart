@@ -202,6 +202,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:
                                   'การนัดหมายการ${appointmentTypes[widget.appointment.type]}ในวันที่ ${dateFormatter.format(widget.appointment.date)} เวลา ${timeFormatter.format(widget.appointment.startTime)} - ${timeFormatter.format(widget.appointment.finishTime)} ถูกยกเลิกแล้ว',
+                              id: widget.appointment.id,
                             );
                             Navigator.pop(context);
                             showDialog(
@@ -213,8 +214,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                   TextButton(
                                     onPressed: () async {
                                       await widget.refresh();
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
                                     },
                                     child: const Text('กลับ'),
                                   ),

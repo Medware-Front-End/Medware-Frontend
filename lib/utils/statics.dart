@@ -15,9 +15,9 @@ List<String> employeeRoles = [
 
 List<String> appointmentTypes = [
   '0',
-  'ตรวจร่างกาย',
+  'นัดหมายพิเศษ',
+  'ตรวจสุขภาพ',
   'บริจาคเลือด',
-  'การนัดหมายพิเศษ',
 ];
 
 List<String> notificationTypes = [

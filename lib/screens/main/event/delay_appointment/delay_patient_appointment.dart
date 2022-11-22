@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'package:intl/intl.dart';
 import 'package:medware/screens/main/event/delay_appointment/confirm_delay_patient.dart';
+import 'package:medware/utils/api/appointment/get_employee_schdule.dart';
+import 'package:medware/utils/api/event/patient/get_schedule.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/appointment/all_schedules.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -14,9 +16,11 @@ class DelayPatientAppointment extends StatefulWidget {
     Key? key,
     required this.previousScheduleId,
     required this.patientNationalId,
+    required this.type,
   }) : super(key: key);
   final int previousScheduleId;
   final int patientNationalId;
+  final int type;
 
   @override
   _DelayPatientAppointmentState createState() =>
@@ -37,7 +41,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
   }
 
   Future _loadAppointments() async {
-    // events = await getPatientSchedule();
+    events = await getAllSchedule();
     _groupEvent(events);
   }
 
