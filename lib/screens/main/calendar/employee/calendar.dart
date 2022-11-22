@@ -25,7 +25,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime? _selectedDay;
   final int id = SharedPreference.getUserId();
 
-
   List<dynamic> _getEventsForDay(DateTime date) {
     return _groupedEvents?[date] ?? [];
   }
@@ -111,7 +110,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
           systemStatusBarContrastEnforced: true,
         ),
       ),
-      body: SingleChildScrollView(physics: const AlwaysScrollableScrollPhysics(),
+      body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Container(
@@ -140,7 +140,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               child: Text(
                             _datetime.day.toString(),
                             style: TextStyle(
-                                color: primaryColor, fontWeight: FontWeight.w500),
+                                color: primaryColor,
+                                fontWeight: FontWeight.w500),
                           )),
                         );
                       }),
@@ -235,9 +236,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     },
                   ),
                 )),
-            
             ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(size.height * 0.03)),
+              borderRadius:
+                  BorderRadius.all(Radius.circular(size.height * 0.03)),
               child: Container(
                   width: size.width * 0.88,
                   height: size.height * 0.31,
@@ -246,8 +247,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       border: Border.all(
                         color: Color.fromARGB(106, 28, 103, 88),
                       ),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(size.height * 0.03))),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(size.height * 0.03))),
                   child: ScrollConfiguration(
                     behavior: CustomScroll(),
                     child: !_getEventsForDay(_selectedDay as DateTime).isEmpty
@@ -258,15 +259,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               ..._getEventsForDay(_selectedDay as DateTime)
                                   .map((event) => ClipRRect(
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(size.height * 0.04)),
+                                            Radius.circular(
+                                                size.height * 0.04)),
                                         child: Card(
                                             shadowColor: Colors.transparent,
                                             margin: EdgeInsets.all(
                                                 size.height * 0.003),
                                             color: quaternaryColor,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  size.height * 0.03),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      size.height * 0.03),
                                             ),
                                             child: InkWell(
                                               child: Padding(
@@ -281,22 +284,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                   children: [
                                                     Container(
                                                       decoration: BoxDecoration(
-                                                        color: event.type == 0
+                                                        color: event.type ==
+                                                                1
                                                             ? Color(0xFF4CC9FF)
-                                                            : Color(0xFFFF0000),
+                                                            : event.type ==
+                                                                    2
+                                                                ? Colors
+                                                                    .red[400]
+                                                                : Colors
+                                                                    .amber[500],
                                                         borderRadius:
-                                                            BorderRadius.circular(
+                                                            BorderRadius
+                                                                .circular(
                                                           size.width * 0.03,
                                                         ),
                                                       ),
                                                       padding: EdgeInsets.all(
                                                           size.width * 0.025),
                                                       child: Icon(
-                                                        event.type == 0
+                                                        event.type == 1
                                                             ? Icons
                                                                 .medical_services_outlined
-                                                            : Icons
-                                                                .water_drop_outlined,
+                                                            : event.type == 2
+                                                                ? Icons
+                                                                    .water_drop_outlined
+                                                                : Icons
+                                                                    .medical_services_outlined,
                                                         size: size.width * 0.09,
                                                         color: Colors.white,
                                                       ),
@@ -309,10 +322,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        event.type == 0
+                                                        event.type == 1
                                                             ? Text(
-                                                                'ตรวจสุขภาพ',
-                                                                style: TextStyle(
+                                                                'ตรวจร่างกาย',
+                                                                style:
+                                                                    TextStyle(
                                                                   color:
                                                                       primaryColor,
                                                                   fontWeight:
@@ -323,19 +337,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                                           0.02,
                                                                 ),
                                                               )
-                                                            : Text(
-                                                                'ตรวจเลือด',
-                                                                style: TextStyle(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  fontSize:
-                                                                      size.height *
-                                                                          0.02,
-                                                                ),
-                                                              ),
+                                                            : event.type ==
+                                                                    2
+                                                                ? Text(
+                                                                    'บริจาคเลือด',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          primaryColor,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      fontSize:
+                                                                          size.height *
+                                                                              0.02,
+                                                                    ),
+                                                                  )
+                                                                : Text(
+                                                                    'การนัดหมายพิเศษ',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          primaryColor,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      fontSize:
+                                                                          size.height *
+                                                                              0.02,
+                                                                    ),
+                                                                  ),
                                                         Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -353,10 +384,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                             ),
                                                             Text(
                                                                 'เวลา ${timeFormatter.format(event.startTime)} - ${timeFormatter.format(event.finishTime)}',
-                                                                style: TextStyle(
-                                                                  fontSize:
-                                                                      size.height *
-                                                                          0.0145,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: size
+                                                                          .height *
+                                                                      0.0145,
                                                                   color:
                                                                       primaryColor,
                                                                 ))
@@ -378,7 +410,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             child: Text(
                             'ไม่มีนัดหมายของท่านในวันนี้',
                             style: TextStyle(
-                                fontSize: size.width * 0.05, color: primaryColor),
+                                fontSize: size.width * 0.05,
+                                color: primaryColor),
                           )),
                   )),
             )
