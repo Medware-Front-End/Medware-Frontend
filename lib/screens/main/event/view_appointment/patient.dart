@@ -98,11 +98,15 @@ class ViewAppointment extends StatelessWidget {
           ActionButton(
             text: 'เลื่อนนัด',
             action: () {
+              print(
+                SharedPreference.getUserNationalId(),
+              );
+              print("SharedPreference");
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => DelayPatientAppointment(
-                    patientNationalId: SharedPreference.getUserId(),
+                    patientNationalId: SharedPreference.getUserNationalId(),
                     previousScheduleId: appointment.scheduleId,
                     type: appointment.type,
                   ),
