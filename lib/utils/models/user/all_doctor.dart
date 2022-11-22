@@ -24,7 +24,7 @@ class AllDoctor {
 
     int employeeId;
     String employeeFirstName;
-    dynamic employeeMiddleName;
+    String employeeMiddleName;
     String employeeLastName;
     String employeeNationalId;
     bool employeeIsAdmin;
@@ -36,7 +36,7 @@ class AllDoctor {
     factory AllDoctor.fromJson(Map<String, dynamic> json) => AllDoctor(
         employeeId: json["employeeId"],
         employeeFirstName: json["employeeFirstName"],
-        employeeMiddleName: json["employeeMiddleName"],
+        employeeMiddleName: json["employeeMiddleName"] == null ? null : json["employeeMiddleName"],
         employeeLastName: json["employeeLastName"],
         employeeNationalId: json["employeeNationalId"],
         employeeIsAdmin: json["employeeIsAdmin"],
@@ -49,7 +49,7 @@ class AllDoctor {
     Map<String, dynamic> toJson() => {
         "employeeId": employeeId,
         "employeeFirstName": employeeFirstName,
-        "employeeMiddleName": employeeMiddleName,
+        "employeeMiddleName": employeeMiddleName == null ? null : employeeMiddleName,
         "employeeLastName": employeeLastName,
         "employeeNationalId": employeeNationalId,
         "employeeIsAdmin": employeeIsAdmin,

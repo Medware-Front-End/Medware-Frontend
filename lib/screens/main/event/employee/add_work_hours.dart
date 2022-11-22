@@ -28,11 +28,11 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
   int _dropdownCapacityValue = 1;
 
   int _dropdownTypeValue = 1;
-
   int _dropdownDoctorValue = 1;
 
   int isSelectDay = 0;
   int isSelectTime = 0;
+  int isSelectDoctor = 0;
   //0 = not selected, 1 = selected
 
   List<int> dropDownCapacityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -65,7 +65,6 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
     _scheduleCapacity.text = '1';
     _scheduleType.text = '1';
     _scheduleLocation.text = "โรงพยาบาล";
-    _scheduleDoctorId.text = '1';
     super.initState();
   }
 
@@ -315,7 +314,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                             EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
                         child: DropdownButton(
                           items: const [
-                             DropdownMenuItem(
+                            DropdownMenuItem(
                                 child: Text("ตรวจกับหมอ"), value: 1),
                             DropdownMenuItem(
                                 child: Text("ตรวจสุขภาพ"), value: 2),
@@ -352,6 +351,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                             if (snapshot.hasError) {
                               return new Container();
                             } else if (snapshot.hasData) {
+                              var data = snapshot.data;
                               list.clear();
                               //listItemNames.clear();
                               var dropDownItemsMap = new Map();
@@ -371,12 +371,17 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                                 items: list,
                                 onChanged: (selectedValue) {
                                   setState(() {
+                                    print(isSelectDoctor);
                                     _dropdownDoctorValue = selectedValue;
                                     _scheduleDoctorId.text =
                                         selectedValue.toString();
+                                        isSelectDoctor = 1;
                                   });
                                 },
-                                value: _dropdownDoctorValue,
+                                value: isSelectDoctor == 0
+                                ? (data?[0].employeeId)
+                                : _dropdownDoctorValue
+                              ,
                                 iconEnabledColor: primaryColor,
                                 style: TextStyle(
                                   color: primaryColor,
