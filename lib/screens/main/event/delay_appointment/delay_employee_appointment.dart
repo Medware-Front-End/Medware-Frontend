@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:medware/utils/api/event/comfirm_delay_employee.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 
 class DelayEmployeeAppointment extends StatefulWidget {
   const DelayEmployeeAppointment({Key? key, required this.scheduleId})

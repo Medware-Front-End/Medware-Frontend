@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/api/event/comfirm_delay_employee.dart';
 import 'package:medware/utils/api/event/confirm_delay_patient.dart';
-import 'package:medware/utils/colors.dart';
+import 'package:medware/utils/statics.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
