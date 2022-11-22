@@ -192,9 +192,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: const Text('ไม่'),
                         ),
                         TextButton(
-                          onPressed: () async {
-                            await CancelAppointment(widget.appointment.id);
-
+                          onPressed: () {
                             PushNotification.showNotification(
                               title: 'มีการยกเลิกนัดหมายของคุณ',
                               body:

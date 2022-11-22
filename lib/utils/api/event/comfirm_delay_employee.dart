@@ -27,8 +27,7 @@ Future ConfirmDelay(
   Map<String, String> requestHeaders = {
     'Accept': 'application/json',
     "content-type": "application/json",
-    'authtoken': authToken 
-
+    'authtoken': authToken
   };
   try {
     var response =

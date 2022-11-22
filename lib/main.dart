@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: auth.screens[0],
+      // home: SharedPreference.getToken() == '' ? auth.screens[0] : MainScreen(),
       // home: const MainScreen(),
     );
   }

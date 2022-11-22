@@ -8,7 +8,7 @@ Future ConfirmTransfer(
   String appointmentDoctorId,
 ) async {
   final msg = jsonEncode({
-    "scheduleId" : "${scheduleId}",
+    "scheduleId": "${scheduleId}",
     "scheduleStatus": "${scheduleStatus}",
     "appointmentDoctorId": "${appointmentDoctorId}",
   });

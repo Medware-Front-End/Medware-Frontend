@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:medware/utils/api/event/confirm_transfer.dart';
 import 'package:medware/utils/statics.dart';
 
-
 class ConfirmTransferPatient extends StatelessWidget {
   final DateTime scheduleDate;
   final DateTime scheduleStart;
@@ -12,7 +11,7 @@ class ConfirmTransferPatient extends StatelessWidget {
   final String scheduleLocation;
   final bool scheduleStatus;
   final int appointmentDoctorId;
-  final String doctorFirstName; 
+  final String doctorFirstName;
   final String doctorMiddleName;
   final String doctorLastName;
 
@@ -27,7 +26,7 @@ class ConfirmTransferPatient extends StatelessWidget {
     required this.appointmentDoctorId,
     required this.doctorFirstName,
     required this.doctorMiddleName,
-    required this.doctorLastName, 
+    required this.doctorLastName,
   });
 
   @override
