@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<List<PatientEvent>> getPatientSchedule(int id) async {
-  var url =
-      'https://medcare-database-test.herokuapp.com/getScheduleBytpye/${id}';
+  var url = 'https://medware1.herokuapp.com/getScheduleBytpye/${id}';
   var response;
 
   try {
