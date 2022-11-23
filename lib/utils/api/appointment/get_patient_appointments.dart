@@ -8,6 +8,7 @@ Future<List<PatientAppointment>> getPatientAppointments(int id) async {
 
   try {
     var results = await http.get(Uri.parse(url));
+    print(json.decode(utf8.decode(results.bodyBytes)).length);
     if (results.statusCode == 200) {
       var res = json
           .decode(utf8.decode(results.bodyBytes))

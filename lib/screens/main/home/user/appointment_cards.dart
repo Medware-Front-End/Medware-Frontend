@@ -127,11 +127,11 @@ class AppointmentCards extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: appointment.type == 1
-                        ? Colors.blue[200]
+                        ? Colors.amber[500]
                         : appointment.type == 2
-                            ? Colors.red[400]
+                            ? Colors.blue[200]
                             : appointment.type == 3
-                                ? Colors.amber[500]
+                                ? Colors.red[400]
                                 : Colors.grey,
                     borderRadius: BorderRadius.circular(
                       size.width * 0.03,
@@ -142,9 +142,9 @@ class AppointmentCards extends StatelessWidget {
                     appointment.type == 1
                         ? Icons.medical_services_outlined
                         : appointment.type == 2
-                            ? Icons.water_drop_outlined
+                            ? Icons.medical_services_outlined
                             : appointment.type == 3
-                                ? Icons.medical_services_outlined
+                                ? Icons.water_drop_outlined
                                 : Icons.settings,
                     color: Colors.white,
                   ),

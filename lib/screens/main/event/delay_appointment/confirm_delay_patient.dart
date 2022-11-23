@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/event/comfirm_delay_employee.dart';
 import 'package:medware/utils/api/event/confirm_delay_patient.dart';
+import 'package:medware/utils/api/notification/push_notification.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ConfirmDelayPatientAppointment extends StatelessWidget {
-  
+class ConfirmDelayPatientAppointment extends StatefulWidget {
   final DateTime scheduleDate;
   final DateTime scheduleStart;
   final DateTime scheduleEnd;
   final int previousScheduleId;
-  final int toScheduleId ; 
-  final int patientNationalId ; 
+  final int toScheduleId;
+  final int patientNationalId;
 
-  const ConfirmDelayPatientAppointment( 
-      {super.key,
-      required this.scheduleDate,
-      required this.scheduleStart,
-      required this.scheduleEnd, 
-      required this.previousScheduleId, 
-      required this.toScheduleId, 
-      required this.patientNationalId,
-      });
+  const ConfirmDelayPatientAppointment({
+    super.key,
+    required this.scheduleDate,
+    required this.scheduleStart,
+    required this.scheduleEnd,
+    required this.previousScheduleId,
+    required this.toScheduleId,
+    required this.patientNationalId,
+  });
+
+  @override
+  State<ConfirmDelayPatientAppointment> createState() =>
+      _ConfirmDelayPatientAppointmentState();
+}
+
+class _ConfirmDelayPatientAppointmentState
+    extends State<ConfirmDelayPatientAppointment> {
+  void listenToNotificationStream() async {
+    PushNotification.onClickNotifications.stream.listen(
+      (payload) => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenToNotificationStream();
+  }
 
 /*
     "scheduleId" : "1",
@@ -35,7 +58,6 @@ class ConfirmDelayPatientAppointment extends StatelessWidget {
     "scheduleStatus" : "true",
     "appointmentDoctorId" : "2"
 */
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -45,6 +67,8 @@ class ConfirmDelayPatientAppointment extends StatelessWidget {
     final DateDateFormatter = DateFormat.d();
     final timeFormatter = DateFormat.jm();
     final timeFormatterForApi = DateFormat("yyyy-MM-ddTHH:mm:ss");
+    final dateFormatter = DateFormat('d MMMM y');
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -171,11 +195,11 @@ class ConfirmDelayPatientAppointment extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${DateDateFormatter.format(scheduleDate)}' +
+                            '${DateDateFormatter.format(widget.scheduleDate)}' +
                                 ' '
-                                    '${MonthDateFormatter.format(scheduleDate)}' +
+                                    '${MonthDateFormatter.format(widget.scheduleDate)}' +
                                 ' ' +
-                                '${YearDateFormatter.format(scheduleDate)}',
+                                '${YearDateFormatter.format(widget.scheduleDate)}',
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w400,
@@ -211,7 +235,7 @@ class ConfirmDelayPatientAppointment extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${timeFormatter.format(scheduleStart)} - ${timeFormatter.format(scheduleEnd)}',
+                            '${timeFormatter.format(widget.scheduleStart)} - ${timeFormatter.format(widget.scheduleEnd)}',
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w400,
@@ -272,14 +296,23 @@ class ConfirmDelayPatientAppointment extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  print(previousScheduleId.toString());
-                  print(toScheduleId.toString());
-                  print(patientNationalId.toString());
+                  print(widget.previousScheduleId.toString());
+                  print(widget.toScheduleId.toString());
+                  print(widget.patientNationalId.toString());
                   await ConfirmDelayPatient(
-                    previousScheduleId.toString(),
-                    toScheduleId.toString(),
-                    patientNationalId.toString()
-                  );
+                      widget.previousScheduleId.toString(),
+                      widget.toScheduleId.toString(),
+                      widget.patientNationalId.toString());
+
+                  (SharedPreference.getNotified() &&
+                          SharedPreference.getNotifiedDelayed())
+                      ? PushNotification.showNotification(
+                          title: 'มีการเลื่อนนัดหมายของคุณ',
+                          body:
+                              'การนัดหมายการในวันที่ ${dateFormatter.format(widget.scheduleDate)} เวลา ${timeFormatter.format(widget.scheduleStart)} - ${timeFormatter.format(widget.scheduleEnd)} ถูกเลื่อนออกไปแล้ว',
+                          id: widget.toScheduleId,
+                        )
+                      : null;
                   await Future.delayed(const Duration(seconds: 1));
                   Navigator.of(context).pop();
                 },

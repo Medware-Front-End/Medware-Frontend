@@ -41,8 +41,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
 
   void listenToNotificationStream() async {
     PushNotification.onClickNotifications.stream.listen(
-      (payload) => Navigator.pushReplacement(
-        context,
+      (payload) => Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => MainScreen()),
       ),
     );

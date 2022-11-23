@@ -20,6 +20,7 @@ Future createNewAppointment(String scheduleId, String patientNationalId) async {
     if (response.statusCode == 200) {
       print('Create Appointment Successfully.');
     } else {
+      print(response.body);
       throw Exception(response.statusCode);
     }
   } on Exception catch (_error) {

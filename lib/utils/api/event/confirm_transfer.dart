@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medware/utils/shared_preference/temp_auth_token.dart';
 
-Future ConfirmTransfer(
+Future<http.Response> ConfirmTransfer(
   String scheduleId,
   String scheduleStatus,
   String appointmentDoctorId,
@@ -26,6 +26,7 @@ Future ConfirmTransfer(
     } else {
       print(response.body);
     }
+    return response;
   } catch (e) {
     throw Exception(e.toString());
   }

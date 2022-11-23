@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medware/screens/main/main_screen.dart';
 
 import 'package:medware/utils/api/event/comfirm_delay_employee.dart';
+import 'package:medware/utils/api/notification/push_notification.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:time_interval_picker/time_interval_picker.dart';
 import 'package:medware/utils/statics.dart';
 
@@ -45,6 +48,7 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
   List<String> dropDownDoctorOptions = [];
   dynamic _selectedItem = '';
   String selectedItemName = '';
+  final dateFormatter = DateFormat('d MMMM y');
 
   void dropdownCapacityCallback(int? selectedValue) {
     if (selectedValue is int) {
@@ -64,6 +68,14 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
     }
   }
 
+  void listenToNotificationStream() async {
+    PushNotification.onClickNotifications.stream.listen(
+      (payload) => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      ),
+    );
+  }
+
   @override
   void initState() {
     _scheduleDate.text = "";
@@ -72,6 +84,7 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
     _scheduleLocation.text = "โรงพยาบาล";
     _scheduleDoctorId.text = '1';
     super.initState();
+    listenToNotificationStream();
   }
 
   @override
@@ -266,6 +279,15 @@ class _DelayEmployeeAppointmentState extends State<DelayEmployeeAppointment> {
                               appointmentId,
                               context,
                             );
+                            (SharedPreference.getNotified() &&
+                                    SharedPreference.getNotifiedDelayed())
+                                ? PushNotification.showNotification(
+                                    title: 'มีการเลื่อนนัดหมายของคุณ',
+                                    body:
+                                        'การนัดหมายการในวันที่ ${dateFormatter.format(DateTime.parse(_scheduleDate.text))} ถูกเลื่อนออกไปแล้ว',
+                                    id: widget.scheduleId,
+                                  )
+                                : null;
                           });
                         }
                       },

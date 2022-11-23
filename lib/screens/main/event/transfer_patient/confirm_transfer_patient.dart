@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medware/screens/main/main_screen.dart';
 import 'package:medware/utils/api/event/confirm_transfer.dart';
+import 'package:medware/utils/api/notification/push_notification.dart';
+import 'package:medware/utils/shared_preference/shared_preference.dart';
 import 'package:medware/utils/statics.dart';
 
-class ConfirmTransferPatient extends StatelessWidget {
+class ConfirmTransferPatient extends StatefulWidget {
   final DateTime scheduleDate;
   final DateTime scheduleStart;
   final DateTime scheduleEnd;
@@ -30,6 +33,25 @@ class ConfirmTransferPatient extends StatelessWidget {
   });
 
   @override
+  State<ConfirmTransferPatient> createState() => _ConfirmTransferPatientState();
+}
+
+class _ConfirmTransferPatientState extends State<ConfirmTransferPatient> {
+  void listenToNotificationStream() async {
+    PushNotification.onClickNotifications.stream.listen(
+      (payload) => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenToNotificationStream();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
@@ -38,6 +60,8 @@ class ConfirmTransferPatient extends StatelessWidget {
     final DateDateFormatter = DateFormat.d();
     final timeFormatter = DateFormat.jm();
     final timeFormatterForApi = DateFormat("yyyy-MM-ddTHH:mm:ss");
+    final dateFormatter = DateFormat('d MMMM y');
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -164,11 +188,11 @@ class ConfirmTransferPatient extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${DateDateFormatter.format(scheduleDate)}' +
+                            '${DateDateFormatter.format(widget.scheduleDate)}' +
                                 ' '
-                                    '${MonthDateFormatter.format(scheduleDate)}' +
+                                    '${MonthDateFormatter.format(widget.scheduleDate)}' +
                                 ' ' +
-                                '${YearDateFormatter.format(scheduleDate)}',
+                                '${YearDateFormatter.format(widget.scheduleDate)}',
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w400,
@@ -204,7 +228,7 @@ class ConfirmTransferPatient extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${timeFormatter.format(scheduleStart)} - ${timeFormatter.format(scheduleEnd)}',
+                            '${timeFormatter.format(widget.scheduleStart)} - ${timeFormatter.format(widget.scheduleEnd)}',
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w400,
@@ -251,7 +275,7 @@ class ConfirmTransferPatient extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        "${doctorFirstName} ${doctorMiddleName} ${doctorLastName}",
+                        "${widget.doctorFirstName} ${widget.doctorMiddleName} ${widget.doctorLastName}",
                         style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.w500,
@@ -265,15 +289,26 @@ class ConfirmTransferPatient extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  print(scheduleId.toString());
-                  print(scheduleLocation);
-                  print(scheduleStatus.toString());
-                  print(appointmentDoctorId.toString());
-                  await ConfirmTransfer(
-                    scheduleId.toString(),
-                    scheduleStatus.toString(),
-                    appointmentDoctorId.toString(),
+                  print(widget.scheduleId.toString());
+                  print(widget.scheduleLocation);
+                  print(widget.scheduleStatus.toString());
+                  print(widget.appointmentDoctorId.toString());
+                  var res = await ConfirmTransfer(
+                    widget.scheduleId.toString(),
+                    widget.scheduleStatus.toString(),
+                    widget.appointmentDoctorId.toString(),
                   );
+                  if (res.statusCode == 200) {
+                    (SharedPreference.getNotified() &&
+                            SharedPreference.getNotifiedTransferred())
+                        ? PushNotification.showNotification(
+                            title: 'มีการโอนถ่ายนัดหมายของคุณ',
+                            body:
+                                'การนัดหมายการในวันที่ ${dateFormatter.format(widget.scheduleDate)} เวลา ${timeFormatter.format(widget.scheduleStart)} - ${timeFormatter.format(widget.scheduleEnd)} ถูกโอนถ่ายแล้ว',
+                            id: widget.scheduleId,
+                          )
+                        : null;
+                  }
                   await Future.delayed(const Duration(seconds: 1));
                   Navigator.of(context).pop();
                 },
