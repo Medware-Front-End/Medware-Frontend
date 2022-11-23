@@ -382,8 +382,7 @@ class _RegisterState extends State<RegisterForm> {
                                       print("NationalID already exist");
                                       craeteRegisterAlreadyExistDialog(context);
                                     } else {
-                                      print("Register Faild " +
-                                          response.statusCode);
+                                      print(response.statusCode);
                                       craeteRegisterFailedDialog(context);
                                     }
                                   });

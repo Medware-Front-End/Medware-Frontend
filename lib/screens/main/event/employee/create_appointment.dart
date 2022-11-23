@@ -394,7 +394,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                                 TextStyle(
                                                                               color: primaryColor,
                                                                               fontWeight: FontWeight.w700,
-                                                                              fontSize: size.height * 0.02,
+                                                                              fontSize: size.height * 0.015,
                                                                             ),
                                                                           )
                                                                         : event.scheduleType ==
@@ -404,7 +404,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                                 style: TextStyle(
                                                                                   color: primaryColor,
                                                                                   fontWeight: FontWeight.w700,
-                                                                                  fontSize: size.height * 0.02,
+                                                                                  fontSize: size.height * 0.015,
                                                                                 ),
                                                                               )
                                                                             : Text(
@@ -412,7 +412,7 @@ class AppointmentDoctorCreateState extends State<AppointmentDoctorCreate> {
                                                                                 style: TextStyle(
                                                                                   color: primaryColor,
                                                                                   fontWeight: FontWeight.w700,
-                                                                                  fontSize: size.height * 0.02,
+                                                                                  fontSize: size.height * 0.015,
                                                                                 ),
                                                                               ),
                                                                     Column(

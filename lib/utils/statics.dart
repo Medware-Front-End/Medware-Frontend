@@ -8,20 +8,20 @@ Color quaternaryColor = const Color(0xFFEEF2E6);
 String baseUrl = 'https://medware1.herokuapp.com';
 
 List<String> employeeRoles = [
-  '0',
+  '',
   'แพทย์',
   'พยาบาล',
 ];
 
 List<String> appointmentTypes = [
-  '0',
+  '',
   'นัดหมายพิเศษ',
   'ตรวจสุขภาพ',
   'บริจาคเลือด',
 ];
 
 List<String> notificationTypes = [
-  '0',
+  '',
   'ระบบ',
   'เลื่อนนัด',
   'ยกเลิก',
@@ -29,7 +29,7 @@ List<String> notificationTypes = [
 ];
 
 List<String> bloodTypes = [
-  '0',
+  '',
   'A (positive)',
   'A (negative)',
   'B (positive)',
@@ -41,7 +41,7 @@ List<String> bloodTypes = [
 ];
 
 List<String> departments = [
-  '0',
+  '',
   'ดูแลก่อนคลอด', // ANC
   'ห้องคลอด', // LR
   'ผู้ป่วยโรคหัวใจและหลอดเลือด', // CCU

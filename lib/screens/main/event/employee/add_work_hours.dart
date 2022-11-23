@@ -63,14 +63,13 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
     }
   }
 
- void dropdownLocationCallback(String? selectedValue) {
-    
-      setState(() {
-        _dropdownLocationValue = selectedValue!;
-        _scheduleLocation.text = selectedValue.toString();
-      });
-    
+  void dropdownLocationCallback(String? selectedValue) {
+    setState(() {
+      _dropdownLocationValue = selectedValue!;
+      _scheduleLocation.text = selectedValue.toString();
+    });
   }
+
   @override
   void initState() {
     _scheduleDate.text = "";
@@ -374,7 +373,7 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
 
                                 list.add(new DropdownMenuItem(
                                     child: Text(
-                                        "แพทย์ ${branchItem.employeeFirstName} ${branchItem.employeeLastName}"),
+                                        "แพทย์ ${branchItem.employeeFirstName} ${branchItem.employeeLastName[0]}."),
                                     value: branchItem.employeeId));
                               });
 
@@ -427,12 +426,18 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                         padding:
                             EdgeInsets.fromLTRB(size.width * 0.06, 0, 0, 0),
                         child: DropdownButton(
-                          items: <String>['ห้องตรวจ 1', 'ห้องตรวจ 2', 'ห้องตรวจ 3', 'ห้องตรวจ 4','ห้องตรวจ 5'].map((String value) {
-    return DropdownMenuItem<String>(
-      value: value,
-      child: Text(value),
-    );
-  }).toList(),
+                          items: <String>[
+                            'ห้องตรวจ 1',
+                            'ห้องตรวจ 2',
+                            'ห้องตรวจ 3',
+                            'ห้องตรวจ 4',
+                            'ห้องตรวจ 5'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                           value: _dropdownLocationValue,
                           onChanged: dropdownLocationCallback,
                           iconEnabledColor: primaryColor,
@@ -448,10 +453,9 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor),
-                      child:Text("สร้าง"),
-                      onPressed: ()  async{
+                      child: Text("สร้าง"),
+                      onPressed: () async {
                         if (isSelectTime == 1 && isSelectDay == 1) {
-                         
                           setState(() {
                             String scheduleCapacity = _scheduleCapacity.text;
                             String scheduleStart = _scheduleStart.text;
@@ -470,8 +474,6 @@ class addWorkHoursScreenState extends State<addWorkHoursScreen> {
                                 scheduleType,
                                 context);
                           });
-                          
-                        
                         } else {
                           SnackBar_show.buildErrorSnackbar(
                               context, "กรุณาเลือกเวลาให้ถูกต้อง!");
