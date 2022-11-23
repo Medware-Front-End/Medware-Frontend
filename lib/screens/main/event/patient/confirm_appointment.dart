@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/api/event/patient/create_appointment.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:medware/utils/shared_preference/shared_preference.dart';
+import 'package:medware/utils/statics.dart' as statics;
 
 class ConfirmAppointment extends StatelessWidget {
   final int id;
@@ -38,65 +38,11 @@ class ConfirmAppointment extends StatelessWidget {
     final DayDateFormatter = DateFormat.d();
     final timeFormatter = DateFormat.jm();
 
-    String _mapAppointmentType(int type) {
-      if (type == 1) {
-        return 'ตรวจกับหมอ';
-      } else if (type == 2) {
-        return 'ตรวจสุขภาพ';
-      } else if (type == 3) {
-        return 'บริจาคโลหิต';
-      } else {
-        return 'อื่นๆ';
-      }
-    }
-
     String _DoctorName(String firstName, String middleName, String LastName) {
       if (middleName == null) {
         return firstName + ' ' + LastName;
       } else {
         return firstName + ' ' + middleName + ' ' + LastName;
-      }
-    }
-
-    String _mapDepartment(int num) {
-      if (num == 1) {
-        return 'ดูแลก่อนคลอด';
-      } else if (num == 2) {
-        return 'ห้องคลอด';
-      } else if (num == 3) {
-        return 'ผู้ป่วยโรคหัวใจและหลอดเลือด';
-      } else if (num == 4) {
-        return 'อุบัติเหตุและฉุกเฉิน';
-      } else if (num == 5) {
-        return 'ผู้ป่วยวิกฤต';
-      } else if (num == 6) {
-        return 'ผู้ป่วยนอก';
-      } else if (num == 7) {
-        return 'ผู้ป่วยใน';
-      } else if (num == 8) {
-        return 'ห้องปฏิบัติการ';
-      } else if (num == 9) {
-        return 'อายุรกรรม';
-      } else if (num == 10) {
-        return 'สูตินรีเวช';
-      } else if (num == 11) {
-        return 'ห้องผ่าตัด';
-      } else if (num == 12) {
-        return 'ผู้ป่วยที่มีปัญหาเรื่องกระดูก';
-      } else if (num == 13) {
-        return 'กุมารเวชกรรม';
-      } else if (num == 14) {
-        return 'หู คอ จมูก';
-      } else if (num == 15) {
-        return 'ศัลยกรรม';
-      } else if (num == 16) {
-        return 'เวชศาสตร์ฟื้นฟู';
-      } else if (num == 17) {
-        return 'เภสัชกรรม';
-      } else if (num == 18) {
-        return 'วิสัญญี';
-      } else {
-        return 'อื่นๆ';
       }
     }
 
@@ -254,7 +200,7 @@ class ConfirmAppointment extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          _mapAppointmentType(type),
+                          statics.appointmentTypes[type],
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w400,
@@ -405,7 +351,7 @@ class ConfirmAppointment extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _mapDepartment(department),
+                            statics.departments[department],
                             style: TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.w500,
