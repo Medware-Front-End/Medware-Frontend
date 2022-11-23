@@ -33,6 +33,7 @@ class _AddDoctorState extends State<AddDoctorForm> {
   final _addDocCpassword = TextEditingController();
 
   bool _validate = false;
+  String? selectedDepartment = 'ดูแลก่อนคลอด';
 
   @override
   void dispose() {
@@ -295,6 +296,39 @@ class _AddDoctorState extends State<AddDoctorForm> {
                               obscureText: true,
                             ),
                           ),
+                          // Container(
+                          //   child: Align(
+                          //     alignment: Alignment.topLeft,
+                          //     child: Text('แผนก',
+                          //         style: TextStyle(
+                          //             fontSize: 12,
+                          //             color: secondaryColor,
+                          //             fontFamily: 'NotoSansThai')),
+                          //   ),
+                          //   padding: EdgeInsets.fromLTRB(
+                          //       size.width * 0.01, size.width * 0.01, 0, 0),
+                          // ),
+                          // Container(
+                          //   child: DropdownButton<String>(
+                          //     value: selectedDepartment,
+                          //     items: departments
+                          //         .map((item) => DropdownMenuItem<String>(
+                          //               value: item,
+                          //               child: Text(
+                          //                 item,
+                          //                 style: TextStyle(
+                          //                     fontFamily: 'NotoSansThai',
+                          //                     fontSize: 12,
+                          //                     color: secondaryColor),
+                          //               ),
+                          //             ))
+                          //         .toList(),
+                          //     onChanged: (item) =>
+                          //         setState(() => selectedDepartment = item),
+                          //   ),
+                          //   padding: EdgeInsets.fromLTRB(
+                          //       size.width * 0.01, 0, size.width * 0.2, 0),
+                          // ),
                         ]),
                         margin: EdgeInsets.all(size.width * 0.01)),
                   ]),

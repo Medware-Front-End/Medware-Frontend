@@ -44,6 +44,8 @@ class _RegisterState extends State<RegisterForm> {
     super.dispose();
   }
 
+  String? selectedBloodtype = 'A (positive)';
+
   String? get _errorUname {
     final text = _unameTextController.value.text;
 
@@ -267,6 +269,42 @@ class _RegisterState extends State<RegisterForm> {
                           Container(
                             child: Align(
                               alignment: Alignment.topLeft,
+                              child: Text('กรุ๊ปเลือด',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: quaternaryColor,
+                                      fontFamily: 'NotoSansThai')),
+                            ),
+                          ),
+                          Container(
+                            child: DropdownButton<String>(
+                              value: selectedBloodtype,
+                              dropdownColor: primaryColor,
+                              items: bloodTypes
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: TextStyle(
+                                              fontFamily: 'NotoSansThai',
+                                              fontSize: 12,
+                                              color: quaternaryColor),
+                                        ),
+                                      ))
+                                  .toList(),
+                              onChanged: (item) =>
+                                  setState(() => selectedBloodtype = item),
+                            ),
+                            padding: EdgeInsets.fromLTRB(
+                                size.width * 0.01, 0, size.width * 0.37, 0),
+                          ),
+                        ]),
+                        margin: EdgeInsets.all(size.width * 0.01)),
+                    Container(
+                        child: Column(children: <Widget>[
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topLeft,
                               child: Text('รหัสผ่าน',
                                   style: TextStyle(
                                       fontSize: 12,
@@ -329,7 +367,8 @@ class _RegisterState extends State<RegisterForm> {
                                     patientPhoneNumber: '0931244774',
                                     patientBirthDate: '2016-11-09', //Fake data
                                     patientLocation: '',
-                                    patientBloodType: '',
+                                    patientBloodType:
+                                        selectedBloodtype.toString(),
                                     patientProfileIndex: 1,
                                     patientPassword:
                                         _passwordTextController.text,
