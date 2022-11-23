@@ -27,7 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   String _mapAppointmentType(int type) {
     if (type == 1) {
-      return 'ตรวจกับหมอ';
+      return 'นัดหมายพิเศษ';
     } else if (type == 2) {
       return 'ตรวจสุขภาพ';
     } else if (type == 3) {
@@ -277,12 +277,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       color: event.type == 1
-                                                          ? Color(0xFF4CC9FF)
-                                                          : event.scheduleType ==
-                                                                  2
-                                                              ? Colors.red[400]
-                                                              : Colors
-                                                                  .amber[500],
+                                                          ? Colors.amber[500]
+                                                          : event.type == 2
+                                                              ? Color(0xFF4CC9FF)
+                                                              : Colors.red[400],
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                         size.width * 0.03,
@@ -291,15 +289,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                     padding: EdgeInsets.all(
                                                         size.width * 0.025),
                                                     child: Icon(
-                                                      event.scheduleType == 1
+                                                      event.type == 1
                                                           ? Icons
                                                               .medical_services_outlined
-                                                          : event.scheduleType ==
-                                                                  2
-                                                              ? Icons
-                                                                  .water_drop_outlined
-                                                              : Icons
-                                                                  .medical_services_outlined,
+                                                          : event.type == 2
+                                                              ?Icons.medical_services_outlined
+                                                              :Icons.water_drop_outlined,
+                                                              
                                                       size: size.width * 0.09,
                                                       color: Colors.white,
                                                     ),
@@ -312,50 +308,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      event.scheduleType == 1
-                                                          ? Text(
-                                                              'ตรวจร่างกาย (${event.docterFirstName})',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    primaryColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize:
-                                                                    size.height *
-                                                                        0.02,
-                                                              ),
-                                                            )
-                                                          : event.scheduleType ==
-                                                                  2
-                                                              ? Text(
-                                                                  'บริจาคเลือด (${event.docterFirstName})',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color:
-                                                                        primaryColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize:
-                                                                        size.height *
-                                                                            0.02,
-                                                                  ),
-                                                                )
-                                                              : Text(
-                                                                  'การนัดหมายพิเศษ (${event.docterFirstName})',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color:
-                                                                        primaryColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize:
-                                                                        size.height *
-                                                                            0.02,
-                                                                  ),
-                                                                ),
                                                       Text(
                                                         _mapAppointmentType(
                                                             event.type),

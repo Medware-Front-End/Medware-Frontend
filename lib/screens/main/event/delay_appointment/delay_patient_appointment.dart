@@ -8,7 +8,6 @@ import 'package:medware/utils/statics.dart';
 import 'package:medware/utils/models/appointment/all_schedules.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 LinkedHashMap<DateTime, List<Allschedules>>? _groupedEvents;
 
 class DelayPatientAppointment extends StatefulWidget {
@@ -349,10 +348,12 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                                       BoxDecoration(
                                                                     color: event.scheduleType ==
                                                                             1
-                                                                        ? Color(
-                                                                            0xFF4CC9FF)
-                                                                        : Color(
-                                                                            0xFFFF0000),
+                                                                        ? Colors.amber[
+                                                                            500]
+                                                                        : event.scheduleType ==
+                                                                                2
+                                                                            ? Color(0xFF4CC9FF)
+                                                                            : Colors.red[400],
                                                                     borderRadius:
                                                                         BorderRadius
                                                                             .circular(
@@ -365,12 +366,12 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                                               .width *
                                                                           0.025),
                                                                   child: Icon(
-                                                                    event.scheduleType ==
-                                                                            1
+                                                                    event.scheduleType == 1
                                                                         ? Icons
                                                                             .medical_services_outlined
-                                                                        : Icons
-                                                                            .water_drop_outlined,
+                                                                        : event.scheduleType == 2
+                                                                            ? Icons.medical_services_outlined
+                                                                            : Icons.water_drop_outlined,
                                                                     size: size
                                                                             .width *
                                                                         0.09,
@@ -391,7 +392,7 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                                     event.scheduleType ==
                                                                             1
                                                                         ? Text(
-                                                                            'ตรวจสุขภาพ',
+                                                                            'นัดหมายพิเศษ',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: primaryColor,
@@ -399,15 +400,24 @@ class _DelayPatientAppointmentState extends State<DelayPatientAppointment> {
                                                                               fontSize: size.height * 0.02,
                                                                             ),
                                                                           )
-                                                                        : Text(
-                                                                            'ตรวจเลือด',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: primaryColor,
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: size.height * 0.02,
-                                                                            ),
-                                                                          ),
+                                                                        : event.scheduleType ==
+                                                                                2
+                                                                            ? Text(
+                                                                                'ตรวจสุขภาพ',
+                                                                                style: TextStyle(
+                                                                                  color: primaryColor,
+                                                                                  fontWeight: FontWeight.w700,
+                                                                                  fontSize: size.height * 0.02,
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                'บริจาคเลือด',
+                                                                                style: TextStyle(
+                                                                                  color: primaryColor,
+                                                                                  fontWeight: FontWeight.w700,
+                                                                                  fontSize: size.height * 0.02,
+                                                                                ),
+                                                                              ),
                                                                     Column(
                                                                       crossAxisAlignment:
                                                                           CrossAxisAlignment
