@@ -284,15 +284,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                   children: [
                                                     Container(
                                                       decoration: BoxDecoration(
-                                                        color: event.type ==
-                                                                1
-                                                            ? Color(0xFF4CC9FF)
-                                                            : event.type ==
-                                                                    2
-                                                                ? Colors
-                                                                    .red[400]
-                                                                : Colors
-                                                                    .amber[500],
+                                                        color: event.type == 1
+                                                          ? Colors.amber[500]
+                                                          : event.type == 2
+                                                              ? Color(0xFF4CC9FF)
+                                                              : Colors.red[400],
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(
@@ -304,12 +300,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                       child: Icon(
                                                         event.type == 1
                                                             ? Icons
-                                                                .medical_services_outlined
-                                                            : event.type == 2
-                                                                ? Icons
-                                                                    .water_drop_outlined
-                                                                : Icons
-                                                                    .medical_services_outlined,
+                                                              .medical_services_outlined
+                                                          : event.type == 2
+                                                              ?Icons.medical_services_outlined
+                                                              :Icons.water_drop_outlined,
                                                         size: size.width * 0.09,
                                                         color: Colors.white,
                                                       ),
@@ -324,49 +318,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                       children: [
                                                         event.type == 1
                                                             ? Text(
-                                                                'ตรวจร่างกาย',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  fontSize:
-                                                                      size.height *
-                                                                          0.02,
-                                                                ),
-                                                              )
-                                                            : event.type ==
-                                                                    2
-                                                                ? Text(
-                                                                    'บริจาคเลือด',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color:
-                                                                          primaryColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700,
-                                                                      fontSize:
-                                                                          size.height *
-                                                                              0.02,
-                                                                    ),
-                                                                  )
-                                                                : Text(
-                                                                    'การนัดหมายพิเศษ',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color:
-                                                                          primaryColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700,
-                                                                      fontSize:
-                                                                          size.height *
-                                                                              0.02,
-                                                                    ),
+                                                              'นัดหมายพิเศษ',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    primaryColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize:
+                                                                    size.height *
+                                                                        0.02,
+                                                              ),
+                                                            )
+                                                          : event.type ==
+                                                                  2
+                                                              ? Text(
+                                                                  'ตรวจสุขภาพ',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color:
+                                                                        primaryColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    fontSize:
+                                                                        size.height *
+                                                                            0.02,
                                                                   ),
+                                                                )
+                                                              : Text(
+                                                                  'บริจาคเลือด',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color:
+                                                                        primaryColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    fontSize:
+                                                                        size.height *
+                                                                            0.02,
+                                                                  ),
+                                                                ),
                                                         Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
